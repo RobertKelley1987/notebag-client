@@ -38,6 +38,7 @@ function RegisterPage() {
       </header>
       <div className="text-black flex items-center justify-center basis-full grow">
         <main className="basis-[275px] max-w-[400px] justify-center -translate-y-[30px]">
+          {error && <p>{error}</p>}
           <h1 className="font-bold text-5xl lowercase mb-6">Sign Up</h1>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">

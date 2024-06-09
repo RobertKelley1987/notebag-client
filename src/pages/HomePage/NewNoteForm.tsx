@@ -1,83 +1,71 @@
-import { useState, useRef } from "react";
-import { LoaderFunction, useFetcher } from "react-router-dom";
+import { Fragment, useRef, useState } from "react";
+import { useFetcher } from "react-router-dom";
 import { v4 as uuid } from "uuid";
-import notes from "../../services/notes";
 import { useClickOutside } from "../../hooks/useClickOutside";
-import type { ActionFunction } from "react-router-dom";
+import type { MouseEvent } from "react";
 
 function NewNoteForm() {
-  const fetcher = useFetcher();
-  const [noteId, setNoteId] = useState("");
+  const [formOpen, setFormOpen] = useState(false);
+  const fetcher = useFetcher({ key: "new-note-form" });
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const { wrapperRef } = useClickOutside();
-  const timeout = useRef<NodeJS.Timeout>();
+  const { wrapperRef } = useClickOutside(submit);
 
-  const submit = (noteId: string, method: "POST" | "PUT") => {
-    const formData = {
-      noteId,
-      title: titleRef.current?.value || "",
-      content: contentRef.current?.innerText || "",
-    };
+  function submit() {
+    const title = titleRef.current?.value || "";
+    const content = contentRef.current?.innerText || "";
+    const formData = { noteId: uuid(), title, content };
 
-    fetcher.submit(formData, {
-      method,
-      action: "/new",
-    });
-  };
+    if (title || content) {
+      fetcher.submit(formData, {
+        method: "POST",
+        action: "/",
+      });
 
-  const newNote = () => {
-    const noteId = uuid();
-    setNoteId(noteId);
+      if (contentRef.current) {
+        contentRef.current.innerText = "";
+      }
 
-    submit(noteId, "POST");
-  };
+      if (titleRef.current) {
+        titleRef.current.value = "";
+      }
+    }
 
-  const editNote = () => submit(noteId, "PUT");
+    setFormOpen(false);
+  }
 
-  // I am using the key up event because the change event
-  // does not work with content editable div.
-  const handleKeyUp = () => {
-    clearTimeout(timeout.current);
-    timeout.current = setTimeout(() => {
-      !noteId ? newNote() : editNote();
-    }, 300);
-  };
+  function handleClick(e: MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    submit();
+  }
+
+  const formBottom = (
+    <Fragment>
+      <div
+        ref={contentRef}
+        id="content"
+        className="border border-black"
+        contentEditable
+      ></div>
+      <button onClick={handleClick}>Close</button>
+    </Fragment>
+  );
 
   return (
-    <div ref={wrapperRef} className="w-min">
-      <fetcher.Form className="flex flex-col w-[300px]" onKeyUp={handleKeyUp}>
+    <div ref={wrapperRef} className="w-[250px] my-6">
+      <fetcher.Form className="flex flex-col">
         <input
+          onClick={() => setFormOpen(true)}
           ref={titleRef}
           type="text"
           name="title"
           id="title"
           className="border border-black"
         />
-        <div
-          ref={contentRef}
-          id="content"
-          className="border border-black"
-          contentEditable
-        ></div>
+        {formOpen && formBottom}
       </fetcher.Form>
     </div>
   );
 }
 
-const action: ActionFunction = async ({ request, params }) => {
-  const formData = await request.formData();
-  const noteId = formData.get("noteId") as string;
-  const title = formData.get("title") as string;
-  const content = formData.get("content") as string;
-
-  if (request.method === "POST") {
-    await notes.create(noteId, title, content);
-  } else if (request.method === "PUT") {
-    await notes.update(noteId, title, content);
-  }
-
-  return null;
-};
-
-export const newNoteRoute = { element: <NewNoteForm />, action };
+export default NewNoteForm;

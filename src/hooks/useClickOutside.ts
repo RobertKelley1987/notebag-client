@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { assertIsNode } from "../utils";
 
-export function useClickOutside() {
+export function useClickOutside(callback: Function) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
@@ -10,7 +10,7 @@ export function useClickOutside() {
     function handleClick(e: MouseEvent) {
       assertIsNode(e.target);
       if (wrapperRef.current?.contains(e.target)) return;
-      navigate("/");
+      callback();
     }
 
     // This is a shitty workaround, otherwise click event fires on render.

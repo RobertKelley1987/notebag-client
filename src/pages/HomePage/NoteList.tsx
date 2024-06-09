@@ -1,17 +1,18 @@
-import { useAsyncValue } from "react-router-dom";
 import Masonry from "react-responsive-masonry";
+import { useOptimisticNotes } from "../../hooks/useOptimisticNotes";
 import Note from "./Note";
-import { Note as NoteType } from "../../types";
 
 function NoteList() {
-  const { notes } = useAsyncValue() as { notes: NoteType[] };
+  const { optimisticNotes } = useOptimisticNotes();
 
   return (
-    <Masonry columnsCount={3} gutter="1rem">
-      {notes.map((note) => (
-        <Note key={note.id} note={note} />
-      ))}
-    </Masonry>
+    <div className="w-[700px] mb-6">
+      <Masonry columnsCount={3} gutter="1rem">
+        {optimisticNotes.map((note) => (
+          <Note key={note.id} note={note} />
+        ))}
+      </Masonry>
+    </div>
   );
 }
 

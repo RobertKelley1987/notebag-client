@@ -25,6 +25,10 @@ const notes = {
     const { data } = await api.get("/notes");
     return data;
   },
+  findOne: async (noteId: string) => {
+    const { data } = await api.get(`/notes/${noteId}`);
+    return data;
+  },
 };
 
 export default notes;
