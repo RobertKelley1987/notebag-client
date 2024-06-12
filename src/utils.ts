@@ -6,3 +6,10 @@ export function assertIsNode(
     throw new Error("Element clicked is not a react node");
   }
 }
+
+// Helper to test async functions
+export async function wait() {
+  return new Promise<void>((res) => {
+    setTimeout(() => res(), 2000);
+  });
+}

@@ -1,9 +1,10 @@
 import { SVGAttributes } from "react";
 import { svgClassNames } from "./helpers";
 
-function UserIcon({ className }: SVGAttributes<SVGElement>) {
+function UserIcon({ className, onClick }: SVGAttributes<SVGElement>) {
   return (
     <svg
+      onClick={onClick}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

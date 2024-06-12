@@ -1,34 +1,34 @@
+import { Suspense } from "react";
 import {
   ActionFunction,
   Await,
   LoaderFunction,
   defer,
+  redirect,
   useLoaderData,
   useNavigate,
 } from "react-router-dom";
 import notes from "../../services/notes";
 import Modal from "../../components/Modal";
+import EditNoteForm from "./EditNoteForm";
 import { Note } from "../../types";
-import { Suspense } from "react";
 
 function EditNotePage() {
   const { notePromise } = useLoaderData() as { notePromise: Promise<Note> };
   const navigate = useNavigate();
 
-  const handleDismiss = () => {
-    console.log("dismiss");
-    navigate("/");
-  };
-
   return (
-    <Modal handleDismiss={handleDismiss}>
-      <div onClick={(e) => e.stopPropagation()} className="bg-white p-3">
+    <Modal handleDismiss={() => navigate("/")}>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white w-[250px] p-3 border border-black"
+      >
         <Suspense fallback={<p>Loading...</p>}>
           <Await
             resolve={notePromise}
-            errorElement={<p>Failed to load note :(</p>}
+            errorElement={<p>Something went wrong.</p>}
           >
-            {(note) => <p>Edit note {note.id}</p>}
+            <EditNoteForm />
           </Await>
         </Suspense>
       </div>
@@ -38,19 +38,31 @@ function EditNotePage() {
 
 const loader: LoaderFunction = async ({ params }) => {
   const { noteId } = params;
-  if (!noteId) {
-    throw new Error("Note id required as parameter.");
-  }
 
-  const getNote = async () => {
+  async function getNote() {
+    if (!noteId) {
+      throw new Error("Note id required as parameter.");
+    }
+
     const { note } = await notes.findOne(noteId);
     return note;
-  };
+  }
 
   return defer({ notePromise: getNote() });
 };
 
 const action: ActionFunction = async ({ request, params }) => {
+  const formData = await request.formData();
+  const noteId = formData.get("noteId") as string;
+  const title = formData.get("title") as string;
+  const content = formData.get("content") as string;
+
+  console.log("edit form action");
+
+  if (request.method === "PUT") {
+    await notes.update(noteId, title, content);
+    return redirect("/");
+  }
   return null;
 };
 

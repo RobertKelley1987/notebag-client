@@ -4,8 +4,9 @@ import users from "../services/users";
 import PageContainer from "../components/PageContainer";
 import Logo from "../components/Logo";
 import type { ChangeEvent, FormEvent } from "react";
+import AuthLinks from "./AuthLinks";
 
-function RegisterPage() {
+function LoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -19,10 +20,9 @@ function RegisterPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { error } = await users.register(form);
+    const { error } = await users.login(form);
     if (error) {
-      const message = error.message ? error.message : "Something went wrong.";
-      setError(message);
+      setError("Something went wrong.");
     } else {
       navigate("/");
     }
@@ -32,15 +32,12 @@ function RegisterPage() {
     <PageContainer>
       <header className="text-black flex justify-between py-3 px-6 items-center h-[60px]">
         <Logo />
-        <div className="flex gap-3">
-          <Link to="/register">Sign Up</Link>
-          <Link to="/login">Log In</Link>
-        </div>
+        <AuthLinks />
       </header>
       <div className="text-black flex items-center justify-center basis-full grow">
         <main className="basis-[275px] max-w-[400px] justify-center -translate-y-[30px]">
           {error && <p>{error}</p>}
-          <h1 className="font-bold text-5xl lowercase mb-6">Sign Up</h1>
+          <h1 className="font-bold text-5xl lowercase mb-6">Log In</h1>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <label htmlFor="email" className="leading-4">
@@ -80,4 +77,4 @@ function RegisterPage() {
   );
 }
 
-export default RegisterPage;
+export default LoginPage;

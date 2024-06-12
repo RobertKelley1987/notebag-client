@@ -26,7 +26,7 @@ function HomePage() {
 const loader: LoaderFunction = async () => {
   const { userId } = await users.getSession();
   if (!userId) {
-    throw redirect("/register");
+    throw redirect("/login");
   }
 
   async function getNotes() {
@@ -41,6 +41,8 @@ const action: ActionFunction = async ({ request, params }) => {
   const noteId = formData.get("noteId") as string;
   const title = formData.get("title") as string;
   const content = formData.get("content") as string;
+
+  console.log("home action");
 
   if (request.method === "POST") {
     await notes.create(noteId, title, content);
