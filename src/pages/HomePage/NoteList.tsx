@@ -1,14 +1,16 @@
 import Masonry from "react-responsive-masonry";
-import { useOptimisticNotes } from "../../hooks/useOptimisticNotes";
 import Note from "./Note";
+import { Note as NoteType } from "../../types";
 
-function NoteList() {
-  const { optimisticNotes } = useOptimisticNotes();
+type NoteListProps = {
+  notes: NoteType[];
+};
 
+function NoteList({ notes }: NoteListProps) {
   return (
     <div className="w-[700px] mb-6">
       <Masonry columnsCount={3} gutter="1rem">
-        {optimisticNotes.map((note) => (
+        {notes.map((note) => (
           <Note key={note.id} note={note} />
         ))}
       </Masonry>

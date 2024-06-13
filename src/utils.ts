@@ -7,9 +7,15 @@ export function assertIsNode(
   }
 }
 
+// Helper to tell is a string is empty
+const isAllWhitespace = new RegExp(/^\s*$/);
+export function isEmpty(str?: string) {
+  return !str || isAllWhitespace.test(str);
+}
+
 // Helper to test async functions
-export async function wait() {
+export async function wait(duration: number) {
   return new Promise<void>((res) => {
-    setTimeout(() => res(), 2000);
+    setTimeout(() => res(), duration);
   });
 }

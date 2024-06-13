@@ -1,18 +1,31 @@
-import { Suspense } from "react";
-import { Await, useLoaderData } from "react-router-dom";
+import { useContext } from "react";
+import UserNotesContext from "../../context/UserNotesContext";
 import NoteList from "./NoteList";
-import type { Note as NoteType } from "../../types";
+
+function Loading() {
+  return (
+    <div className="basis-full grow flex justify-center items-center">
+      <p className="-translate-y-[50px]">Loading...</p>
+    </div>
+  );
+}
+
+function ZeroNotes() {
+  return (
+    <div className="basis-full grow flex justify-center items-center">
+      <p className="-translate-y-[50px]">You have zero notes.</p>
+    </div>
+  );
+}
 
 export default function Notes() {
-  const { notesPromise } = useLoaderData() as {
-    notesPromise: Promise<NoteType[]>;
-  };
+  const { userNotes, isLoading } = useContext(UserNotesContext);
 
-  return (
-    <Suspense fallback={<p>Loading...</p>}>
-      <Await resolve={notesPromise} errorElement={<p>Server error.</p>}>
-        <NoteList />
-      </Await>
-    </Suspense>
-  );
+  if (isLoading) {
+    return <Loading />;
+  } else if (userNotes.length === 0) {
+    return <ZeroNotes />;
+  } else {
+    return <NoteList notes={userNotes} />;
+  }
 }

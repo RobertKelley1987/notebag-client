@@ -7,7 +7,6 @@ const notes = {
     }
 
     if (!title && !content) {
-      console.log("No title or content.");
       return;
     }
     const { data } = await api.post("/notes", { noteId, title, content });
@@ -27,6 +26,10 @@ const notes = {
   },
   findOne: async (noteId: string) => {
     const { data } = await api.get(`/notes/${noteId}`);
+    return data;
+  },
+  delete: async (noteId: string) => {
+    const { data } = await api.delete(`/notes/${noteId}`);
     return data;
   },
 };

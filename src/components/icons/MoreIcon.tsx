@@ -1,8 +1,9 @@
 import { SVGAttributes } from "react";
 
-function MenuIcon({ className }: SVGAttributes<SVGElement>) {
+function MoreIcon({ className, onClick }: SVGAttributes<SVGElement>) {
   return (
     <svg
+      onClick={onClick}
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -14,11 +15,11 @@ function MenuIcon({ className }: SVGAttributes<SVGElement>) {
       strokeLinejoin="round"
       className={className}
     >
-      <line x1="3" y1="12" x2="21" y2="12" />
-      <line x1="3" y1="6" x2="21" y2="6" />
-      <line x1="3" y1="18" x2="21" y2="18" />
+      <circle cx="12" cy="12" r="1" />
+      <circle cx="19" cy="12" r="1" />
+      <circle cx="5" cy="12" r="1" />
     </svg>
   );
 }
 
-export default MenuIcon;
+export default MoreIcon;

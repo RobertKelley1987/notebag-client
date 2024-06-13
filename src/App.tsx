@@ -1,9 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { homeRoute } from "./pages/HomePage/HomePage";
-import { editNoteRoute } from "./pages/EditNotePage/EditNotePage";
+import users from "./services/users";
+import { homeRoute } from "./layouts/Home";
+import EditNotePage from "./pages/EditNotePage/EditNotePage";
 import ErrorPage from "./pages/ErrorPage";
-import RegisterPage from "./pages/RegisterPage";
-import LoginPage from "./pages/LoginPage";
+import Auth from "./layouts/Auth";
+import AuthPage from "./pages/AuthPage";
 
 const router = createBrowserRouter([
   {
@@ -13,19 +14,23 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/notes/:noteId",
-        ...editNoteRoute,
+        element: <EditNotePage />,
       },
     ],
   },
   {
-    path: "/register",
+    element: <Auth />,
     errorElement: <ErrorPage />,
-    element: <RegisterPage />,
-  },
-  {
-    path: "/login",
-    errorElement: <ErrorPage />,
-    element: <LoginPage />,
+    children: [
+      {
+        path: "/register",
+        element: <AuthPage heading="Sign Up" authFn={users.register} />,
+      },
+      {
+        path: "/login",
+        element: <AuthPage heading="Log In" authFn={users.login} />,
+      },
+    ],
   },
 ]);
 

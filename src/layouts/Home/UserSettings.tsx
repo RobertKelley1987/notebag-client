@@ -17,7 +17,7 @@ function UserSettings() {
       <Fragment>
         <UserIcon onClick={() => setDropdownOpen((prev) => !prev)} />
         {dropdownOpen && (
-          <div className="absolute top-8 right-7 border border-black p-3">
+          <div className="absolute top-8 right-7 border border-black bg-white p-3">
             <LogOutButton setIsLoading={setIsLoading} />
           </div>
         )}

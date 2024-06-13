@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { Note as NoteType } from "../../types";
+import NoteOptions from "./NoteOptions";
 
 type NoteProps = {
   note: NoteType;
@@ -16,6 +17,7 @@ function Note({ note }: NoteProps) {
           <p className="break-words whitespace-pre-wrap">{note.content}</p>
         )}
       </Link>
+      <NoteOptions noteId={note.id} />
     </div>
   );
 }
