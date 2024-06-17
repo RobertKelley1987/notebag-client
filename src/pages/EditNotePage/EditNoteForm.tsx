@@ -1,10 +1,11 @@
 import { useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import UserNotesContext from "../../context/UserNotesContext";
+import { useSelectedNote } from "../../hooks/useSelectedNote";
 import notes from "../../services/notes";
+import { isEmpty } from "../../utils";
 import type { FormEvent, RefObject } from "react";
 import type { Note } from "../../types";
-import { useSelectedNote } from "../../hooks/useSelectedNote";
 
 // Helper to set form values
 function setFormValues(
@@ -28,7 +29,7 @@ function EditNoteForm() {
   const contentRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  // Set form values to selected note values
+  // Set form values to selected note values on render
   useEffect(() => {
     if (selectedNote) {
       setFormValues(titleRef, contentRef, selectedNote);
@@ -36,13 +37,22 @@ function EditNoteForm() {
   }, [selectedNote]);
 
   async function submit() {
-    const title = titleRef.current?.value || "";
-    const content = contentRef.current?.innerText || "";
-    const noteIsNotEmpty = title || content;
+    const titleVal = titleRef.current?.value;
+    const contentVal = contentRef.current?.innerText;
 
-    if (selectedNote && noteIsNotEmpty) {
+    // Allow user to save empty notes, but replace all whitespace
+    // content with empty strings.
+    const title = isEmpty(titleVal) ? "" : (titleVal as string);
+    const content = isEmpty(contentVal) ? "" : (contentVal as string);
+
+    if (selectedNote) {
       // Set optimistic notes
-      const updatedNote = { id: selectedNote.id, title, content };
+      const updatedNote = {
+        id: selectedNote.id,
+        tags: selectedNote.tags,
+        title,
+        content,
+      };
       const optimistic = [...userNotes];
       const noteIndex = userNotes.findIndex(
         (note) => note.id === selectedNote.id

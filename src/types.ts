@@ -7,4 +7,10 @@ export type Note = {
   id: string;
   title: string;
   content: string;
+  tags: Tag[];
+};
+
+export type Tag = {
+  id: string;
+  name: string;
 };

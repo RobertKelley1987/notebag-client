@@ -21,7 +21,7 @@ function NewNoteForm() {
     if (!isEmptyNote) {
       // Set optimistic notes
       const noteId = uuid();
-      const newNote = { id: noteId, title, content };
+      const newNote = { id: noteId, title, content, tags: [] };
       const optimistic = [newNote, ...userNotes];
       setUserNotes(optimistic);
 

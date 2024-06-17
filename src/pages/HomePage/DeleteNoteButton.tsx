@@ -1,24 +1,26 @@
 import { useContext } from "react";
 import UserNotesContext from "../../context/UserNotesContext";
+import NoteIdContext from "../../context/NoteContext";
 import notes from "../../services/notes";
 
-type DeleteNoteButtonProps = {
-  noteId: string;
-};
-
-function DeleteNoteButton({ noteId }: DeleteNoteButtonProps) {
+function DeleteNoteButton() {
   const { userNotes, setUserNotes } = useContext(UserNotesContext);
+  const currentNote = useContext(NoteIdContext)?.note;
 
   async function handleClick() {
-    const { error } = await notes.delete(noteId);
-    if (!error) {
-      // Set optimistic notes
-      const optimistic = userNotes.filter((note) => note.id !== noteId);
-      setUserNotes(optimistic);
+    if (currentNote) {
+      const { error } = await notes.delete(currentNote.id);
+      if (!error) {
+        // Set optimistic notes
+        const optimistic = userNotes.filter(
+          (note) => note.id !== currentNote.id
+        );
+        setUserNotes(optimistic);
 
-      // Delete note from db and set updated notes
-      const res = await notes.findAll();
-      setUserNotes(res.notes);
+        // Delete note from db and set updated notes
+        const res = await notes.findAll();
+        setUserNotes(res.notes);
+      }
     }
   }
 

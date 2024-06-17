@@ -6,7 +6,7 @@ function EditNotePage() {
   const navigate = useNavigate();
 
   return (
-    <Modal handleDismiss={() => navigate("/")}>
+    <Modal rootId="modal" handleDismiss={() => navigate("/")}>
       <div
         onClick={(e) => e.stopPropagation()}
         className="bg-white w-[250px] p-3 border border-black"

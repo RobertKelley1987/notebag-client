@@ -1,24 +1,40 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import MoreIcon from "../../components/icons/MoreIcon";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import DeleteNoteButton from "./DeleteNoteButton";
+import EditNoteTags from "./EditNoteTags";
+import NoteDropdown from "./NoteDropdown";
 
-type NoteOptionsProps = {
-  noteId: string;
-};
-
-function NoteOptions({ noteId }: NoteOptionsProps) {
+function NoteOptions() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [editingTags, setEditingTags] = useState(false);
   const { wrapperRef } = useClickOutside(handleClick);
+
+  console.log("editing tags: " + editingTags);
+  console.log("dropdown open: " + dropdownOpen);
 
   function handleClick() {
     setDropdownOpen(false);
   }
 
+  const options = (
+    <Fragment>
+      <DeleteNoteButton />
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setEditingTags(true);
+        }}
+      >
+        Edit Tags
+      </button>
+    </Fragment>
+  );
+
   const dropdown = (
-    <div className="absolute top-6 -right-24 border border-black bg-white p-3">
-      <DeleteNoteButton noteId={noteId} />
-    </div>
+    <NoteDropdown dropdownOpen={dropdownOpen}>
+      {editingTags ? <EditNoteTags /> : options}
+    </NoteDropdown>
   );
 
   return (

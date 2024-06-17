@@ -2,7 +2,7 @@ import { createContext } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import type { Note } from "../types";
 
-type UserContextType = {
+type UserNotesContextType = {
   userNotes: Note[];
   setUserNotes: Dispatch<SetStateAction<Note[]>>;
   isLoading: boolean;
@@ -14,4 +14,4 @@ const DEFAULT = {
   isLoading: true,
 };
 
-export default createContext<UserContextType>(DEFAULT);
+export default createContext<UserNotesContextType>(DEFAULT);

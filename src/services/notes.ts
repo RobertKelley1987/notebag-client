@@ -20,6 +20,10 @@ const notes = {
     const { data } = await api.put(`/notes/${noteId}`, { title, content });
     return data;
   },
+  updateTags: async (noteId: string, tagId: string) => {
+    const { data } = await api.put(`/notes/${noteId}/tags`, { tagId });
+    return data;
+  },
   findAll: async () => {
     const { data } = await api.get("/notes");
     return data;
