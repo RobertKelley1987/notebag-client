@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import UserNotesContext from "../../context/UserNotesContext";
 import UserTagsContext from "../../context/UserTagsContext";
-import notes from "../../services/notes";
-import tags from "../../services/tags";
+import IsSavingContext from "../../context/IsSavingContext";
+import { useNoteService } from "../../hooks/useNoteService";
+import { useTagService } from "../../hooks/useTagService";
 
 type DeleteTagButtonProps = {
   tagId: string;
@@ -11,28 +11,41 @@ type DeleteTagButtonProps = {
 
 function DeleteTagButton({ tagId }: DeleteTagButtonProps) {
   const { userTags, setUserTags } = useContext(UserTagsContext);
+  const { isSaving, setIsSaving } = useContext(IsSavingContext);
   const { setUserNotes } = useContext(UserNotesContext);
-  const navigate = useNavigate();
+  const notes = useNoteService();
+  const tags = useTagService();
 
   async function handleClick() {
+    // Set saving state
+    setIsSaving(true);
+
     // Set optimistic tags
     const optimistic = userTags.filter((userTag) => userTag.id !== tagId);
     setUserTags(optimistic);
 
-    // Return to tags page
-    navigate("/tags");
-
     // Delete tag in db and update state
     await tags.delete(tagId);
-    const res = await tags.findAll();
-    setUserTags(res.tags);
+    const tagData = await tags.findAll();
+    setUserTags(tagData.tags);
 
-    // Fetch updated notes
+    // Fetch updated notes and update state
     const noteData = await notes.findAll();
     setUserNotes(noteData.notes);
+
+    // Update saving state
+    setIsSaving(false);
   }
 
-  return <button onClick={handleClick}>Delete</button>;
+  return (
+    <button
+      disabled={isSaving}
+      onClick={handleClick}
+      className="disabled:opacity-50 disabled:hover:cursor-auto"
+    >
+      Delete
+    </button>
+  );
 }
 
 export default DeleteTagButton;

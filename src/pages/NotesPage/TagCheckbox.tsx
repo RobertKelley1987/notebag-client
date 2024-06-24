@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import UserNotesContext from "../../context/UserNotesContext";
 import NoteContext from "../../context/NoteContext";
-import type { Tag } from "../../types";
-import notes from "../../services/notes";
+import { usePrivateApi } from "../../hooks/usePrivateApi";
 import { compareTags } from "../../utils";
+import type { Tag } from "../../types";
+import { useNoteService } from "../../hooks/useNoteService";
 
 type TagCheckboxProps = {
   tag: Tag;
@@ -15,6 +16,7 @@ function TagCheckbox({ tag }: TagCheckboxProps) {
   const tagIndex = currentNote.tags.findIndex(
     (noteTag) => noteTag.id === tag.id
   );
+  const notes = useNoteService();
 
   async function handleChange() {
     // Set optimistic notes
@@ -43,7 +45,7 @@ function TagCheckbox({ tag }: TagCheckboxProps) {
   }
 
   return (
-    <p>
+    <li className="flex gap-2">
       <input
         onChange={handleChange}
         type="checkbox"
@@ -52,7 +54,7 @@ function TagCheckbox({ tag }: TagCheckboxProps) {
         checked={tagIndex !== -1}
       />
       <label htmlFor={tag.name}>{tag.name}</label>
-    </p>
+    </li>
   );
 }
 

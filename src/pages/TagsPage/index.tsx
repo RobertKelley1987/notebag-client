@@ -1,17 +1,22 @@
 import { useContext, useRef, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
 import UserTagsContext from "../../context/UserTagsContext";
-import tags from "../../services/tags";
+import IsSavingContext from "../../context/IsSavingContext";
+import { useTagService } from "../../hooks/useTagService";
 import { compareTags, isEmpty } from "../../utils";
 import Modal from "../../components/Modal";
 import TagList from "./TagList";
-import type { FormEvent } from "react";
+import type { Dispatch, FormEvent, SetStateAction } from "react";
 
-function TagsPage() {
+type TagsPageProps = {
+  setEditingTags: Dispatch<SetStateAction<boolean>>;
+};
+
+function TagsPage({ setEditingTags }: TagsPageProps) {
   const { userTags, setUserTags } = useContext(UserTagsContext);
+  const { isSaving, setIsSaving } = useContext(IsSavingContext);
   const [error, setError] = useState("");
   const tagRef = useRef<HTMLInputElement>(null);
-  const navigate = useNavigate();
+  const tags = useTagService();
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -27,6 +32,9 @@ function TagsPage() {
         return setError("Tag already exists.");
       }
 
+      // Start saving state
+      setIsSaving(true);
+
       // Set optimisitic tags.
       const newTag = { id: "new-tag", name };
       const optimistic = [newTag, ...userTags];
@@ -40,24 +48,29 @@ function TagsPage() {
       await tags.create(name);
       const tagData = await tags.findAll();
       setUserTags(tagData.tags);
+      setIsSaving(false);
     }
   }
 
   return (
-    <Modal rootId="modal" handleDismiss={() => navigate("/")}>
+    <Modal rootId="modal" handleDismiss={() => setEditingTags(false)}>
       <div
         onClick={(e) => e.stopPropagation()}
         className="w-[250px] max-h-[350px] overflow-y-auto my-6 p-3 bg-white border border-black"
       >
-        <h1 className="font-semibold">Edit Tags</h1>
+        <div className="flex justify-between">
+          <h1 className="font-semibold">Edit Tags</h1>
+          {isSaving && <span>Saving...</span>}
+        </div>
         <form onSubmit={handleSubmit} className="flex">
           <input ref={tagRef} type="text" />
-          <button type="submit">Save</button>
+          <button disabled={isSaving} type="submit">
+            Save
+          </button>
         </form>
         {error && <p className="text-red">{error}</p>}
         <TagList tags={userTags} />
       </div>
-      <Outlet />
     </Modal>
   );
 }

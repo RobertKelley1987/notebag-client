@@ -2,7 +2,7 @@ import { Fragment, useContext, useRef, useState } from "react";
 import { v4 as uuid } from "uuid";
 import UserNotesContext from "../../context/UserNotesContext";
 import { useClickOutside } from "../../hooks/useClickOutside";
-import notes from "../../services/notes";
+import { useNoteService } from "../../hooks/useNoteService";
 import { isEmpty } from "../../utils";
 import type { FormEvent } from "react";
 
@@ -12,6 +12,7 @@ function NewNoteForm() {
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const { wrapperRef } = useClickOutside(submit);
+  const notes = useNoteService();
 
   async function submit() {
     const title = titleRef.current?.value || "";
@@ -30,7 +31,7 @@ function NewNoteForm() {
       if (titleRef.current) titleRef.current.value = "";
       setFormOpen(false);
 
-      // Create new note and fetch updated notes
+      // Create new note and fetch updated note.
       await notes.create(noteId, title, content);
       const res = await notes.findAll();
       setUserNotes(res.notes);
@@ -73,8 +74,8 @@ function NewNoteForm() {
           type="text"
           name="title"
           id="title"
-          className={`w-full focus:outline-none font-semibold placeholder:text-slate-400 ${
-            !formOpen && "cursor-pointer"
+          className={`w-full focus:outline-none placeholder:text-slate-400 ${
+            formOpen ? "font-semibold" : "cursor-pointer"
           }`}
           placeholder={formOpen ? "title" : "new note..."}
         />

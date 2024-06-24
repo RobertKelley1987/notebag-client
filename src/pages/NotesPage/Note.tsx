@@ -25,13 +25,13 @@ function Note({ note }: NoteProps) {
 
   return (
     <NoteContext.Provider value={{ note: note }}>
-      <div className="border border-black p-2">
+      <article className="border border-black p-2">
         <Link to={`/notes/${note.id}`}>
           {!note.title && !note.content ? emptyNote : noteElement}
         </Link>
         <NoteTags tags={note.tags} />
         <NoteOptions />
-      </div>
+      </article>
     </NoteContext.Provider>
   );
 }

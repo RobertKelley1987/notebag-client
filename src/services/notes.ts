@@ -1,41 +1,60 @@
-import { api } from "./api";
+import type { AxiosInstance } from "axios";
 
-const notes = {
-  create: async (noteId: string, title?: string, content?: string) => {
+class NoteService {
+  api: AxiosInstance;
+
+  constructor(api: AxiosInstance) {
+    this.api = api;
+  }
+
+  async create(noteId: string, title?: string, content?: string) {
+    if (!title && !content) {
+      return;
+    }
+
     if (!noteId) {
       throw new Error("Note id required to create note.");
     }
 
-    if (!title && !content) {
-      return;
-    }
-    const { data } = await api.post("/notes", { noteId, title, content });
+    const { data } = await this.api.post("/notes", {
+      noteId,
+      title,
+      content,
+    });
     return data;
-  },
-  update: async (noteId: string, title?: string, content?: string) => {
+  }
+
+  async update(noteId: string, title?: string, content?: string) {
     if (!noteId) {
       return;
     }
 
-    const { data } = await api.put(`/notes/${noteId}`, { title, content });
+    const { data } = await this.api.put(`/notes/${noteId}`, {
+      title,
+      content,
+    });
     return data;
-  },
-  updateTags: async (noteId: string, tagId: string) => {
-    const { data } = await api.put(`/notes/${noteId}/tags`, { tagId });
-    return data;
-  },
-  findAll: async () => {
-    const { data } = await api.get("/notes");
-    return data;
-  },
-  findOne: async (noteId: string) => {
-    const { data } = await api.get(`/notes/${noteId}`);
-    return data;
-  },
-  delete: async (noteId: string) => {
-    const { data } = await api.delete(`/notes/${noteId}`);
-    return data;
-  },
-};
+  }
 
-export default notes;
+  async updateTags(noteId: string, tagId: string) {
+    const { data } = await this.api.put(`/notes/${noteId}/tags`, { tagId });
+    return data;
+  }
+
+  async findAll() {
+    const { data } = await this.api.get("/notes");
+    return data;
+  }
+
+  async findOne(noteId: string) {
+    const { data } = await this.api.get(`/notes/${noteId}`);
+    return data;
+  }
+
+  async delete(noteId: string) {
+    const { data } = await this.api.delete(`/notes/${noteId}`);
+    return data;
+  }
+}
+
+export default NoteService;

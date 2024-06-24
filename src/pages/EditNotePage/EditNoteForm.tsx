@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import UserNotesContext from "../../context/UserNotesContext";
 import { useSelectedNote } from "../../hooks/useSelectedNote";
-import notes from "../../services/notes";
+import { useNoteService } from "../../hooks/useNoteService";
 import { isEmpty } from "../../utils";
 import type { FormEvent, RefObject } from "react";
 import type { Note } from "../../types";
@@ -25,6 +25,7 @@ function setFormValues(
 function EditNoteForm() {
   const { userNotes, setUserNotes } = useContext(UserNotesContext);
   const { selectedNote } = useSelectedNote(userNotes);
+  const notes = useNoteService();
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -65,8 +66,8 @@ function EditNoteForm() {
 
       // Edit note in db and fetch updated notes
       await notes.update(selectedNote.id, title, content);
-      const res = await notes.findAll();
-      setUserNotes(res.notes);
+      const data = await notes.findAll();
+      setUserNotes(data.notes);
     }
   }
 

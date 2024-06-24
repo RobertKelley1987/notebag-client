@@ -9,7 +9,7 @@ function NoteTags({ tags }: NoteTagsProps) {
   return (
     <ul className="flex flex-wrap gap-2 my-2">
       {tags.map((tag) => (
-        <NoteTag name={tag.name} />
+        <NoteTag key={tag.id} name={tag.name} />
       ))}
     </ul>
   );

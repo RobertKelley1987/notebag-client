@@ -1,1 +1,7 @@
-check package.json for how react organizes dev packages vs non-dev packages
+- Tags modal page is really shitty if you delete too many tags too fast. Need
+  a loading state or something there. "Saving changes..." maybe. Just tried
+  this and saving might need to be a universal context.
+- check package.json for how react organizes dev packages vs non-dev packages
+- Decide if i should be generating uuids on client or server and be consistent.
+- I need to use loaders for the tag filter pages.
+- Edit Tags modal needs to not be its own route. Just a modal on top of everything.

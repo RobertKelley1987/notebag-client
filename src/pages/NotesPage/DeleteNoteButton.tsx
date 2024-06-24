@@ -1,11 +1,12 @@
 import { useContext } from "react";
 import UserNotesContext from "../../context/UserNotesContext";
 import NoteIdContext from "../../context/NoteContext";
-import notes from "../../services/notes";
+import { useNoteService } from "../../hooks/useNoteService";
 
 function DeleteNoteButton() {
   const { userNotes, setUserNotes } = useContext(UserNotesContext);
   const currentNote = useContext(NoteIdContext)?.note;
+  const notes = useNoteService();
 
   async function handleClick() {
     if (currentNote) {
@@ -18,8 +19,8 @@ function DeleteNoteButton() {
         setUserNotes(optimistic);
 
         // Delete note from db and set updated notes
-        const res = await notes.findAll();
-        setUserNotes(res.notes);
+        const data = await notes.findAll();
+        setUserNotes(data.notes);
       }
     }
   }

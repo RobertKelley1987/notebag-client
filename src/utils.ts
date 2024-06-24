@@ -17,9 +17,12 @@ export function isEmpty(str?: string) {
 
 // Helper to sort tags alphabetically by name
 export function compareTags(a: Tag, b: Tag) {
-  if (a.name < b.name) {
+  const nameOne = a.name.toLowerCase();
+  const nameTwo = b.name.toLowerCase();
+
+  if (nameOne < nameTwo) {
     return -1;
-  } else if (a.name > b.name) {
+  } else if (nameOne > nameTwo) {
     return 1;
   } else {
     return 0;

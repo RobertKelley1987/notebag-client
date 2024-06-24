@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import tags from "../services/tags";
+import { useTagService } from "./useTagService";
 import type { Tag as TagType } from "../types";
 
 export function useUserTags() {
   const [userTags, setUserTags] = useState<TagType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const tags = useTagService();
 
   useEffect(() => {
     const getTags = async () => {

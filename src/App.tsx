@@ -1,25 +1,35 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import users from "./services/users";
-import { homeRoute } from "./layouts/Home";
-import EditNotePage from "./pages/EditNotePage/EditNotePage";
-import TagsPage from "./pages/TagsPage";
+import PrivateRoute from "./components/PrivateRoute";
+import Home from "./layouts/Home";
 import Auth from "./layouts/Auth";
 import AuthPage from "./pages/AuthPage";
 import ErrorPage from "./pages/ErrorPage";
+import EditNotePage from "./pages/EditNotePage/EditNotePage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    errorElement: <ErrorPage />,
-    ...homeRoute,
+    element: <PrivateRoute />,
     children: [
       {
-        path: "/notes/:noteId",
-        element: <EditNotePage />,
+        path: "/",
+        element: <Navigate to="/notes" />,
       },
       {
-        path: "/tags",
-        element: <TagsPage />,
+        path: "/notes",
+        element: <Home />,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            path: "/notes/:noteId",
+            element: <EditNotePage />,
+          },
+        ],
       },
     ],
   },

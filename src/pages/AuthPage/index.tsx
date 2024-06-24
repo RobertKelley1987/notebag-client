@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 import type { ChangeEvent, FormEvent } from "react";
 import type { User } from "../../types";
 
@@ -11,8 +12,10 @@ type AuthPageProps = {
 function AuthPage({ heading, authFn }: AuthPageProps) {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  const { setAuth } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   // If user navigates from login to register urls, reset form values.
   useEffect(() => {
@@ -29,12 +32,15 @@ function AuthPage({ heading, authFn }: AuthPageProps) {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { error } = await authFn(form);
+    const { accessToken, error } = await authFn(form);
     if (error) {
       const message = error.message ? error.message : "Something went wrong.";
       setError(message);
     } else {
-      navigate("/");
+      setAuth((prev) => {
+        return { ...prev, accessToken };
+      });
+      navigate(from, { replace: true });
     }
   };
 

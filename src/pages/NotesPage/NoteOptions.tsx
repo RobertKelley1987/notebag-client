@@ -10,15 +10,13 @@ function NoteOptions() {
   const [editingTags, setEditingTags] = useState(false);
   const { wrapperRef } = useClickOutside(handleClick);
 
-  console.log("editing tags: " + editingTags);
-  console.log("dropdown open: " + dropdownOpen);
-
   function handleClick() {
     setDropdownOpen(false);
+    setEditingTags(false);
   }
 
   const options = (
-    <Fragment>
+    <div className="flex flex-col items-start w-max">
       <DeleteNoteButton />
       <button
         onClick={(e) => {
@@ -28,18 +26,18 @@ function NoteOptions() {
       >
         Edit Tags
       </button>
-    </Fragment>
+    </div>
   );
 
   const dropdown = (
-    <NoteDropdown dropdownOpen={dropdownOpen}>
+    <NoteDropdown dropdownOpen={dropdownOpen} editingTags={editingTags}>
       {editingTags ? <EditNoteTags /> : options}
     </NoteDropdown>
   );
 
   return (
-    <div className="flex justify-end relative">
-      <div ref={wrapperRef}>
+    <div className="flex justify-end">
+      <div ref={wrapperRef} className="relative">
         <MoreIcon
           className="hover:cursor-pointer"
           onClick={() => setDropdownOpen((prev) => !prev)}
