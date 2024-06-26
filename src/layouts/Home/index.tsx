@@ -1,47 +1,28 @@
-import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
-import UserNotesContextProvider from "../../context/UserNotesContextProvider";
-import UserTagsContextProvider from "../../context/UserTagsContextProvider";
-import IsSavingContextProvider from "../../context/IsSavingContextProvider";
-import { useAuth } from "../../hooks/useAuth";
+import { useContext, useState } from "react";
 import PageContainer from "../../components/PageContainer";
 import Header from "./Header";
 import Menu from "./Menu";
 import NewNoteForm from "./NewNoteForm";
 import Notes from "./Notes";
-import TagsPage from "../../pages/TagsPage";
-import { useRefreshToken } from "../../hooks/useRefreshToken";
+import { ModalContext } from "../../context/ModalContext";
 
 function Home() {
   const [menuOpen, setMenuOpen] = useState(true);
-  const [editingTags, setEditingTags] = useState(false);
+  const { Modal } = useContext(ModalContext);
 
-  console.log("home page");
-
-  function renderHome() {
-    return (
-      <UserNotesContextProvider>
-        <UserTagsContextProvider>
-          <IsSavingContextProvider>
-            <PageContainer>
-              {editingTags && <TagsPage setEditingTags={setEditingTags} />}
-              <Header setMenuOpen={setMenuOpen} />
-              <div className="font-ibm flex basis-full grow">
-                {menuOpen && <Menu setEditingTags={setEditingTags} />}
-                <main className="text-black items-center flex flex-col flex flex-col basis-full grow px-6">
-                  <NewNoteForm />
-                  <Notes />
-                </main>
-              </div>
-              <Outlet />
-            </PageContainer>
-          </IsSavingContextProvider>
-        </UserTagsContextProvider>
-      </UserNotesContextProvider>
-    );
-  }
-
-  return renderHome();
+  return (
+    <PageContainer>
+      <Header setMenuOpen={setMenuOpen} />
+      <div className="font-ibm flex basis-full grow">
+        {menuOpen && <Menu />}
+        <main className="text-black items-center flex flex-col flex flex-col basis-full grow px-6">
+          <NewNoteForm />
+          <Notes />
+        </main>
+      </div>
+      {Modal}
+    </PageContainer>
+  );
 }
 
 export default Home;

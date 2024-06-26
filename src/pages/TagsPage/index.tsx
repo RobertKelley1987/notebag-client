@@ -1,19 +1,17 @@
 import { useContext, useRef, useState } from "react";
 import UserTagsContext from "../../context/UserTagsContext";
 import IsSavingContext from "../../context/IsSavingContext";
+import { ModalContext } from "../../context/ModalContext";
 import { useTagService } from "../../hooks/useTagService";
 import { compareTags, isEmpty } from "../../utils";
 import Modal from "../../components/Modal";
 import TagList from "./TagList";
-import type { Dispatch, FormEvent, SetStateAction } from "react";
+import type { FormEvent } from "react";
 
-type TagsPageProps = {
-  setEditingTags: Dispatch<SetStateAction<boolean>>;
-};
-
-function TagsPage({ setEditingTags }: TagsPageProps) {
+function TagsPage() {
   const { userTags, setUserTags } = useContext(UserTagsContext);
   const { isSaving, setIsSaving } = useContext(IsSavingContext);
+  const { setModal } = useContext(ModalContext);
   const [error, setError] = useState("");
   const tagRef = useRef<HTMLInputElement>(null);
   const tags = useTagService();
@@ -53,7 +51,7 @@ function TagsPage({ setEditingTags }: TagsPageProps) {
   }
 
   return (
-    <Modal rootId="modal" handleDismiss={() => setEditingTags(false)}>
+    <Modal rootId="modal" handleDismiss={() => setModal("")}>
       <div
         onClick={(e) => e.stopPropagation()}
         className="w-[250px] max-h-[350px] overflow-y-auto my-6 p-3 bg-white border border-black"

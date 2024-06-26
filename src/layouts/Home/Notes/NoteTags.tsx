@@ -1,5 +1,5 @@
 import NoteTag from "./NoteTag";
-import { Tag } from "../../types";
+import { Tag } from "../../../types";
 
 type NoteTagsProps = {
   tags: Tag[];

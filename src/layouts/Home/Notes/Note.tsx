@@ -1,15 +1,24 @@
-import { Fragment } from "react";
-import { Link } from "react-router-dom";
-import NoteContext from "../../context/NoteContext";
+import { Fragment, useContext } from "react";
+import NoteContext from "../../../context/NoteContext";
+import UserNotesContext from "../../../context/UserNotesContext";
 import NoteOptions from "./NoteOptions";
 import NoteTags from "./NoteTags";
-import type { Note as NoteType } from "../../types";
+import type { Note as NoteType } from "../../../types";
+import { ModalContext } from "../../../context/ModalContext";
 
 type NoteProps = {
   note: NoteType;
 };
 
 function Note({ note }: NoteProps) {
+  const { setSelected } = useContext(UserNotesContext);
+  const { setModal } = useContext(ModalContext);
+
+  const handleClick = () => {
+    setSelected(note.id);
+    setModal("note");
+  };
+
   const noteElement = (
     <Fragment>
       {note.title && (
@@ -26,9 +35,9 @@ function Note({ note }: NoteProps) {
   return (
     <NoteContext.Provider value={{ note: note }}>
       <article className="border border-black p-2">
-        <Link to={`/notes/${note.id}`}>
+        <div onClick={handleClick} className="hover:cursor-pointer">
           {!note.title && !note.content ? emptyNote : noteElement}
-        </Link>
+        </div>
         <NoteTags tags={note.tags} />
         <NoteOptions />
       </article>

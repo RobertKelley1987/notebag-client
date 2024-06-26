@@ -1,11 +1,11 @@
-import { useContext, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import UserNotesContext from "../../context/UserNotesContext";
-import { useSelectedNote } from "../../hooks/useSelectedNote";
 import { useNoteService } from "../../hooks/useNoteService";
 import { isEmpty } from "../../utils";
 import type { FormEvent, RefObject } from "react";
 import type { Note } from "../../types";
+import { ModalContext } from "../../context/ModalContext";
 
 // Helper to set form values
 function setFormValues(
@@ -23,12 +23,12 @@ function setFormValues(
 }
 
 function EditNoteForm() {
-  const { userNotes, setUserNotes } = useContext(UserNotesContext);
-  const { selectedNote } = useSelectedNote(userNotes);
+  const { userNotes, setUserNotes, selected } = useContext(UserNotesContext);
+  const selectedNote = userNotes.find((note) => note.id === selected);
+  const { setModal } = useContext(ModalContext);
   const notes = useNoteService();
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
 
   // Set form values to selected note values on render
   useEffect(() => {
@@ -61,8 +61,8 @@ function EditNoteForm() {
       optimistic.splice(noteIndex, 1, updatedNote);
       setUserNotes(optimistic);
 
-      // Navigate to notes page
-      navigate("/");
+      // Close modal
+      setModal("");
 
       // Edit note in db and fetch updated notes
       await notes.update(selectedNote.id, title, content);

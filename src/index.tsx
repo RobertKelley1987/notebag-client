@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import ErrorBoundary from "./components/ErrorBoundary";
-import AuthContextProvider from "./context/AuthContextProvider";
 import ErrorPage from "./pages/ErrorPage";
 import "./index.css";
 
@@ -11,8 +11,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <ErrorBoundary fallback={<ErrorPage />}>
-    <AuthContextProvider>
+    <BrowserRouter>
       <App />
-    </AuthContextProvider>
+    </BrowserRouter>
   </ErrorBoundary>
 );

@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import NoteContext from "../../context/NoteContext";
-import UserNotesContext from "../../context/UserNotesContext";
-import UserTagsContext from "../../context/UserTagsContext";
-import { useNoteService } from "../../hooks/useNoteService";
-import { useTagService } from "../../hooks/useTagService";
-import { compareTags } from "../../utils";
+import NoteContext from "../../../context/NoteContext";
+import UserNotesContext from "../../../context/UserNotesContext";
+import UserTagsContext from "../../../context/UserTagsContext";
+import { useNoteService } from "../../../hooks/useNoteService";
+import { useTagService } from "../../../hooks/useTagService";
+import { compareTags } from "../../../utils";
 import type { Dispatch, MouseEvent, SetStateAction } from "react";
 
 type NewTagButtonProps = {

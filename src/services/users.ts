@@ -10,8 +10,8 @@ const users = {
     const { data } = await api.post("/users/login", user);
     return data;
   },
-  logOut: async (token?: string) => {
-    const { data } = await api.post("/users/logout", { token });
+  logOut: async () => {
+    const { data } = await api.post("/users/logout");
     return data;
   },
 };

@@ -14,3 +14,5 @@ export type Tag = {
   id: string;
   name: string;
 };
+
+export type Modal = "note" | "tags" | "";

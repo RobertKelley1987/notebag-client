@@ -17,6 +17,8 @@ function AuthPage({ heading, authFn }: AuthPageProps) {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
+  console.log(from);
+
   // If user navigates from login to register urls, reset form values.
   useEffect(() => {
     setError("");

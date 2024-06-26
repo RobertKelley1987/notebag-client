@@ -10,12 +10,7 @@ function LogOutButton({ setIsLoading }: LogOutButtonProps) {
 
   const handleClick = async () => {
     setIsLoading(true);
-
-    const tokens = sessionStorage.getItem("tokens");
-    const refreshToken = tokens ? JSON.parse(tokens).refreshToken : "";
-    await users.logOut(refreshToken);
-    sessionStorage.setItem("tokens", "");
-
+    await users.logOut();
     setIsLoading(false);
     navigate("/login");
   };

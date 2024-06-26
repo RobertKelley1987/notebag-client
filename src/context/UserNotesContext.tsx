@@ -3,15 +3,17 @@ import type { Dispatch, SetStateAction } from "react";
 import type { Note } from "../types";
 
 type UserNotesContextType = {
+  selected: string;
+  setSelected: Dispatch<SetStateAction<string>>;
   userNotes: Note[];
   setUserNotes: Dispatch<SetStateAction<Note[]>>;
-  isLoading: boolean;
 };
 
 const DEFAULT = {
+  selected: "",
+  setSelected: () => null,
   userNotes: [],
   setUserNotes: () => null,
-  isLoading: true,
 };
 
 export default createContext<UserNotesContextType>(DEFAULT);

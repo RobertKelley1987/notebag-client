@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import UserNotesContext from "../../context/UserNotesContext";
-import NoteIdContext from "../../context/NoteContext";
-import { useNoteService } from "../../hooks/useNoteService";
+import UserNotesContext from "../../../context/UserNotesContext";
+import NoteIdContext from "../../../context/NoteContext";
+import { useNoteService } from "../../../hooks/useNoteService";
 
 function DeleteNoteButton() {
   const { userNotes, setUserNotes } = useContext(UserNotesContext);

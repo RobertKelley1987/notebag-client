@@ -2,7 +2,6 @@ import { createContext } from "react";
 import type { Dispatch, SetStateAction } from "react";
 
 type AuthState = {
-  email: string;
   accessToken: string;
 };
 
@@ -12,7 +11,7 @@ type AuthContextType = {
 };
 
 const DEFAULT = {
-  auth: { email: "", accessToken: "" },
+  auth: { accessToken: "" },
   setAuth: () => null,
 };
 

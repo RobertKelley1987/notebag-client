@@ -1,56 +1,53 @@
-import {
-  createBrowserRouter,
-  Navigate,
-  RouterProvider,
-} from "react-router-dom";
+import { Navigate, Routes, Route } from "react-router-dom";
+import AuthContextProvider from "./context/AuthContextProvider";
+import UserNotesContextProvider from "./context/UserNotesContextProvider";
+import UserTagsContextProvider from "./context/UserTagsContextProvider";
+import IsSavingContextProvider from "./context/IsSavingContextProvider";
 import users from "./services/users";
 import PrivateRoute from "./components/PrivateRoute";
 import Home from "./layouts/Home";
 import Auth from "./layouts/Auth";
 import AuthPage from "./pages/AuthPage";
-import ErrorPage from "./pages/ErrorPage";
-import EditNotePage from "./pages/EditNotePage/EditNotePage";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <PrivateRoute />,
-    children: [
-      {
-        path: "/",
-        element: <Navigate to="/notes" />,
-      },
-      {
-        path: "/notes",
-        element: <Home />,
-        errorElement: <ErrorPage />,
-        children: [
-          {
-            path: "/notes/:noteId",
-            element: <EditNotePage />,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    element: <Auth />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        path: "/register",
-        element: <AuthPage heading="Sign Up" authFn={users.register} />,
-      },
-      {
-        path: "/login",
-        element: <AuthPage heading="Log In" authFn={users.login} />,
-      },
-    ],
-  },
-]);
+import NotFoundPage from "./pages/NotFoundPage";
+import ModalContextProvider from "./context/ModalContextProvider";
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <AuthContextProvider>
+      <UserNotesContextProvider>
+        <UserTagsContextProvider>
+          <Routes>
+            <Route element={<PrivateRoute />}>
+              <Route path="/" element={<Navigate to="/notes" />} />
+              <Route
+                path="/notes"
+                element={
+                  <ModalContextProvider>
+                    <IsSavingContextProvider>
+                      <Home />
+                    </IsSavingContextProvider>
+                  </ModalContextProvider>
+                }
+              />
+            </Route>
+
+            <Route element={<Auth />}>
+              <Route
+                path="/register"
+                element={<AuthPage heading="Sign Up" authFn={users.register} />}
+              />
+              <Route
+                path="/login"
+                element={<AuthPage heading="Log In" authFn={users.login} />}
+              />
+            </Route>
+
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </UserTagsContextProvider>
+      </UserNotesContextProvider>
+    </AuthContextProvider>
+  );
 }
 
 export default App;

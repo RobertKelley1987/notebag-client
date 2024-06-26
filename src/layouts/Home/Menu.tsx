@@ -1,17 +1,25 @@
-import { useContext } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import UserTagsContext from "../../context/UserTagsContext";
-import type { Dispatch, SetStateAction } from "react";
+import { useTagService } from "../../hooks/useTagService";
+import { ModalContext } from "../../context/ModalContext";
 
-type MenuProps = {
-  setEditingTags: Dispatch<SetStateAction<boolean>>;
-};
-
-function Menu({ setEditingTags }: MenuProps) {
-  const { userTags } = useContext(UserTagsContext);
+function Menu() {
+  const { userTags, setUserTags } = useContext(UserTagsContext);
+  const { setModal } = useContext(ModalContext);
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const tags = useTagService();
   const filterTag = searchParams.get("tag");
+  const location = useLocation();
+
+  useEffect(() => {
+    const getTags = async () => {
+      const res = await tags.findAll();
+      setUserTags(res.tags);
+    };
+
+    getTags();
+  }, []);
 
   return (
     <div className="w-[350px] flex flex-col">
@@ -27,7 +35,7 @@ function Menu({ setEditingTags }: MenuProps) {
         return (
           <button
             key={tag.id}
-            className={`px-6 py-2 whitespace-nowrap ${selected}`}
+            className={`text-left px-6 py-2 whitespace-nowrap ${selected}`}
             onClick={() => setSearchParams({ tag: tag.name })}
           >
             {tag.name}
@@ -35,8 +43,8 @@ function Menu({ setEditingTags }: MenuProps) {
         );
       })}
       <button
-        onClick={() => setEditingTags(true)}
-        className="whitespace-nowrap px-6 py-2"
+        onClick={() => setModal("tags")}
+        className="whitespace-nowrap px-6 py-2 text-left"
       >
         Edit Tags
       </button>

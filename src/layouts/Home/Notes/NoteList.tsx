@@ -2,7 +2,7 @@ import { useSearchParams, useAsyncValue } from "react-router-dom";
 import Masonry from "react-responsive-masonry";
 import Note from "./Note";
 import ZeroNotes from "./ZeroNotes";
-import type { Note as NoteType } from "../../types";
+import type { Note as NoteType } from "../../../types";
 
 type NoteListProps = {
   notes: NoteType[];

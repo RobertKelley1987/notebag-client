@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import UserNotesContext from "../../context/UserNotesContext";
-import NoteContext from "../../context/NoteContext";
-import { usePrivateApi } from "../../hooks/usePrivateApi";
-import { compareTags } from "../../utils";
-import type { Tag } from "../../types";
-import { useNoteService } from "../../hooks/useNoteService";
+import UserNotesContext from "../../../context/UserNotesContext";
+import NoteContext from "../../../context/NoteContext";
+import { usePrivateApi } from "../../../hooks/usePrivateApi";
+import { compareTags } from "../../../utils";
+import type { Tag } from "../../../types";
+import { useNoteService } from "../../../hooks/useNoteService";
 
 type TagCheckboxProps = {
   tag: Tag;

@@ -9,7 +9,7 @@ type AuthContextProviderProps = {
 export default function AuthContextProvider({
   children,
 }: AuthContextProviderProps) {
-  const [auth, setAuth] = useState({ email: "", accessToken: "" });
+  const [auth, setAuth] = useState({ accessToken: "" });
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>

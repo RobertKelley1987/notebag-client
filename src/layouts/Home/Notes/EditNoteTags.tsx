@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
-import UserTagsContext from "../../context/UserTagsContext";
-import SearchIcon from "../../components/icons/SearchIcon";
+import UserTagsContext from "../../../context/UserTagsContext";
+import SearchIcon from "../../../components/icons/SearchIcon";
 import TagCheckbox from "./TagCheckbox";
 import NewTagButton from "./NewTagButton";
 

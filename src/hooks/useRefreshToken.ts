@@ -5,12 +5,16 @@ export function useRefreshToken() {
   const { setAuth } = useAuth();
 
   async function refresh() {
-    const {
-      data: { accessToken },
-    } = await api.get("/tokens");
-    setAuth((prev) => {
-      return { ...prev, accessToken };
-    });
+    let accessToken = "";
+
+    try {
+      const { data } = await api.get("/tokens");
+      accessToken = data.accessToken;
+    } catch (error) {
+      accessToken = "";
+    }
+
+    setAuth({ accessToken });
     return accessToken;
   }
 

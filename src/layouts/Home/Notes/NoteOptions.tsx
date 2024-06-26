@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
-import MoreIcon from "../../components/icons/MoreIcon";
-import { useClickOutside } from "../../hooks/useClickOutside";
+import MoreIcon from "../../../components/icons/MoreIcon";
+import { useClickOutside } from "../../../hooks/useClickOutside";
 import DeleteNoteButton from "./DeleteNoteButton";
 import EditNoteTags from "./EditNoteTags";
 import NoteDropdown from "./NoteDropdown";
