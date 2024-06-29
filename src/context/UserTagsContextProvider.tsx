@@ -1,13 +1,13 @@
 import { useState } from "react";
-import UserTagsContext from "./UserTagsContext";
+import { UserTagsContext } from "./UserTagsContext";
 import type { ReactNode } from "react";
 import type { Tag } from "../types";
 
-type UserContextProviderProps = {
+type UserTagsProviderProps = {
   children: ReactNode;
 };
 
-function UserTagsContextProvider({ children }: UserContextProviderProps) {
+function UserTagsContextProvider({ children }: UserTagsProviderProps) {
   const [userTags, setUserTags] = useState<Tag[]>([]);
 
   return (

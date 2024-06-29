@@ -1,6 +1,6 @@
 import { Fragment, useContext } from "react";
-import NoteContext from "../../../context/NoteContext";
-import UserNotesContext from "../../../context/UserNotesContext";
+import { NoteContext } from "../../../context/NoteContext";
+import { UserNotesContext } from "../../../context/UserNotesContext";
 import NoteOptions from "./NoteOptions";
 import NoteTags from "./NoteTags";
 import type { Note as NoteType } from "../../../types";

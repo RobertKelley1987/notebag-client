@@ -1,5 +1,5 @@
 import { useState } from "react";
-import UserNotesContext from "./UserNotesContext";
+import { UserNotesContext } from "./UserNotesContext";
 import type { ReactNode } from "react";
 import type { Note } from "../types";
 

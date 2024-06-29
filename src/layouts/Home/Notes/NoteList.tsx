@@ -1,4 +1,4 @@
-import { useSearchParams, useAsyncValue } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import Masonry from "react-responsive-masonry";
 import Note from "./Note";
 import ZeroNotes from "./ZeroNotes";
@@ -17,6 +17,7 @@ function NoteList({ notes }: NoteListProps) {
   const [searchParams] = useSearchParams();
   const tagFilter = searchParams.get("tag");
 
+  // If tag filter does exist, filter away my friend.
   if (tagFilter) {
     notes = notes.filter((note) => noteHasTag(note, tagFilter));
   }

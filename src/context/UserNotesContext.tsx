@@ -16,4 +16,4 @@ const DEFAULT = {
   setUserNotes: () => null,
 };
 
-export default createContext<UserNotesContextType>(DEFAULT);
+export const UserNotesContext = createContext<UserNotesContextType>(DEFAULT);

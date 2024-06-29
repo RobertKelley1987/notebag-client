@@ -14,4 +14,4 @@ const DEFAULT = {
   },
 };
 
-export default createContext<NoteContextType>(DEFAULT);
+export const NoteContext = createContext<NoteContextType>(DEFAULT);

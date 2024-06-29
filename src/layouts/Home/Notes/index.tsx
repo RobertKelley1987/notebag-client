@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import UserNotesContext from "../../../context/UserNotesContext";
+import { UserNotesContext } from "../../../context/UserNotesContext";
 import { useNoteService } from "../../../hooks/useNoteService";
 import NoteList from "./NoteList";
 import Loading from "./Loading";

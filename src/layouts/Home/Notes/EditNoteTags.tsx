@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import UserTagsContext from "../../../context/UserTagsContext";
+import { UserTagsContext } from "../../../context/UserTagsContext";
 import SearchIcon from "../../../components/icons/SearchIcon";
 import TagCheckbox from "./TagCheckbox";
 import NewTagButton from "./NewTagButton";
@@ -14,7 +14,7 @@ function EditNoteTags() {
   const foundTags = (
     <ul>
       {results.map((tag) => (
-        <TagCheckbox tag={tag} />
+        <TagCheckbox key={tag.id} tag={tag} />
       ))}
     </ul>
   );

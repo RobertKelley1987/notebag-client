@@ -1,10 +1,12 @@
 import { useContext } from "react";
-import NoteContext from "../../../context/NoteContext";
-import UserNotesContext from "../../../context/UserNotesContext";
-import UserTagsContext from "../../../context/UserTagsContext";
+import { v4 as uuid } from "uuid";
+import { NoteContext } from "../../../context/NoteContext";
+import { UserNotesContext } from "../../../context/UserNotesContext";
+import { UserTagsContext } from "../../../context/UserTagsContext";
+import { IsSavingContext } from "../../../context/IsSavingContext";
 import { useNoteService } from "../../../hooks/useNoteService";
 import { useTagService } from "../../../hooks/useTagService";
-import { compareTags } from "../../../utils";
+import optimistic from "../../../lib/optimistic";
 import type { Dispatch, MouseEvent, SetStateAction } from "react";
 
 type NewTagButtonProps = {
@@ -15,6 +17,7 @@ type NewTagButtonProps = {
 function NewTagButton({ tagName, setTagName }: NewTagButtonProps) {
   const { userTags, setUserTags } = useContext(UserTagsContext);
   const { userNotes, setUserNotes } = useContext(UserNotesContext);
+  const { setIsSaving } = useContext(IsSavingContext);
   const { note } = useContext(NoteContext);
   const notes = useNoteService();
   const tags = useTagService();
@@ -23,29 +26,22 @@ function NewTagButton({ tagName, setTagName }: NewTagButtonProps) {
     e.stopPropagation();
 
     // Save tag name and clear search form
-    const name = tagName;
+    const newTag = { id: uuid(), name: tagName };
     setTagName("");
 
     // Set optimistic tags
-    const optimisticTags = [...userTags];
-    const newTag = { id: "new-tag", name };
-    optimisticTags.push(newTag);
-    optimisticTags.sort(compareTags);
+    const optimisticTags = optimistic.tags.addOne(userTags, newTag);
     setUserTags(optimisticTags);
 
     // Set optimistic notes with tag added to this note
-    const optimisticNote = { ...note };
-    const optimisticNotes = [...userNotes];
-    optimisticNote.tags.push(newTag);
-    optimisticNote.tags.sort(compareTags);
-    const noteIndex = userNotes.findIndex(
-      (userNote) => userNote.id === optimisticNote.id
-    );
-    optimisticNotes.splice(noteIndex, 1, optimisticNote);
+    const optimisticNotes = optimistic.notes.addTag(userNotes, note, newTag);
     setUserNotes(optimisticNotes);
 
+    // Set saving state.
+    setIsSaving(true);
+
     // Create tag in db and add to current note
-    const { tag } = await tags.create(name);
+    const { tag } = await tags.create(newTag.id, newTag.name);
     await notes.updateTags(note.id, tag.id);
 
     // Fetch updated data and update state
@@ -53,6 +49,7 @@ function NewTagButton({ tagName, setTagName }: NewTagButtonProps) {
     const [tagData, noteData] = data;
     setUserTags(tagData.tags);
     setUserNotes(noteData.notes);
+    setIsSaving(false);
   }
 
   return (

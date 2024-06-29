@@ -10,4 +10,4 @@ const DEFAULT = {
   setIsSaving: () => null,
 };
 
-export default createContext<IsSavingContextType>(DEFAULT);
+export const IsSavingContext = createContext<IsSavingContextType>(DEFAULT);

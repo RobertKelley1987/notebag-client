@@ -14,7 +14,7 @@ function Modal({ children, handleDismiss, rootId, className }: ModalProps) {
     classNames += " " + className;
   }
   return createPortal(
-    <div onClick={handleDismiss} className={classNames}>
+    <div id="modal" onClick={handleDismiss} className={classNames}>
       {children}
     </div>,
     document.getElementById(rootId) as HTMLElement

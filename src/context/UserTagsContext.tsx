@@ -12,4 +12,4 @@ const DEFAULT = {
   setUserTags: () => null,
 };
 
-export default createContext<UserTagsContextType>(DEFAULT);
+export const UserTagsContext = createContext<UserTagsContextType>(DEFAULT);

@@ -1,42 +1,43 @@
 import { Fragment, useContext, useRef, useState } from "react";
 import { v4 as uuid } from "uuid";
-import UserNotesContext from "../../context/UserNotesContext";
+import { UserNotesContext } from "../../context/UserNotesContext";
+import { IsSavingContext } from "../../context/IsSavingContext";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { useNoteService } from "../../hooks/useNoteService";
+import optimistic from "../../lib/optimistic";
 import { isEmpty } from "../../utils";
 import type { FormEvent } from "react";
 
 function NewNoteForm() {
   const { userNotes, setUserNotes } = useContext(UserNotesContext);
+  const { setIsSaving } = useContext(IsSavingContext);
+  const { wrapperRef } = useClickOutside(submit);
   const [formOpen, setFormOpen] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const { wrapperRef } = useClickOutside(submit);
   const notes = useNoteService();
 
   async function submit() {
     const title = titleRef.current?.value || "";
     const content = contentRef.current?.innerText || "";
-    const isEmptyNote = isEmpty(title) && isEmpty(content);
+    if (isEmpty(title) && isEmpty(content)) return;
 
-    if (!isEmptyNote) {
-      // Set optimistic notes
-      const noteId = uuid();
-      const newNote = { id: noteId, title, content, tags: [] };
-      const optimistic = [newNote, ...userNotes];
-      setUserNotes(optimistic);
+    // Set optimistic notes
+    const newNote = { id: uuid(), title, content, tags: [] };
+    const optimisticNotes = optimistic.notes.addOne(userNotes, newNote);
+    setUserNotes(optimisticNotes);
 
-      // Reset form
-      if (contentRef.current) contentRef.current.innerText = "";
-      if (titleRef.current) titleRef.current.value = "";
-      setFormOpen(false);
+    // Reset form and set saving state.
+    if (contentRef.current) contentRef.current.innerText = "";
+    if (titleRef.current) titleRef.current.value = "";
+    setFormOpen(false);
+    setIsSaving(true);
 
-      // Create new note and fetch updated note.
-      await notes.create(noteId, title, content);
-      const res = await notes.findAll();
-      setUserNotes(res.notes);
-    }
-
+    // Create new note and fetch updated note.
+    await notes.create(newNote.id, title, content);
+    const res = await notes.findAll();
+    setUserNotes(res.notes);
+    setIsSaving(false);
     setFormOpen(false);
   }
 

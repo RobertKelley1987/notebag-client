@@ -1,5 +1,5 @@
 import { useState } from "react";
-import IsSavingContext from "./IsSavingContext";
+import { IsSavingContext } from "./IsSavingContext";
 import type { ReactNode } from "react";
 
 type IsSavingProviderProps = {

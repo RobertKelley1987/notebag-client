@@ -22,7 +22,7 @@ export function usePrivateApi() {
       (response) => response,
       async (err) => {
         const prevReq = err.config;
-        if (err.response.status === 403 && !prevReq.sent) {
+        if (err?.response?.status === 403 && !prevReq.sent) {
           prevReq.sent = true;
           const newToken = await refresh();
           prevReq.headers["authorization"] = `Bearer ${newToken}`;

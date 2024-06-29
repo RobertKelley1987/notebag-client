@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ModalContext } from "./ModalContext";
-import EditNotePage from "../pages/EditNotePage/EditNotePage";
+import EditedTagContextProvider from "./EditedTagContextProvider";
+import EditNotePage from "../pages/EditNotePage";
 import TagsPage from "../pages/TagsPage";
 import type { ReactNode } from "react";
 import type { Modal } from "../types";
@@ -11,7 +12,11 @@ type ModalContextProviderProps = {
 
 const MODAL_PGS = {
   note: <EditNotePage />,
-  tags: <TagsPage />,
+  tags: (
+    <EditedTagContextProvider>
+      <TagsPage />
+    </EditedTagContextProvider>
+  ),
 };
 
 export default function ModalContextProvider({

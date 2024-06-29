@@ -7,8 +7,8 @@ class TagService {
     this.api = api;
   }
 
-  async create(name: string) {
-    const { data } = await this.api.post("/tags", { name });
+  async create(tagId: string, name: string) {
+    const { data } = await this.api.post("/tags", { tagId, name });
     return data;
   }
 
@@ -19,6 +19,11 @@ class TagService {
 
   async delete(tagId: string) {
     const { data } = await this.api.delete(`/tags/${tagId}`);
+    return data;
+  }
+
+  async update(tagId: string, name: string) {
+    const { data } = await this.api.put(`/tags/${tagId}`, { name });
     return data;
   }
 }

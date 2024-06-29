@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
-import UserTagsContext from "../../context/UserTagsContext";
+import { UserTagsContext } from "../../context/UserTagsContext";
 import { useTagService } from "../../hooks/useTagService";
 import { ModalContext } from "../../context/ModalContext";
 
