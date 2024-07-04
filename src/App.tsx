@@ -3,13 +3,13 @@ import AuthContextProvider from "./context/AuthContextProvider";
 import UserNotesContextProvider from "./context/UserNotesContextProvider";
 import UserTagsContextProvider from "./context/UserTagsContextProvider";
 import IsSavingContextProvider from "./context/IsSavingContextProvider";
+import ModalContextProvider from "./context/ModalContextProvider";
 import users from "./services/users";
 import PrivateRoute from "./components/PrivateRoute";
 import Home from "./layouts/Home";
 import Auth from "./layouts/Auth";
 import AuthPage from "./pages/AuthPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import ModalContextProvider from "./context/ModalContextProvider";
 
 function App() {
   return (

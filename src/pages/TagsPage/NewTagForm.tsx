@@ -4,9 +4,10 @@ import { UserTagsContext } from "../../context/UserTagsContext";
 import { IsSavingContext } from "../../context/IsSavingContext";
 import { useTagService } from "../../hooks/useTagService";
 import optimistic from "../../lib/optimistic";
-import { isEmpty } from "../../utils";
+import { isEmpty } from "../../lib/strings";
 import CheckmarkIcon from "../../components/icons/CheckmarkIcon";
 import PlusIcon from "../../components/icons/PlusIcon";
+import CloseIcon from "../../components/icons/CloseIcon";
 
 function NewTagForm() {
   const { userTags, setUserTags } = useContext(UserTagsContext);
@@ -44,7 +45,9 @@ function NewTagForm() {
       const newTag = { id: uuid(), name: input.value.trim() };
 
       // If tag name is already in list, notify user and return.
-      const tagIndex = userTags.findIndex((tag) => tag.name === newTag.name);
+      const tagIndex = userTags.findIndex((tag) => {
+        return tag.name.toLowerCase() === newTag.name.toLowerCase();
+      });
       if (tagIndex !== -1) {
         return setError("Tag already exists.");
       }
@@ -67,12 +70,25 @@ function NewTagForm() {
     }
   }
 
+  const openButton = (
+    <button onClick={() => setFormActive(true)} className="hover:text-aqua">
+      <PlusIcon />
+    </button>
+  );
+
+  const closeButton = (
+    <button onClick={() => setFormActive(false)} className="hover:text-aqua">
+      <CloseIcon />
+    </button>
+  );
+
   const checkmarkButton = (
     <button
       id="submit"
       onClick={handleSubmit}
       disabled={isSaving}
       type="submit"
+      className="hover:text-aqua"
     >
       <CheckmarkIcon />
     </button>
@@ -81,9 +97,7 @@ function NewTagForm() {
   return (
     <Fragment>
       <div className="flex gap-3">
-        <button onClick={() => setFormActive(true)}>
-          <PlusIcon />
-        </button>
+        {formActive ? closeButton : openButton}
         <input
           ref={tagRef}
           type="text"

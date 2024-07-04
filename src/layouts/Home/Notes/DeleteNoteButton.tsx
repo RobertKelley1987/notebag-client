@@ -33,7 +33,11 @@ function DeleteNoteButton() {
     }
   }
 
-  return <button onClick={handleClick}>Delete Note</button>;
+  return (
+    <button onClick={handleClick} className="hover:text-aqua">
+      Delete Note
+    </button>
+  );
 }
 
 export default DeleteNoteButton;

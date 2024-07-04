@@ -1,5 +1,18 @@
-import { compareTags } from "../utils";
 import type { Note, Tag } from "../types";
+
+// Helper to sort tags alphabetically by name
+export function compareTags(a: Tag, b: Tag) {
+  const nameOne = a.name.toLowerCase();
+  const nameTwo = b.name.toLowerCase();
+
+  if (nameOne < nameTwo) {
+    return -1;
+  } else if (nameOne > nameTwo) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
 
 const optimistic = {
   tags: {

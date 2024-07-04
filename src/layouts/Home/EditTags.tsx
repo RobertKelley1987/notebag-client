@@ -1,21 +1,24 @@
 import { useContext, useState } from "react";
-import { UserTagsContext } from "../../../context/UserTagsContext";
-import SearchIcon from "../../../components/icons/SearchIcon";
-import TagCheckbox from "./TagCheckbox";
-import NewTagButton from "./NewTagButton";
+import { UserTagsContext } from "../../context/UserTagsContext";
+import SearchIcon from "../../components/icons/SearchIcon";
+import NewTagButton from "./Notes/NewTagButton";
+import type { ReactNode } from "react";
+import type { Tag } from "../../types";
 
-function EditNoteTags() {
-  const [search, setSearch] = useState("");
+type EditTagsProps = {
+  renderCheckbox: (tag: Tag) => ReactNode;
+};
+
+function EditTags({ renderCheckbox }: EditTagsProps) {
   const { userTags } = useContext(UserTagsContext);
+  const [search, setSearch] = useState("");
   const results = userTags.filter((tag) => tag.name.includes(search));
   const exactMatchIndex = userTags.findIndex((tag) => tag.name === search);
   const exactMatchFound = exactMatchIndex !== -1;
 
   const foundTags = (
-    <ul>
-      {results.map((tag) => (
-        <TagCheckbox key={tag.id} tag={tag} />
-      ))}
+    <ul className="flex flex-col gap-1">
+      {results.map((tag) => renderCheckbox(tag))}
     </ul>
   );
 
@@ -26,17 +29,17 @@ function EditNoteTags() {
   }
 
   return (
-    <div className="bg-white w-max flex flex-col gap-2">
+    <div className="min-w-[200px] bg-white flex flex-col gap-2">
       <h2 className="font-semibold">Note Tags</h2>
-      <div className="flex gap-1">
+      <div className="flex gap-1 w-full">
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search tags"
-          className="focus:outline-none"
+          className="w-full focus:outline-none"
         />
-        <SearchIcon />
+        <SearchIcon className="basis-[24px] shrink-0" />
       </div>
       {results.length > 0 && foundTags}
 
@@ -46,4 +49,4 @@ function EditNoteTags() {
   );
 }
 
-export default EditNoteTags;
+export default EditTags;

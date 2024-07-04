@@ -7,6 +7,7 @@ import { IsSavingContext } from "../../../context/IsSavingContext";
 import { useNoteService } from "../../../hooks/useNoteService";
 import { useTagService } from "../../../hooks/useTagService";
 import optimistic from "../../../lib/optimistic";
+import PlusIcon from "../../../components/icons/PlusIcon";
 import type { Dispatch, MouseEvent, SetStateAction } from "react";
 
 type NewTagButtonProps = {
@@ -26,7 +27,7 @@ function NewTagButton({ tagName, setTagName }: NewTagButtonProps) {
     e.stopPropagation();
 
     // Save tag name and clear search form
-    const newTag = { id: uuid(), name: tagName };
+    const newTag = { id: uuid(), name: tagName.trim() };
     setTagName("");
 
     // Set optimistic tags
@@ -53,8 +54,14 @@ function NewTagButton({ tagName, setTagName }: NewTagButtonProps) {
   }
 
   return (
-    <button onClick={handleClick} className="text-left">
-      Create tag "{tagName}"
+    <button
+      onClick={handleClick}
+      className="flex items-center gap-2 hover:text-aqua"
+    >
+      <PlusIcon className="shrink-0" />
+      <span className="break-words text-left w-full shrink">
+        Create tag "{tagName.trim()}"
+      </span>
     </button>
   );
 }

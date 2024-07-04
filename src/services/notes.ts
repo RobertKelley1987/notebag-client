@@ -1,13 +1,16 @@
 import type { AxiosInstance } from "axios";
+import type { Tag } from "../types";
 
 class NoteService {
   api: AxiosInstance;
+  controller: AbortController;
 
   constructor(api: AxiosInstance) {
     this.api = api;
+    this.controller = new AbortController();
   }
 
-  async create(noteId: string, title?: string, content?: string) {
+  async create(noteId: string, title?: string, content?: string, tags?: Tag[]) {
     if (!title && !content) {
       return;
     }
@@ -20,6 +23,7 @@ class NoteService {
       noteId,
       title,
       content,
+      tags,
     });
     return data;
   }
@@ -42,7 +46,9 @@ class NoteService {
   }
 
   async findAll() {
-    const { data } = await this.api.get("/notes");
+    const { data } = await this.api.get("/notes", {
+      signal: this.controller.signal,
+    });
     return data;
   }
 
@@ -54,6 +60,10 @@ class NoteService {
   async delete(noteId: string) {
     const { data } = await this.api.delete(`/notes/${noteId}`);
     return data;
+  }
+
+  abort() {
+    this.controller.abort();
   }
 }
 

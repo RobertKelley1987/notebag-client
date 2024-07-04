@@ -2,20 +2,22 @@ import { useContext } from "react";
 import { UserNotesContext } from "../../../context/UserNotesContext";
 import { NoteContext } from "../../../context/NoteContext";
 import { useNoteService } from "../../../hooks/useNoteService";
-import optimistic from "../../../lib/optimistic";
-import type { Tag } from "../../../types";
 import { IsSavingContext } from "../../../context/IsSavingContext";
+import optimistic from "../../../lib/optimistic";
+import TagCheckbox from "../TagCheckbox";
+import type { Tag } from "../../../types";
 
-type TagCheckboxProps = {
+type NoteTagCheckboxProps = {
   tag: Tag;
 };
 
-function TagCheckbox({ tag }: TagCheckboxProps) {
+// Tag checkbox with change function required for an existing note.
+function NoteTagCheckbox({ tag }: NoteTagCheckboxProps) {
   const { userNotes, setUserNotes } = useContext(UserNotesContext);
-  const { note } = useContext(NoteContext);
   const { setIsSaving } = useContext(IsSavingContext);
-  const notes = useNoteService();
+  const { note } = useContext(NoteContext);
   const tagIndex = note.tags.findIndex((noteTag) => noteTag.id === tag.id);
+  const notes = useNoteService();
 
   async function handleChange() {
     // Set optimistic notes
@@ -33,17 +35,12 @@ function TagCheckbox({ tag }: TagCheckboxProps) {
   }
 
   return (
-    <li className="flex gap-2">
-      <input
-        onChange={handleChange}
-        type="checkbox"
-        id={tag.name}
-        value={tag.name}
-        checked={tagIndex !== -1}
-      />
-      <label htmlFor={tag.name}>{tag.name}</label>
-    </li>
+    <TagCheckbox
+      handleChange={handleChange}
+      tag={tag}
+      isChecked={tagIndex !== -1}
+    />
   );
 }
 
-export default TagCheckbox;
+export default NoteTagCheckbox;

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { assertIsNode } from "../utils";
+import { assertIsNode } from "../lib/assertions";
 
 export function useClickOutside(callback: Function) {
   const wrapperRef = useRef<HTMLDivElement>(null);

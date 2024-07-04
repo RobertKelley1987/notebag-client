@@ -24,8 +24,8 @@ function NoteList({ notes }: NoteListProps) {
 
   function renderNotesGrid() {
     return (
-      <div className="w-[700px] mb-6">
-        <Masonry columnsCount={3} gutter="1rem">
+      <div className="w-full mb-6">
+        <Masonry columnsCount={4} gutter="1rem">
           {notes.map((note) => (
             <Note key={note.id} note={note} />
           ))}

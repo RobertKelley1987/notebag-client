@@ -1,4 +1,4 @@
-import { SVGAttributes } from "react";
+import type { SVGAttributes } from "react";
 
 function MoreIcon({ className, onClick }: SVGAttributes<SVGElement>) {
   return (

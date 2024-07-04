@@ -24,7 +24,7 @@ function NoteDropdown({
   const [verticalPos, setVerticalPos] = useState<VerticalPos>(DOWN);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Check if dropdown is going to exceed window width. If so, update
+  // Check if dropdown is going to exceed window size. If so, update
   // tailwind class to shift dropdown up or to the left as needed.
   // Function needs to run on render and if dropdown changes to edit tags
   // mode.
@@ -40,7 +40,7 @@ function NoteDropdown({
   return (
     <div
       ref={dropdownRef}
-      className={`max-h-[250px] overflow-x-hidden overflow-y-auto z-10 border border-black bg-white p-3 absolute ${verticalPos} ${horizontalPos}`}
+      className={`max-h-[250px] max-w-[250px] overflow-x-hidden overflow-y-auto z-10 border border-black bg-white p-3 absolute ${verticalPos} ${horizontalPos}`}
     >
       {children}
     </div>

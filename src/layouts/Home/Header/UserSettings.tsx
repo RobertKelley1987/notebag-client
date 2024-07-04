@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
-import { useClickOutside } from "../../hooks/useClickOutside";
-import UserIcon from "../../components/icons/UserIcon";
+import { useClickOutside } from "../../../hooks/useClickOutside";
+import UserIcon from "../../../components/icons/UserIcon";
 import LogOutButton from "./LogOutButton";
 
 function UserSettings() {
@@ -15,7 +15,10 @@ function UserSettings() {
   const renderUserSettings = () => {
     return (
       <Fragment>
-        <UserIcon onClick={() => setDropdownOpen((prev) => !prev)} />
+        <UserIcon
+          onClick={() => setDropdownOpen((prev) => !prev)}
+          className="hover:text-aqua"
+        />
         {dropdownOpen && (
           <div className="absolute top-8 right-7 border border-black bg-white p-3">
             <LogOutButton setIsLoading={setIsLoading} />
@@ -26,8 +29,12 @@ function UserSettings() {
   };
 
   return (
-    <div ref={wrapperRef} className="relative">
-      {isLoading ? <span>Logging out...</span> : renderUserSettings()}
+    <div ref={wrapperRef} className="relative hover:cursor-pointer">
+      {isLoading ? (
+        <span className="hover:cursor-auto">Logging out...</span>
+      ) : (
+        renderUserSettings()
+      )}
     </div>
   );
 }

@@ -1,11 +1,15 @@
-import { Fragment, useState } from "react";
-import MoreIcon from "../../../components/icons/MoreIcon";
-import { useClickOutside } from "../../../hooks/useClickOutside";
-import DeleteNoteButton from "./DeleteNoteButton";
-import EditNoteTags from "./EditNoteTags";
+import { useState } from "react";
+import { useClickOutside } from "../../hooks/useClickOutside";
+import DeleteNoteButton from "./Notes/DeleteNoteButton";
 import NoteDropdown from "./NoteDropdown";
+import MoreIcon from "../../components/icons/MoreIcon";
+import type { ReactNode } from "react";
 
-function NoteOptions() {
+type NoteOptionsProps = {
+  editTagsForm: ReactNode;
+};
+
+function NoteOptions({ editTagsForm }: NoteOptionsProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [editingTags, setEditingTags] = useState(false);
   const { wrapperRef } = useClickOutside(handleClick);
@@ -23,6 +27,7 @@ function NoteOptions() {
           e.stopPropagation();
           setEditingTags(true);
         }}
+        className="hover:text-aqua"
       >
         Edit Tags
       </button>
@@ -31,7 +36,7 @@ function NoteOptions() {
 
   const dropdown = (
     <NoteDropdown dropdownOpen={dropdownOpen} editingTags={editingTags}>
-      {editingTags ? <EditNoteTags /> : options}
+      {editingTags ? editTagsForm : options}
     </NoteDropdown>
   );
 
@@ -39,7 +44,7 @@ function NoteOptions() {
     <div className="flex justify-end">
       <div ref={wrapperRef} className="relative">
         <MoreIcon
-          className="hover:cursor-pointer"
+          className="hover:cursor-pointer hover:text-aqua"
           onClick={() => setDropdownOpen((prev) => !prev)}
         />
         {dropdownOpen && dropdown}

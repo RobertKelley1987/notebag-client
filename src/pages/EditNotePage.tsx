@@ -4,7 +4,7 @@ import { UserNotesContext } from "../context/UserNotesContext";
 import { IsSavingContext } from "../context/IsSavingContext";
 import { useNoteService } from "../hooks/useNoteService";
 import optimistic from "../lib/optimistic";
-import { isEmpty } from "../utils";
+import { isEmpty } from "../lib/strings";
 import Modal from "../components/Modal";
 import type { FormEvent, RefObject } from "react";
 import type { Note } from "../types";

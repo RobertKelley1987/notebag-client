@@ -1,6 +1,6 @@
 import type { SVGAttributes } from "react";
 
-function SearchIcon({ className, onClick }: SVGAttributes<SVGElement>) {
+function CloseIcon({ className, onClick }: SVGAttributes<SVGElement>) {
   return (
     <svg
       className={className}
@@ -15,10 +15,10 @@ function SearchIcon({ className, onClick }: SVGAttributes<SVGElement>) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <circle cx="11" cy="11" r="8" />
-      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
     </svg>
   );
 }
 
-export default SearchIcon;
+export default CloseIcon;
