@@ -1,27 +1,26 @@
 import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { assertIsNode } from "../lib/assertions";
 
-export function useClickOutside(callback: Function) {
+export function useClickOutside(callback: Function, deps?: any[]) {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      assertIsNode(e.target);
-      if (wrapperRef.current?.contains(e.target)) return;
-      callback();
-    }
+  useEffect(
+    () => {
+      function handleClick(e: MouseEvent) {
+        assertIsNode(e.target);
+        if (wrapperRef.current?.contains(e.target)) return;
+        callback();
+      }
 
-    // This is a shitty workaround, otherwise click event fires on render.
-    setTimeout(() => {
+      // This is a workaround to prevent click event from firing on render.
       document.body.addEventListener("click", handleClick);
-    }, 100);
 
-    return () => {
-      document.body.removeEventListener("click", handleClick);
-    };
-  }, [wrapperRef]);
+      return () => {
+        document.body.removeEventListener("click", handleClick);
+      };
+    },
+    deps ? [...deps, wrapperRef] : [wrapperRef]
+  );
 
   return { wrapperRef };
 }

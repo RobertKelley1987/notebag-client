@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import type { ChangeEvent, FormEvent } from "react";
 import type { User } from "../../types";
+import { AxiosError } from "axios";
 
 type AuthPageProps = {
   heading: string;
@@ -11,15 +12,14 @@ type AuthPageProps = {
 
 function AuthPage({ heading, authFn }: AuthPageProps) {
   const [form, setForm] = useState({ email: "", password: "" });
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const { setAuth } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-  console.log(from);
-
-  // If user navigates from login to register urls, reset form values.
+  // If user navigates between login and register urls, reset form values.
   useEffect(() => {
     setError("");
     setForm({ email: "", password: "" });
@@ -33,16 +33,22 @@ function AuthPage({ heading, authFn }: AuthPageProps) {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
 
-    const { accessToken, error } = await authFn(form);
-    if (error) {
-      const message = error.message ? error.message : "Something went wrong.";
-      setError(message);
-    } else {
+    try {
+      const { accessToken } = await authFn(form);
       setAuth((prev) => {
         return { ...prev, accessToken };
       });
       navigate(from, { replace: true });
+    } catch (error) {
+      setIsLoading(false);
+      if (error instanceof AxiosError) {
+        const errorMessage = error.response?.data.error.message;
+        if (errorMessage) setError(errorMessage);
+      } else {
+        setError("Something went wrong.");
+      }
     }
   };
 
@@ -78,11 +84,11 @@ function AuthPage({ heading, authFn }: AuthPageProps) {
           />
         </div>
         <button
-          disabled={!form.email || !form.password}
+          disabled={!form.email || !form.password || isLoading}
           type="submit"
-          className="font-semibold w-full p-3 mt-2 border border-black hover:cursor-pointer hover:bg-black hover:text-white disabled:opacity-50 disabled:hover:cursor-auto disabled:hover:bg-white disabled:hover:text-black"
+          className="font-semibold w-full p-3 mt-2 border border-black cursor-pointer hover:bg-aqua disabled:opacity-50 disabled:hover:cursor-auto disabled:bg-aqua disabled:hover:text-black"
         >
-          Submit
+          {isLoading ? "Authorizing..." : "Submit"}
         </button>
       </form>
     </main>

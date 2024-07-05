@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import { UserNotesContext } from "../../../context/UserNotesContext";
-import { NoteContext } from "../../../context/NoteContext";
-import { useNoteService } from "../../../hooks/useNoteService";
-import { IsSavingContext } from "../../../context/IsSavingContext";
-import optimistic from "../../../lib/optimistic";
-import TagCheckbox from "../TagCheckbox";
-import type { Tag } from "../../../types";
+import { UserNotesContext } from "../../context/UserNotesContext";
+import { NoteContext } from "../../context/NoteContext";
+import { useNoteService } from "../../hooks/useNoteService";
+import { IsSavingContext } from "../../context/IsSavingContext";
+import optimistic from "../../lib/optimistic";
+import TagCheckbox from "./TagCheckbox";
+import type { Tag } from "../../types";
 
 type NoteTagCheckboxProps = {
   tag: Tag;

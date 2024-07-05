@@ -1,16 +1,14 @@
+import { useContext } from "react";
+import { UserTagsContext } from "../../context/UserTagsContext";
 import Tag from "./Tag";
-import type { Tag as TagType } from "../../types";
 
-type TagListProps = {
-  tags: TagType[];
-  updateTagName: (tag: TagType, closeFn: () => void) => Promise<void>;
-};
+function TagList() {
+  const { userTags } = useContext(UserTagsContext);
 
-function TagList({ tags, updateTagName }: TagListProps) {
   return (
     <ul className="flex flex-col gap-3">
-      {tags.map((tag) => {
-        return <Tag key={tag.id} tag={tag} updateTagName={updateTagName} />;
+      {userTags.map((tag) => {
+        return <Tag key={tag.id} tag={tag} />;
       })}{" "}
     </ul>
   );

@@ -5,7 +5,7 @@ type NoteContextType = {
   note: Note;
 };
 
-const DEFAULT = {
+export const DEFAULT = {
   note: {
     id: "",
     title: "",

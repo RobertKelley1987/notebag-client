@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { useClickOutside } from "../../hooks/useClickOutside";
-import DeleteNoteButton from "./Notes/DeleteNoteButton";
+import DeleteNoteButton from "./DeleteButton";
 import NoteDropdown from "./NoteDropdown";
-import MoreIcon from "../../components/icons/MoreIcon";
+import MoreIcon from "../icons/MoreIcon";
 import type { ReactNode } from "react";
 
 type NoteOptionsProps = {
   editTagsForm: ReactNode;
+  deleteButton: ReactNode;
 };
 
-function NoteOptions({ editTagsForm }: NoteOptionsProps) {
+function NoteOptions({ editTagsForm, deleteButton }: NoteOptionsProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [editingTags, setEditingTags] = useState(false);
   const { wrapperRef } = useClickOutside(handleClick);
@@ -21,7 +22,7 @@ function NoteOptions({ editTagsForm }: NoteOptionsProps) {
 
   const options = (
     <div className="flex flex-col items-start w-max">
-      <DeleteNoteButton />
+      {deleteButton}
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -44,7 +45,7 @@ function NoteOptions({ editTagsForm }: NoteOptionsProps) {
     <div className="flex justify-end">
       <div ref={wrapperRef} className="relative">
         <MoreIcon
-          className="hover:cursor-pointer hover:text-aqua"
+          className="cursor-pointer hover:text-aqua"
           onClick={() => setDropdownOpen((prev) => !prev)}
         />
         {dropdownOpen && dropdown}

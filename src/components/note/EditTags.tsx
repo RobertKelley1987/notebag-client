@@ -1,15 +1,19 @@
 import { useContext, useState } from "react";
 import { UserTagsContext } from "../../context/UserTagsContext";
-import SearchIcon from "../../components/icons/SearchIcon";
-import NewTagButton from "./Notes/NewTagButton";
-import type { ReactNode } from "react";
+import SearchIcon from "../icons/SearchIcon";
+import NoteCreateTagButton from "./NoteCreateTagButton";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 import type { Tag } from "../../types";
 
 type EditTagsProps = {
   renderCheckbox: (tag: Tag) => ReactNode;
+  renderNewTagButton: (
+    search: string,
+    setSearch: Dispatch<SetStateAction<string>>
+  ) => ReactNode;
 };
 
-function EditTags({ renderCheckbox }: EditTagsProps) {
+function EditTags({ renderCheckbox, renderNewTagButton }: EditTagsProps) {
   const { userTags } = useContext(UserTagsContext);
   const [search, setSearch] = useState("");
   const results = userTags.filter((tag) => tag.name.includes(search));
@@ -21,12 +25,6 @@ function EditTags({ renderCheckbox }: EditTagsProps) {
       {results.map((tag) => renderCheckbox(tag))}
     </ul>
   );
-
-  function renderNewTagButton() {
-    if (search && !exactMatchFound) {
-      return <NewTagButton tagName={search} setTagName={setSearch} />;
-    }
-  }
 
   return (
     <div className="min-w-[200px] bg-white flex flex-col gap-2">
@@ -44,7 +42,7 @@ function EditTags({ renderCheckbox }: EditTagsProps) {
       {results.length > 0 && foundTags}
 
       {/* Show new tag button if user input is not found in tag list. */}
-      {renderNewTagButton()}
+      {search && !exactMatchFound && renderNewTagButton(search, setSearch)}
     </div>
   );
 }

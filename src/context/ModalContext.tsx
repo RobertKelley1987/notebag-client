@@ -3,12 +3,12 @@ import type { Dispatch, ReactNode, SetStateAction } from "react";
 import type { Modal } from "../types";
 
 type ModalContextType = {
-  Modal: ReactNode | null;
+  modal: ReactNode | null;
   setModal: Dispatch<SetStateAction<Modal>>;
 };
 
 const DEFAULT_CONTEXT = {
-  Modal: null,
+  modal: null,
   setModal: () => null,
 };
 

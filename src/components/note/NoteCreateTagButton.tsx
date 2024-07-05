@@ -1,21 +1,21 @@
 import { useContext } from "react";
 import { v4 as uuid } from "uuid";
-import { NoteContext } from "../../../context/NoteContext";
-import { UserNotesContext } from "../../../context/UserNotesContext";
-import { UserTagsContext } from "../../../context/UserTagsContext";
-import { IsSavingContext } from "../../../context/IsSavingContext";
-import { useNoteService } from "../../../hooks/useNoteService";
-import { useTagService } from "../../../hooks/useTagService";
-import optimistic from "../../../lib/optimistic";
-import PlusIcon from "../../../components/icons/PlusIcon";
+import { UserTagsContext } from "../../context/UserTagsContext";
+import { UserNotesContext } from "../../context/UserNotesContext";
+import { IsSavingContext } from "../../context/IsSavingContext";
+import { NoteContext } from "../../context/NoteContext";
+import { useNoteService } from "../../hooks/useNoteService";
+import { useTagService } from "../../hooks/useTagService";
+import optimistic from "../../lib/optimistic";
+import CreateTagButton from "./CreateTagButton";
 import type { Dispatch, MouseEvent, SetStateAction } from "react";
 
-type NewTagButtonProps = {
-  tagName: string;
-  setTagName: Dispatch<SetStateAction<string>>;
+type NoteCreateTagButtonProps = {
+  search: string;
+  setSearch: Dispatch<SetStateAction<string>>;
 };
 
-function NewTagButton({ tagName, setTagName }: NewTagButtonProps) {
+function NoteCreateTagButton({ search, setSearch }: NoteCreateTagButtonProps) {
   const { userTags, setUserTags } = useContext(UserTagsContext);
   const { userNotes, setUserNotes } = useContext(UserNotesContext);
   const { setIsSaving } = useContext(IsSavingContext);
@@ -27,8 +27,8 @@ function NewTagButton({ tagName, setTagName }: NewTagButtonProps) {
     e.stopPropagation();
 
     // Save tag name and clear search form
-    const newTag = { id: uuid(), name: tagName.trim() };
-    setTagName("");
+    const newTag = { id: uuid(), name: search.trim() };
+    setSearch("");
 
     // Set optimistic tags
     const optimisticTags = optimistic.tags.addOne(userTags, newTag);
@@ -53,17 +53,7 @@ function NewTagButton({ tagName, setTagName }: NewTagButtonProps) {
     setIsSaving(false);
   }
 
-  return (
-    <button
-      onClick={handleClick}
-      className="flex items-center gap-2 hover:text-aqua"
-    >
-      <PlusIcon className="shrink-0" />
-      <span className="break-words text-left w-full shrink">
-        Create tag "{tagName.trim()}"
-      </span>
-    </button>
-  );
+  return <CreateTagButton tagName={search} handleClick={handleClick} />;
 }
 
-export default NewTagButton;
+export default NoteCreateTagButton;

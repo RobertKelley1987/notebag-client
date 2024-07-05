@@ -20,7 +20,7 @@ function LogOutButton({ setIsLoading }: LogOutButtonProps) {
       type="submit"
       name="intent"
       value="log out"
-      className="whitespace-nowrap hover:cursor-pointer hover:text-aqua"
+      className="whitespace-nowrap cursor-pointer hover:text-aqua"
       onClick={handleClick}
     >
       Log Out

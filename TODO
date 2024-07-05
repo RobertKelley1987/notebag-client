@@ -1,1 +1,2 @@
-- see if I need to delete error context and ErrorPopUp
+- When I accidentally drag the mouse into the modal, it closes. Why?
+- Auth error handling sucks...

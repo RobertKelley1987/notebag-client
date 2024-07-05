@@ -1,13 +1,18 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { ModalContext } from "../context/ModalContext";
 import { UserNotesContext } from "../context/UserNotesContext";
 import { IsSavingContext } from "../context/IsSavingContext";
+import { NoteContext, DEFAULT } from "../context/NoteContext";
 import { useNoteService } from "../hooks/useNoteService";
 import optimistic from "../lib/optimistic";
 import { isEmpty } from "../lib/strings";
 import Modal from "../components/Modal";
-import type { FormEvent, RefObject } from "react";
-import type { Note } from "../types";
+import NoteTags from "../components/note/NoteTags";
+import NoteOptions from "../components/note/NoteOptions";
+import NoteEditTags from "../components/note/NoteEditTags";
+import NoteDeleteButton from "../components/note/NoteDeleteButton";
+import type { FormEvent, MouseEvent, RefObject } from "react";
+import type { Note, Tag } from "../types";
 
 // Helper to set form values
 function setFormValues(
@@ -32,11 +37,13 @@ function EditNotePage() {
   const notes = useNoteService();
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [tags, setTags] = useState<Tag[]>([]);
 
   // Set form values to selected note values on render
   useEffect(() => {
     if (selectedNote) {
       setFormValues(titleRef, contentRef, selectedNote);
+      setTags(selectedNote.tags);
     }
   }, [selectedNote]);
 
@@ -51,7 +58,7 @@ function EditNotePage() {
     const content = isEmpty(contentVal) ? "" : (contentVal as string);
 
     // Set optimistic notes
-    const updatedNote = { ...selectedNote, title, content };
+    const updatedNote = { ...selectedNote, title, content, tags };
     const optimisticNotes = optimistic.notes.updateOne(userNotes, updatedNote);
     setUserNotes(optimisticNotes);
 
@@ -77,10 +84,7 @@ function EditNotePage() {
         onClick={(e) => e.stopPropagation()}
         className="bg-white w-[250px] p-3 border border-black"
       >
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col items-end w-full"
-        >
+        <form onSubmit={handleSubmit} className="flex flex-col w-full">
           <input
             ref={titleRef}
             type="text"
@@ -96,9 +100,20 @@ function EditNotePage() {
             className="w-full focus:outline-none my-3 empty:before:text-slate-400 empty:before:content-[attr(data-placeholder)]"
             contentEditable
           ></div>
-          <button type="submit" className="w-20 border border-black p-2">
-            Close
-          </button>
+          {<NoteTags tags={tags} />}
+          <div className="flex w-full justify-between items-center">
+            <NoteContext.Provider
+              value={{ note: selectedNote || DEFAULT.note }}
+            >
+              <NoteOptions
+                editTagsForm={<NoteEditTags />}
+                deleteButton={<NoteDeleteButton />}
+              />
+            </NoteContext.Provider>
+            <button type="submit" className="p-1 hover:text-aqua">
+              Close
+            </button>
+          </div>
         </form>
       </div>
     </Modal>

@@ -15,24 +15,9 @@ export function compareTags(a: Tag, b: Tag) {
 }
 
 const optimistic = {
-  tags: {
-    addOne: (tags: Tag[], newTag: Tag) => {
-      const optimisticTags = [...tags, newTag];
-      optimisticTags.sort(compareTags);
-      return optimisticTags;
-    },
-    removeOne: (tags: Tag[], deletedTag: Tag) => {
-      return tags.filter((tag) => tag.id !== deletedTag.id);
-    },
-    updateOne: (tags: Tag[], editedTag: Tag) => {
-      const tagIndex = tags.findIndex((tag) => tag.id === editedTag.id);
-      const optimisticTags = [...tags];
-      optimisticTags.splice(tagIndex, 1, editedTag);
-      return optimisticTags;
-    },
-  },
   notes: {
     addOne: (notes: Note[], newNote: Note) => {
+      console.log(notes);
       return [newNote, ...notes];
     },
     addTag: (notes: Note[], note: Note, tag: Tag) => {
@@ -91,6 +76,23 @@ const optimistic = {
         if (tagIndex !== -1) note.tags.splice(tagIndex, 1, tag);
       });
       return optimisticNotes;
+    },
+  },
+  tags: {
+    addOne: (tags: Tag[], newTag: Tag) => {
+      const optimisticTags = [...tags, newTag];
+      optimisticTags.sort(compareTags);
+      return optimisticTags;
+    },
+    removeOne: (tags: Tag[], deletedTag: Tag) => {
+      return tags.filter((tag) => tag.id !== deletedTag.id);
+    },
+    updateOne: (tags: Tag[], editedTag: Tag) => {
+      const tagIndex = tags.findIndex((tag) => tag.id === editedTag.id);
+      const optimisticTags = [...tags];
+      optimisticTags.splice(tagIndex, 1, editedTag);
+      optimisticTags.sort(compareTags);
+      return optimisticTags;
     },
   },
 };

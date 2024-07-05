@@ -1,12 +1,12 @@
 import { useContext } from "react";
-import { UserNotesContext } from "../../context/UserNotesContext";
-import { UserTagsContext } from "../../context/UserTagsContext";
-import { IsSavingContext } from "../../context/IsSavingContext";
-import { useNoteService } from "../../hooks/useNoteService";
-import { useTagService } from "../../hooks/useTagService";
-import optimistic from "../../lib/optimistic";
-import TrashIcon from "../../components/icons/TrashIcon";
-import type { Tag } from "../../types";
+import { UserNotesContext } from "../../../context/UserNotesContext";
+import { UserTagsContext } from "../../../context/UserTagsContext";
+import { IsSavingContext } from "../../../context/IsSavingContext";
+import { useNoteService } from "../../../hooks/useNoteService";
+import { useTagService } from "../../../hooks/useTagService";
+import optimistic from "../../../lib/optimistic";
+import TrashIcon from "../../../components/icons/TrashIcon";
+import type { Tag } from "../../../types";
 
 type DeleteTagButtonProps = {
   tag: Tag;
@@ -45,7 +45,7 @@ function DeleteTagButton({ tag }: DeleteTagButtonProps) {
       id={`delete-${tag.id}`}
       disabled={isSaving}
       onClick={handleClick}
-      className="disabled:opacity-50 disabled:hover:cursor-auto"
+      className="disabled:opacity-50 disabled:hover:cursor-auto hover:text-aqua"
     >
       <TrashIcon />
     </button>

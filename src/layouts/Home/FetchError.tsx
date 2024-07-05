@@ -1,4 +1,3 @@
-import { Link, useLocation } from "react-router-dom";
 import type { Dispatch, SetStateAction } from "react";
 
 type FetchErrorProps = {
@@ -6,8 +5,6 @@ type FetchErrorProps = {
 };
 
 function FetchError({ setError }: FetchErrorProps) {
-  const location = useLocation();
-
   return (
     <div className="basis-full grow flex justify-center items-center">
       <p className="-translate-y-[50px]">

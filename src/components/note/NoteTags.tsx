@@ -6,6 +6,7 @@ type NoteTagsProps = {
 };
 
 function NoteTags({ tags }: NoteTagsProps) {
+  console.log(tags);
   return (
     <ul className="flex flex-wrap my-2 gap-2">
       {tags.map((tag) => (

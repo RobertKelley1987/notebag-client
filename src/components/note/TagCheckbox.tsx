@@ -16,7 +16,7 @@ function TagCheckbox({ handleChange, tag, isChecked }: TagCheckboxProps) {
     <li>
       <label
         htmlFor={tag.name}
-        className="flex gap-2 hover:cursor-pointer items-center text-black hover:text-aqua"
+        className="flex gap-2 cursor-pointer items-center text-black hover:text-aqua"
       >
         <input
           onChange={handleChange}
@@ -25,7 +25,7 @@ function TagCheckbox({ handleChange, tag, isChecked }: TagCheckboxProps) {
           value={tag.name}
           checked={isChecked}
           disabled={isSaving}
-          className="grid shrink-0 place-content-center w-5 h-5 appearance-none border border-current hover:cursor-pointer checked:before:content-[''] checked:before:w-3 checked:before:h-3 checked:before:bg-aqua"
+          className="grid shrink-0 place-content-center w-5 h-5 appearance-none border border-current cursor-pointer checked:before:content-[''] checked:before:w-3 checked:before:h-3 checked:before:bg-aqua"
         />
         <span>{tag.name}</span>
       </label>

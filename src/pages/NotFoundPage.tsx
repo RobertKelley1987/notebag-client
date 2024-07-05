@@ -10,7 +10,7 @@ function NotFoundPage() {
           <p>We could not find the page you were looking for.</p>
           <Link
             to="/"
-            className="font-semibold p-3 mt-2 border border-black hover:cursor-pointer hover:bg-black hover:text-white"
+            className="font-semibold p-3 mt-2 border border-black cursor-pointer hover:bg-black hover:text-white"
           >
             Return Home
           </Link>

@@ -10,42 +10,45 @@ import Home from "./layouts/Home";
 import Auth from "./layouts/Auth";
 import AuthPage from "./pages/AuthPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import SearchContextProvider from "./context/SearchContextProvider";
 
 function App() {
   return (
     <AuthContextProvider>
-      <UserNotesContextProvider>
-        <UserTagsContextProvider>
-          <Routes>
-            <Route element={<PrivateRoute />}>
-              <Route path="/" element={<Navigate to="/notes" />} />
-              <Route
-                path="/notes"
-                element={
-                  <ModalContextProvider>
-                    <IsSavingContextProvider>
-                      <Home />
-                    </IsSavingContextProvider>
-                  </ModalContextProvider>
-                }
-              />
-            </Route>
+      <Routes>
+        <Route element={<PrivateRoute />}>
+          <Route path="/" element={<Navigate to="/notes" />} />
+          <Route
+            path="/notes"
+            element={
+              <UserNotesContextProvider>
+                <UserTagsContextProvider>
+                  <SearchContextProvider>
+                    <ModalContextProvider>
+                      <IsSavingContextProvider>
+                        <Home />
+                      </IsSavingContextProvider>
+                    </ModalContextProvider>
+                  </SearchContextProvider>
+                </UserTagsContextProvider>
+              </UserNotesContextProvider>
+            }
+          />
+        </Route>
 
-            <Route element={<Auth />}>
-              <Route
-                path="/register"
-                element={<AuthPage heading="Sign Up" authFn={users.register} />}
-              />
-              <Route
-                path="/login"
-                element={<AuthPage heading="Log In" authFn={users.login} />}
-              />
-            </Route>
+        <Route element={<Auth />}>
+          <Route
+            path="/register"
+            element={<AuthPage heading="Sign Up" authFn={users.register} />}
+          />
+          <Route
+            path="/login"
+            element={<AuthPage heading="Log In" authFn={users.login} />}
+          />
+        </Route>
 
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </UserTagsContextProvider>
-      </UserNotesContextProvider>
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
     </AuthContextProvider>
   );
 }

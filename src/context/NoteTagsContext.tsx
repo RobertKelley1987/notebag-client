@@ -3,13 +3,13 @@ import type { Dispatch, SetStateAction } from "react";
 import type { Tag } from "../types";
 
 type NoteTagsContextType = {
-  tags: Tag[];
-  setTags: Dispatch<SetStateAction<Tag[]>>;
+  noteTags: Tag[];
+  setNoteTags: Dispatch<SetStateAction<Tag[]>>;
 };
 
 const DEFAULT = {
-  tags: [],
-  setTags: () => null,
+  noteTags: [],
+  setNoteTags: () => null,
 };
 
 export const NoteTagsContext = createContext<NoteTagsContextType>(DEFAULT);

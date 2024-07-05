@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { createPortal } from "react-dom";
-import type { ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 
 type ModalProps = {
   children: ReactNode;
@@ -13,6 +14,7 @@ function Modal({ children, handleDismiss, rootId, className }: ModalProps) {
   if (className) {
     classNames += " " + className;
   }
+
   return createPortal(
     <div id="modal" onClick={handleDismiss} className={classNames}>
       {children}

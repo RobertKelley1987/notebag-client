@@ -20,7 +20,7 @@ function UserSettings() {
           className="hover:text-aqua"
         />
         {dropdownOpen && (
-          <div className="absolute top-8 right-7 border border-black bg-white p-3">
+          <div className="absolute z-10 top-8 right-7 border border-black bg-white p-3">
             <LogOutButton setIsLoading={setIsLoading} />
           </div>
         )}
@@ -29,9 +29,9 @@ function UserSettings() {
   };
 
   return (
-    <div ref={wrapperRef} className="relative hover:cursor-pointer">
+    <div ref={wrapperRef} className="relative cursor-pointer">
       {isLoading ? (
-        <span className="hover:cursor-auto">Logging out...</span>
+        <span className="cursor-auto">Logging out...</span>
       ) : (
         renderUserSettings()
       )}

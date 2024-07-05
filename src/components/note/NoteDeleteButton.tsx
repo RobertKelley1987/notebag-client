@@ -1,11 +1,12 @@
 import { useContext } from "react";
-import { UserNotesContext } from "../../../context/UserNotesContext";
-import { NoteContext } from "../../../context/NoteContext";
-import { IsSavingContext } from "../../../context/IsSavingContext";
-import { useNoteService } from "../../../hooks/useNoteService";
-import optimistic from "../../../lib/optimistic";
+import { UserNotesContext } from "../../context/UserNotesContext";
+import { NoteContext } from "../../context/NoteContext";
+import { IsSavingContext } from "../../context/IsSavingContext";
+import { useNoteService } from "../../hooks/useNoteService";
+import optimistic from "../../lib/optimistic";
+import DeleteButton from "./DeleteButton";
 
-function DeleteNoteButton() {
+function NoteDeleteButton() {
   const { userNotes, setUserNotes } = useContext(UserNotesContext);
   const { setIsSaving } = useContext(IsSavingContext);
   const currentNote = useContext(NoteContext)?.note;
@@ -33,11 +34,7 @@ function DeleteNoteButton() {
     }
   }
 
-  return (
-    <button onClick={handleClick} className="hover:text-aqua">
-      Delete Note
-    </button>
-  );
+  return <DeleteButton onClick={handleClick} />;
 }
 
-export default DeleteNoteButton;
+export default NoteDeleteButton;

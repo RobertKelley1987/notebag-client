@@ -4,6 +4,7 @@ import MenuIcon from "../../../components/icons/MenuIcon";
 import Logo from "../../../components/Logo";
 import UserSettings from "./UserSettings";
 import type { Dispatch, SetStateAction } from "react";
+import Search from "./Search";
 
 type HeaderProps = {
   setMenuOpen: Dispatch<SetStateAction<boolean>>;
@@ -23,6 +24,7 @@ function Header({ setMenuOpen }: HeaderProps) {
         </button>
         <Logo />
       </div>
+      <Search />
       <div className="flex gap-6">
         {isSaving && <span>Saving...</span>}
         <UserSettings />

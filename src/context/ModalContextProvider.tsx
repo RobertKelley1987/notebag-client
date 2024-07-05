@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ModalContext } from "./ModalContext";
 import EditedTagContextProvider from "./EditedTagContextProvider";
+import TagNameContextProvider from "./TagNameContextProvider";
 import EditNotePage from "../pages/EditNotePage";
 import TagsPage from "../pages/TagsPage";
 import type { ReactNode } from "react";
@@ -14,7 +15,9 @@ const MODAL_PGS = {
   note: <EditNotePage />,
   tags: (
     <EditedTagContextProvider>
-      <TagsPage />
+      <TagNameContextProvider>
+        <TagsPage />
+      </TagNameContextProvider>
     </EditedTagContextProvider>
   ),
 };
@@ -23,10 +26,10 @@ export default function ModalContextProvider({
   children,
 }: ModalContextProviderProps) {
   const [modal, setModal] = useState<Modal>("");
-  const Modal = modal ? MODAL_PGS[modal] : null;
+  const current = modal ? MODAL_PGS[modal] : null;
 
   return (
-    <ModalContext.Provider value={{ Modal, setModal }}>
+    <ModalContext.Provider value={{ modal: current, setModal }}>
       {children}
     </ModalContext.Provider>
   );

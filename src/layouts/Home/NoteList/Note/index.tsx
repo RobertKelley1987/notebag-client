@@ -1,11 +1,12 @@
 import { Fragment, useContext } from "react";
-import { NoteContext } from "../../../context/NoteContext";
-import { UserNotesContext } from "../../../context/UserNotesContext";
-import { ModalContext } from "../../../context/ModalContext";
-import NoteOptions from "../NoteOptions";
-import NoteTags from "../NoteTags";
-import NoteEditTags from "./NoteEditTags";
-import type { Note as NoteType, Tag } from "../../../types";
+import { NoteContext } from "../../../../context/NoteContext";
+import { UserNotesContext } from "../../../../context/UserNotesContext";
+import { ModalContext } from "../../../../context/ModalContext";
+import NoteOptions from "../../../../components/note/NoteOptions";
+import NoteTagsTrimmed from "./NoteTagsTrimmed";
+import NoteEditTags from "../../../../components/note/NoteEditTags";
+import NoteDeleteButton from "../../../../components/note/NoteDeleteButton";
+import type { Note as NoteType } from "../../../../types";
 
 type NoteProps = {
   note: NoteType;
@@ -36,11 +37,14 @@ function Note({ note }: NoteProps) {
   return (
     <NoteContext.Provider value={{ note: note }}>
       <div className="border border-black p-2 has-[article:hover]:bg-aqua has-[a:hover]:border-black">
-        <article onClick={handleClick} className="hover:cursor-pointer">
+        <article onClick={handleClick} className="cursor-pointer">
           {!note.title && !note.content ? emptyNote : noteElement}
-          <NoteTags tags={note.tags} />
+          <NoteTagsTrimmed tags={note.tags} />
         </article>
-        <NoteOptions editTagsForm={<NoteEditTags />} />
+        <NoteOptions
+          editTagsForm={<NoteEditTags />}
+          deleteButton={<NoteDeleteButton />}
+        />
       </div>
     </NoteContext.Provider>
   );
