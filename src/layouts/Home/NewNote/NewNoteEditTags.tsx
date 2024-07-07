@@ -1,4 +1,4 @@
-import EditTags from "../../../components/note/EditTags";
+import EditTags from "../../../components/Note/EditTags";
 import NewNoteTagCheckbox from "./NewNoteTagCheckbox";
 import NewNoteCreateTagButton from "./NewNoteCreateTagButton";
 import type { Dispatch, SetStateAction } from "react";

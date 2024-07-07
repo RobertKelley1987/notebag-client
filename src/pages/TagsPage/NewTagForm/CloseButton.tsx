@@ -1,13 +1,12 @@
 import CloseIcon from "../../../components/icons/CloseIcon";
-import type { Dispatch, SetStateAction } from "react";
 
 type CloseButtonProps = {
-  setFormActive: Dispatch<SetStateAction<boolean>>;
+  resetForm: () => void;
 };
 
-function CloseButton({ setFormActive }: CloseButtonProps) {
+function CloseButton({ resetForm }: CloseButtonProps) {
   return (
-    <button onClick={() => setFormActive(false)} className="hover:text-aqua">
+    <button id="close" onClick={resetForm} className="hover:text-aqua">
       <CloseIcon />
     </button>
   );

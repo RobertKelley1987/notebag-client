@@ -1,18 +1,20 @@
 import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { v4 as uuid } from "uuid";
-import { UserNotesContext } from "../../../context/UserNotesContext";
-import { IsSavingContext } from "../../../context/IsSavingContext";
+import DropdownOpenContextProvider from "../../../context/DropdownOpenContextProvider";
+import EditingTagsContextProvider from "../../../context/EditingTagsContextProvider";
 import { NoteTagsContext } from "../../../context/NoteTagsContext";
+import { UserNotesContext } from "../../../context/UserNotesContext";
+import { FormOpenContext } from "../../../context/FormOpenContext";
+import { IsSavingContext } from "../../../context/IsSavingContext";
 import { useNoteService } from "../../../hooks/useNoteService";
 import { useClickOutside } from "../../../hooks/useClickOutside";
 import { useFoundTag } from "../../../hooks/useFoundTag";
 import { isEmpty } from "../../../lib/strings";
 import optimistic from "../../../lib/optimistic";
-import NoteTags from "../../../components/note/NoteTags";
-import NoteOptions from "../../../components/note/NoteOptions";
+import NoteTags from "../../../components/Note/NoteTags";
+import NoteOptions from "../../../components/Note/NoteOptions";
 import NewNoteEditTags from "./NewNoteEditTags";
 import NewNoteDeleteButton from "./NewNoteDeleteButton";
-import type { FormEvent } from "react";
 import type { Tag } from "../../../types";
 
 type NewNoteFormProps = {
@@ -21,8 +23,8 @@ type NewNoteFormProps = {
 
 function NewNoteForm({ isLoading }: NewNoteFormProps) {
   const { userNotes, setUserNotes } = useContext(UserNotesContext);
+  const { formOpen, setFormOpen } = useContext(FormOpenContext);
   const { setIsSaving } = useContext(IsSavingContext);
-  const [formOpen, setFormOpen] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [noteTags, setNoteTags] = useState<Tag[]>([]);
@@ -41,6 +43,10 @@ function NewNoteForm({ isLoading }: NewNoteFormProps) {
       setNoteTags([]);
     }
   }, [foundTag, formOpen]);
+
+  useEffect(() => {
+    if (formOpen) titleRef.current?.focus();
+  }, [formOpen]);
 
   function resetForm() {
     if (titleRef.current) titleRef.current.value = "";
@@ -73,11 +79,6 @@ function NewNoteForm({ isLoading }: NewNoteFormProps) {
     setFormOpen(false);
   }
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    await submit();
-  }
-
   const formBottom = (
     <Fragment>
       <div
@@ -85,46 +86,66 @@ function NewNoteForm({ isLoading }: NewNoteFormProps) {
         id="content"
         contentEditable
         data-placeholder="new note..."
-        className="w-full focus:outline-none my-3 empty:before:text-slate-400 empty:before:content-[attr(data-placeholder)] hover:cursor-text"
+        className="w-full focus:outline-none mt-3 mb-4 empty:before:text-slate-400 empty:before:content-[attr(data-placeholder)] hover:cursor-text"
       ></div>
       <NoteTags tags={noteTags} />
-      <div className="flex w-full justify-between items-center">
-        <NoteTagsContext.Provider value={{ noteTags, setNoteTags }}>
-          <NoteOptions
-            editTagsForm={<NewNoteEditTags />}
-            deleteButton={<NewNoteDeleteButton resetForm={resetForm} />}
-          />
-        </NoteTagsContext.Provider>
-        <button type="submit" className="p-1 w-min hover:text-aqua">
-          Close
-        </button>
-      </div>
     </Fragment>
   );
 
+  const options = (
+    <div className="flex w-full justify-between items-center">
+      <NoteTagsContext.Provider value={{ noteTags, setNoteTags }}>
+        <DropdownOpenContextProvider>
+          <EditingTagsContextProvider>
+            <NoteOptions
+              editTagsForm={<NewNoteEditTags />}
+              deleteButton={<NewNoteDeleteButton resetForm={resetForm} />}
+            />
+          </EditingTagsContextProvider>
+        </DropdownOpenContextProvider>
+      </NoteTagsContext.Provider>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          submit();
+        }}
+        type="submit"
+        className="p-1 w-min hover:text-aqua"
+      >
+        Close
+      </button>
+    </div>
+  );
+
+  let wrapperClassName =
+    "group fixed sm:static z-20 w-screen sm:w-[300px] bg-white h-screen sm:h-auto left-0 top-0 sm:mt-6 p-3 sm:border border-black";
+  if (!formOpen)
+    wrapperClassName += " hidden sm:block cursor-pointer hover:bg-aqua";
+
   return (
     <div
+      className={wrapperClassName}
       ref={wrapperRef}
       onClick={() => setFormOpen(true)}
-      className={`group w-[300px] mt-6 p-3 border border-black ${
-        !formOpen && "cursor-pointer hover:bg-aqua"
-      }`}
     >
-      <form onSubmit={handleSubmit} className="flex flex-col w-full">
-        <input
-          ref={titleRef}
-          type="text"
-          name="title"
-          id="title"
-          className={`w-full focus:outline-none ${
-            formOpen
-              ? "font-semibold placeholder:text-slate-400"
-              : "cursor-pointer placeholder:text-black group-hover:bg-aqua"
-          }`}
-          placeholder={formOpen ? "title" : "new note..."}
-        />
-        {formOpen && formBottom}
-      </form>
+      <div className="grid grid-rows-[auto_min-content] w-full h-full">
+        <div>
+          <input
+            ref={titleRef}
+            type="text"
+            name="title"
+            id="title"
+            className={`w-full focus:outline-none ${
+              formOpen
+                ? "font-semibold placeholder:text-slate-400"
+                : "cursor-pointer placeholder:text-black group-hover:bg-aqua"
+            }`}
+            placeholder={formOpen ? "title" : "new note..."}
+          />
+          {formOpen && formBottom}
+        </div>
+        {formOpen && options}
+      </div>
     </div>
   );
 }

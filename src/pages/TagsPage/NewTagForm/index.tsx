@@ -8,7 +8,7 @@ import { isEmpty } from "../../../lib/strings";
 import NewTagButton from "./NewTagButton";
 import CloseButton from "./CloseButton";
 import OpenButton from "./OpenButton";
-import type { FocusEvent, KeyboardEvent } from "react";
+import type { MouseEvent, FocusEvent, KeyboardEvent } from "react";
 
 function NewTagForm() {
   const { userTags, setUserTags } = useContext(UserTagsContext);
@@ -61,7 +61,9 @@ function NewTagForm() {
   }
 
   function handleBlur(e: FocusEvent<HTMLInputElement, Element>) {
-    if (e.relatedTarget?.id === "submit") return;
+    const clickedSubmit = e.relatedTarget?.id === "submit";
+    const clickedClose = e.relatedTarget?.id === "close";
+    if (clickedSubmit || clickedClose) return;
     setFormActive(false);
   }
 
@@ -69,11 +71,17 @@ function NewTagForm() {
     if (e.key === "Enter") submit();
   }
 
+  function resetForm() {
+    const input = tagRef.current;
+    if (input) input.value = "";
+    setFormActive(false);
+  }
+
   return (
     <Fragment>
       <div className="flex gap-3">
         {formActive ? (
-          <CloseButton setFormActive={setFormActive} />
+          <CloseButton resetForm={resetForm} />
         ) : (
           <OpenButton setFormActive={setFormActive} />
         )}

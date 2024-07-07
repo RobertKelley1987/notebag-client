@@ -10,7 +10,7 @@ import Home from "./layouts/Home";
 import Auth from "./layouts/Auth";
 import AuthPage from "./pages/AuthPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import SearchContextProvider from "./context/SearchContextProvider";
+import FormOpenContextProvider from "./context/FormOpenContextProvider";
 
 function App() {
   return (
@@ -23,13 +23,13 @@ function App() {
             element={
               <UserNotesContextProvider>
                 <UserTagsContextProvider>
-                  <SearchContextProvider>
-                    <ModalContextProvider>
-                      <IsSavingContextProvider>
+                  <ModalContextProvider>
+                    <IsSavingContextProvider>
+                      <FormOpenContextProvider>
                         <Home />
-                      </IsSavingContextProvider>
-                    </ModalContextProvider>
-                  </SearchContextProvider>
+                      </FormOpenContextProvider>
+                    </IsSavingContextProvider>
+                  </ModalContextProvider>
                 </UserTagsContextProvider>
               </UserNotesContextProvider>
             }

@@ -7,12 +7,14 @@ import { useNoteService } from "../hooks/useNoteService";
 import optimistic from "../lib/optimistic";
 import { isEmpty } from "../lib/strings";
 import Modal from "../components/Modal";
-import NoteTags from "../components/note/NoteTags";
-import NoteOptions from "../components/note/NoteOptions";
-import NoteEditTags from "../components/note/NoteEditTags";
-import NoteDeleteButton from "../components/note/NoteDeleteButton";
-import type { FormEvent, MouseEvent, RefObject } from "react";
+import NoteTags from "../components/Note/NoteTags";
+import NoteOptions from "../components/Note/NoteOptions";
+import NoteEditTags from "../components/Note/NoteEditTags";
+import NoteDeleteButton from "../components/Note/NoteDeleteButton";
+import type { FormEvent, RefObject } from "react";
 import type { Note, Tag } from "../types";
+import EditingTagsContextProvider from "../context/EditingTagsContextProvider";
+import DropdownOpenContextProvider from "../context/DropdownOpenContextProvider";
 
 // Helper to set form values
 function setFormValues(
@@ -79,7 +81,7 @@ function EditNotePage() {
   }
 
   return (
-    <Modal rootId="modal" handleDismiss={submit}>
+    <Modal handleDismiss={submit}>
       <div
         onClick={(e) => e.stopPropagation()}
         className="bg-white w-[250px] p-3 border border-black"
@@ -100,15 +102,19 @@ function EditNotePage() {
             className="w-full focus:outline-none my-3 empty:before:text-slate-400 empty:before:content-[attr(data-placeholder)]"
             contentEditable
           ></div>
-          {<NoteTags tags={tags} />}
+          <NoteTags tags={tags} />
           <div className="flex w-full justify-between items-center">
             <NoteContext.Provider
               value={{ note: selectedNote || DEFAULT.note }}
             >
-              <NoteOptions
-                editTagsForm={<NoteEditTags />}
-                deleteButton={<NoteDeleteButton />}
-              />
+              <DropdownOpenContextProvider>
+                <EditingTagsContextProvider>
+                  <NoteOptions
+                    editTagsForm={<NoteEditTags />}
+                    deleteButton={<NoteDeleteButton />}
+                  />
+                </EditingTagsContextProvider>
+              </DropdownOpenContextProvider>
             </NoteContext.Provider>
             <button type="submit" className="p-1 hover:text-aqua">
               Close

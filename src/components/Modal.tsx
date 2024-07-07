@@ -5,12 +5,11 @@ import type { MouseEvent, ReactNode } from "react";
 type ModalProps = {
   children: ReactNode;
   handleDismiss: (e: React.MouseEvent<HTMLDivElement>) => void;
-  rootId: string;
   className?: string;
 };
 
-function Modal({ children, handleDismiss, rootId, className }: ModalProps) {
-  let classNames = `fixed top-0 left-0 h-screen w-screen bg-black bg-opacity-50 flex justify-center items-center`;
+function Modal({ children, handleDismiss, className }: ModalProps) {
+  let classNames = `fixed top-0 left-0 h-screen w-screen bg-black bg-opacity-50 flex justify-center items-center z-20`;
   if (className) {
     classNames += " " + className;
   }
@@ -19,7 +18,7 @@ function Modal({ children, handleDismiss, rootId, className }: ModalProps) {
     <div id="modal" onClick={handleDismiss} className={classNames}>
       {children}
     </div>,
-    document.getElementById(rootId) as HTMLElement
+    document.getElementById("modal") as HTMLElement
   );
 }
 

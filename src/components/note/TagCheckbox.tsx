@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { NoteContext } from "../../context/NoteContext";
 import { IsSavingContext } from "../../context/IsSavingContext";
 import type { Tag } from "../../types";
 
@@ -15,6 +14,7 @@ function TagCheckbox({ handleChange, tag, isChecked }: TagCheckboxProps) {
   return (
     <li>
       <label
+        onClick={(e) => e.stopPropagation()}
         htmlFor={tag.name}
         className="flex gap-2 cursor-pointer items-center text-black hover:text-aqua"
       >

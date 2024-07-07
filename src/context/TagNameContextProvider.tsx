@@ -28,10 +28,13 @@ export default function TagNameContextProvider({
   // Function to change a tag name throughout app.
   // Callback arg required after update completes.
   async function updateTagName(editedTag: Tag, closeFn: () => void) {
+    // If name is empty, do nothing and return.
+    const newName = editedTag.name.trim();
+    if (!newName) return closeFn();
+
     // Confirm name has been altered. If not, return.
     const tagIndex = userTags.findIndex((tag) => tag.id === editedTag.id);
     const oldName = userTags[tagIndex].name.trim();
-    const newName = editedTag.name.trim();
     if (oldName === newName) return closeFn();
 
     // Set optimistic tags and notes

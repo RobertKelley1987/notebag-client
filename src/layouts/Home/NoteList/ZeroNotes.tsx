@@ -12,7 +12,7 @@ function ZeroNotes() {
 
   return (
     <div className="basis-full grow flex justify-center items-center">
-      <p className="-translate-y-[50px]">{renderMessage()}</p>
+      <p className="text-center -translate-y-[50px]">{renderMessage()}</p>
     </div>
   );
 }

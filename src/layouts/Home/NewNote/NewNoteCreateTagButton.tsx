@@ -5,7 +5,7 @@ import { IsSavingContext } from "../../../context/IsSavingContext";
 import { NoteTagsContext } from "../../../context/NoteTagsContext";
 import { useTagService } from "../../../hooks/useTagService";
 import optimistic, { compareTags } from "../../../lib/optimistic";
-import CreateTagButton from "../../../components/note/CreateTagButton";
+import CreateTagButton from "../../../components/Note/CreateTagButton";
 import type { Dispatch, MouseEvent, SetStateAction } from "react";
 
 type NewNoteCreateTagButtonProps = {

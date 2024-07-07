@@ -3,8 +3,9 @@ import { IsSavingContext } from "../../../context/IsSavingContext";
 import MenuIcon from "../../../components/icons/MenuIcon";
 import Logo from "../../../components/Logo";
 import UserSettings from "./UserSettings";
+import Searchbar from "./Searchbar";
+import SearchLink from "./SearchLink";
 import type { Dispatch, SetStateAction } from "react";
-import Search from "./Search";
 
 type HeaderProps = {
   setMenuOpen: Dispatch<SetStateAction<boolean>>;
@@ -24,10 +25,13 @@ function Header({ setMenuOpen }: HeaderProps) {
         </button>
         <Logo />
       </div>
-      <Search />
+      <Searchbar />
       <div className="flex gap-6">
         {isSaving && <span>Saving...</span>}
-        <UserSettings />
+        <div className="flex gap-3">
+          <SearchLink />
+          <UserSettings />
+        </div>
       </div>
     </header>
   );

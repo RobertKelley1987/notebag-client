@@ -1,2 +1,9 @@
 - When I accidentally drag the mouse into the modal, it closes. Why?
-- Auth error handling sucks...
+- When user navigates away from search, does it clear the search bar?
+- CSS for search bar sucks
+- Search might want "search in this label" feature
+- Search should include results where search term is in a label.
+- Break note content into its own element so that I can highlight search terms.
+  Will need to use "dangerously set inner html", and "dompurify" package.
+  https://www.npmjs.com/package/dompurify OR https://www.npmjs.com/package/interweave.
+  - Consider making a demo account.

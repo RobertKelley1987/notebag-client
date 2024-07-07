@@ -22,7 +22,7 @@ function TagsPage() {
   }
 
   return (
-    <Modal rootId="modal" handleDismiss={handleDismiss}>
+    <Modal handleDismiss={handleDismiss}>
       <div
         onClick={(e) => e.stopPropagation()}
         className="flex flex-col gap-3 font-ibm text-black w-[275px] max-h-[350px] overflow-y-auto my-6 p-4 bg-white border border-black"

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { NoteTagsContext } from "../../../context/NoteTagsContext";
-import TagCheckbox from "../../../components/note/TagCheckbox";
+import TagCheckbox from "../../../components/Note/TagCheckbox";
 import type { Tag } from "../../../types";
 import { compareTags } from "../../../lib/optimistic";
 

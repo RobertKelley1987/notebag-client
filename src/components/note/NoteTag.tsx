@@ -4,6 +4,8 @@ type NoteTagProps = {
   name: string;
 };
 
+// e.stopPropagation() prevents edit note form from opening when this link is clicked inside
+// a note.
 function NoteTag({ name }: NoteTagProps) {
   return (
     <li className="max-w-full flex">

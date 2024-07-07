@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { ModalContext } from "./ModalContext";
 import EditedTagContextProvider from "./EditedTagContextProvider";
 import TagNameContextProvider from "./TagNameContextProvider";
@@ -27,6 +28,12 @@ export default function ModalContextProvider({
 }: ModalContextProviderProps) {
   const [modal, setModal] = useState<Modal>("");
   const current = modal ? MODAL_PGS[modal] : null;
+  const location = useLocation();
+
+  // If user clicks on a tag link, close current modal.
+  useEffect(() => {
+    setModal("");
+  }, [location]);
 
   return (
     <ModalContext.Provider value={{ modal: current, setModal }}>

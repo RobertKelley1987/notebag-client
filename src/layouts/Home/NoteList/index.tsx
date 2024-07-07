@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { useSearchParams } from "react-router-dom";
 import { UserNotesContext } from "../../../context/UserNotesContext";
-import NoteGrid from "../../../components/note/NoteGrid";
+import NoteGrid from "../../../components/NoteGrid";
 import ZeroNotes from "./ZeroNotes";
 import type { Note as NoteType } from "../../../types";
 

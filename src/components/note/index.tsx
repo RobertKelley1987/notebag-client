@@ -1,12 +1,15 @@
 import { Fragment, useContext } from "react";
-import { NoteContext } from "../../../../context/NoteContext";
-import { UserNotesContext } from "../../../../context/UserNotesContext";
-import { ModalContext } from "../../../../context/ModalContext";
-import NoteOptions from "../../../../components/note/NoteOptions";
+import DropdownOpenContextProvider from "../../context/DropdownOpenContextProvider";
+import EditingTagsContextProvider from "../../context/EditingTagsContextProvider";
+import { NoteContext } from "../../context/NoteContext";
+import { UserNotesContext } from "../../context/UserNotesContext";
+import { ModalContext } from "../../context/ModalContext";
+import { useScreenSize } from "../../hooks/useScreenSize";
+import NoteOptions from "./NoteOptions";
 import NoteTagsTrimmed from "./NoteTagsTrimmed";
-import NoteEditTags from "../../../../components/note/NoteEditTags";
-import NoteDeleteButton from "../../../../components/note/NoteDeleteButton";
-import type { Note as NoteType } from "../../../../types";
+import NoteEditTags from "./NoteEditTags";
+import NoteDeleteButton from "./NoteDeleteButton";
+import type { Note as NoteType } from "../../types";
 
 type NoteProps = {
   note: NoteType;
@@ -15,6 +18,7 @@ type NoteProps = {
 function Note({ note }: NoteProps) {
   const { setSelected } = useContext(UserNotesContext);
   const { setModal } = useContext(ModalContext);
+  const { isSmallScreen } = useScreenSize();
 
   const handleClick = () => {
     setSelected(note.id);
@@ -41,10 +45,15 @@ function Note({ note }: NoteProps) {
           {!note.title && !note.content ? emptyNote : noteElement}
           <NoteTagsTrimmed tags={note.tags} />
         </article>
-        <NoteOptions
-          editTagsForm={<NoteEditTags />}
-          deleteButton={<NoteDeleteButton />}
-        />
+        <DropdownOpenContextProvider>
+          <EditingTagsContextProvider>
+            <NoteOptions
+              editTagsForm={<NoteEditTags />}
+              deleteButton={<NoteDeleteButton />}
+              hideOptions={true}
+            />
+          </EditingTagsContextProvider>
+        </DropdownOpenContextProvider>
       </div>
     </NoteContext.Provider>
   );

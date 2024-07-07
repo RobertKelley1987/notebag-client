@@ -58,7 +58,7 @@ function AuthPage({ heading, authFn }: AuthPageProps) {
       <h1 className="font-bold text-5xl lowercase mb-6">{heading}</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <label htmlFor="email" className="leading-4">
+          <label htmlFor="email" className="leading-4 lowercase">
             Email
           </label>
           <input
@@ -71,7 +71,7 @@ function AuthPage({ heading, authFn }: AuthPageProps) {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="password" className="leading-4">
+          <label htmlFor="password" className="leading-4 lowercase">
             Password
           </label>
           <input
@@ -86,7 +86,7 @@ function AuthPage({ heading, authFn }: AuthPageProps) {
         <button
           disabled={!form.email || !form.password || isLoading}
           type="submit"
-          className="font-semibold w-full p-3 mt-2 border border-black cursor-pointer hover:bg-aqua disabled:opacity-50 disabled:hover:cursor-auto disabled:bg-aqua disabled:hover:text-black"
+          className="lowercase font-semibold w-full p-3 mt-2 border border-black cursor-pointer hover:bg-aqua disabled:opacity-50 disabled:hover:cursor-auto disabled:bg-aqua disabled:hover:text-black"
         >
           {isLoading ? "Authorizing..." : "Submit"}
         </button>

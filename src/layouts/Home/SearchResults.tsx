@@ -1,10 +1,9 @@
-import { useContext } from "react";
-import { SearchContext } from "../../context/SearchContext";
-import NoteGrid from "../../components/note/NoteGrid";
+import { useSearch } from "../../hooks/useSearch";
+import NoteGrid from "../../components/NoteGrid";
 import ZeroResults from "./ZeroResults";
 
 function SearchResults() {
-  const { results } = useContext(SearchContext);
+  const { results } = useSearch();
 
   return results.length > 0 ? <NoteGrid notes={results} /> : <ZeroResults />;
 }

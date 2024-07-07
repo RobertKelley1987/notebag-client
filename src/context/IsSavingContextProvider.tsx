@@ -2,11 +2,11 @@ import { useState } from "react";
 import { IsSavingContext } from "./IsSavingContext";
 import type { ReactNode } from "react";
 
-type IsSavingProviderProps = {
+type IsSavingContextProviderProps = {
   children: ReactNode;
 };
 
-function IsSavingContextProvider({ children }: IsSavingProviderProps) {
+function IsSavingContextProvider({ children }: IsSavingContextProviderProps) {
   const [isSaving, setIsSaving] = useState(false);
 
   return (
