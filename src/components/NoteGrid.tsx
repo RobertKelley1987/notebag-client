@@ -8,7 +8,7 @@ type NoteGridProps = {
 
 function NoteGrid({ notes }: NoteGridProps) {
   return (
-    <div className="w-full my-6">
+    <div className="w-full mb-6 mt-0 sm:mt-6">
       <ResponsiveMasonry columnsCountBreakPoints={{ 750: 2, 900: 3, 1100: 4 }}>
         <Masonry gutter="1rem">
           {notes.map((note) => (

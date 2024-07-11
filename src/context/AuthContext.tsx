@@ -1,18 +1,25 @@
-import { createContext } from "react";
-import type { Dispatch, SetStateAction } from "react";
-
-type AuthState = {
-  accessToken: string;
-};
+import { createContext, useState } from "react";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 
 type AuthContextType = {
-  auth: AuthState;
-  setAuth: Dispatch<SetStateAction<AuthState>>;
+  accessToken: string;
+  setAccessToken: Dispatch<SetStateAction<string>>;
 };
 
-const DEFAULT = {
-  auth: { accessToken: "" },
-  setAuth: () => null,
+export const AuthContext = createContext<AuthContextType | null>(null);
+
+type AuthContextProviderProps = {
+  children: ReactNode;
 };
 
-export const AuthContext = createContext<AuthContextType>(DEFAULT);
+export default function AuthContextProvider({
+  children,
+}: AuthContextProviderProps) {
+  const [accessToken, setAccessToken] = useState("");
+
+  return (
+    <AuthContext.Provider value={{ accessToken, setAccessToken }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}

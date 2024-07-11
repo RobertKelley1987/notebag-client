@@ -1,40 +1,19 @@
-import { useContext } from "react";
-import { UserNotesContext } from "../../context/UserNotesContext";
-import { NoteContext } from "../../context/NoteContext";
-import { IsSavingContext } from "../../context/IsSavingContext";
-import { useNoteService } from "../../hooks/useNoteService";
-import optimistic from "../../lib/optimistic";
-import DeleteButton from "./DeleteButton";
+import { useDeleteNote } from "../../hooks/useDeleteNote";
+import type { MouseEvent } from "react";
 
 function NoteDeleteButton() {
-  const { userNotes, setUserNotes } = useContext(UserNotesContext);
-  const { setIsSaving } = useContext(IsSavingContext);
-  const currentNote = useContext(NoteContext)?.note;
-  const notes = useNoteService();
+  const deleteNote = useDeleteNote();
 
-  async function handleClick() {
-    if (!currentNote) return;
-
-    const { error } = await notes.delete(currentNote.id);
-    if (!error) {
-      // Set optimistic notes
-      const optimisticNotes = optimistic.notes.removeOne(
-        userNotes,
-        currentNote
-      );
-      setUserNotes(optimisticNotes);
-
-      // Set saving state.
-      setIsSaving(true);
-
-      // Delete note from db and set updated notes
-      const data = await notes.findAll();
-      setUserNotes(data.notes);
-      setIsSaving(false);
-    }
+  function handleClick(e: MouseEvent) {
+    e.stopPropagation();
+    deleteNote();
   }
 
-  return <DeleteButton onClick={handleClick} />;
+  return (
+    <button onClick={handleClick} className="hover:text-aqua px-3 sm:px-0">
+      Delete Note
+    </button>
+  );
 }
 
 export default NoteDeleteButton;

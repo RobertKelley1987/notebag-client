@@ -1,6 +1,6 @@
-import { useContext, useEffect, useRef } from "react";
-import { EditedTagContext } from "../../../context/EditedTagContext";
-import { TagNameContext } from "../../../context/TagNameContext";
+import { useEffect, useRef } from "react";
+import { useEditedTag } from "../../../hooks/useEditedTag";
+import { useUpdateTag } from "../../../hooks/useUpdateTag";
 import type { ChangeEvent, FocusEvent, KeyboardEvent } from "react";
 import type { Tag } from "../../../types";
 
@@ -9,14 +9,12 @@ type TagInputProps = {
 };
 
 function TagInput({ tag }: TagInputProps) {
-  const { updateTagName } = useContext(TagNameContext);
-  const { editedTag, setEditedTag } = useContext(EditedTagContext);
+  const { editedTag, setEditedTag } = useEditedTag();
+  const updateTag = useUpdateTag();
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (editedTag?.id === tag.id) {
-      inputRef.current?.focus();
-    }
+    if (editedTag?.id === tag.id) inputRef.current?.focus();
   }, [editedTag]);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -25,7 +23,7 @@ function TagInput({ tag }: TagInputProps) {
 
   function handleKeyUp(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") {
-      editedTag && updateTagName(editedTag, () => setEditedTag(null));
+      editedTag && updateTag(editedTag, () => setEditedTag(null));
     }
   }
 

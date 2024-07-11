@@ -1,21 +1,20 @@
-import { useContext } from "react";
-import { IsSavingContext } from "../../context/IsSavingContext";
-import { EditedTagContext } from "../../context/EditedTagContext";
-import { ModalContext } from "../../context/ModalContext";
-import { TagNameContext } from "../../context/TagNameContext";
+import { useIsSaving } from "../../hooks/useIsSaving";
+import { useEditedTag } from "../../hooks/useEditedTag";
+import { useModal } from "../../hooks/useModal";
+import { useUpdateTag } from "../../hooks/useUpdateTag";
 import Modal from "../../components/Modal";
 import NewTagForm from "./NewTagForm";
 import TagList from "./TagList";
 
 function TagsPage() {
-  const { isSaving } = useContext(IsSavingContext);
-  const { editedTag } = useContext(EditedTagContext);
-  const { setModal } = useContext(ModalContext);
-  const { updateTagName } = useContext(TagNameContext);
+  const { editedTag } = useEditedTag();
+  const { setModal } = useModal();
+  const { isSaving } = useIsSaving();
+  const updateTag = useUpdateTag();
 
   function handleDismiss() {
     if (editedTag) {
-      updateTagName(editedTag, () => setModal(""));
+      updateTag(editedTag, () => setModal(""));
     } else {
       setModal("");
     }

@@ -1,5 +1,5 @@
 import type { AxiosInstance } from "axios";
-import type { Tag } from "../types";
+import type { Note, Tag } from "../types";
 
 class NoteService {
   api: AxiosInstance;
@@ -10,33 +10,25 @@ class NoteService {
     this.controller = new AbortController();
   }
 
-  async create(noteId: string, title?: string, content?: string, tags?: Tag[]) {
-    if (!title && !content) {
+  async create(note: Note) {
+    if (!note.title && !note.content) {
       return;
     }
 
-    if (!noteId) {
+    if (!note.id) {
       throw new Error("Note id required to create note.");
     }
 
-    const { data } = await this.api.post("/notes", {
-      noteId,
-      title,
-      content,
-      tags,
-    });
+    const { data } = await this.api.post("/notes", note);
     return data;
   }
 
-  async update(noteId: string, title?: string, content?: string) {
-    if (!noteId) {
+  async update(note: Note) {
+    if (!note.id) {
       return;
     }
 
-    const { data } = await this.api.put(`/notes/${noteId}`, {
-      title,
-      content,
-    });
+    const { data } = await this.api.put(`/notes/${note.id}`, note);
     return data;
   }
 

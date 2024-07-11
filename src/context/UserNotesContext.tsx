@@ -1,5 +1,5 @@
-import { createContext } from "react";
-import type { Dispatch, SetStateAction } from "react";
+import { createContext, useState } from "react";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 import type { Note } from "../types";
 
 type UserNotesContextType = {
@@ -9,11 +9,25 @@ type UserNotesContextType = {
   setUserNotes: Dispatch<SetStateAction<Note[]>>;
 };
 
-const DEFAULT = {
-  selected: "",
-  setSelected: () => null,
-  userNotes: [],
-  setUserNotes: () => null,
+export const UserNotesContext = createContext<UserNotesContextType | null>(
+  null
+);
+
+type UserNotesContextProviderProps = {
+  children: ReactNode;
 };
 
-export const UserNotesContext = createContext<UserNotesContextType>(DEFAULT);
+function UserNotesContextProvider({ children }: UserNotesContextProviderProps) {
+  const [userNotes, setUserNotes] = useState<Note[]>([]);
+  const [selected, setSelected] = useState("");
+
+  return (
+    <UserNotesContext.Provider
+      value={{ userNotes, setUserNotes, selected, setSelected }}
+    >
+      {children}
+    </UserNotesContext.Provider>
+  );
+}
+
+export default UserNotesContextProvider;

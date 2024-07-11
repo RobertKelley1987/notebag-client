@@ -1,6 +1,5 @@
-import { useContext } from "react";
 import { useSearchParams } from "react-router-dom";
-import { UserNotesContext } from "../../../context/UserNotesContext";
+import { useUserNotes } from "../../../hooks/useUserNotes";
 import NoteGrid from "../../../components/NoteGrid";
 import ZeroNotes from "./ZeroNotes";
 import type { Note as NoteType } from "../../../types";
@@ -11,7 +10,7 @@ function noteHasTag(note: NoteType, tagName: string) {
 }
 
 function NoteList() {
-  let { userNotes } = useContext(UserNotesContext);
+  let { userNotes } = useUserNotes();
   const [searchParams] = useSearchParams();
   const tagFilter = searchParams.get("tag");
 

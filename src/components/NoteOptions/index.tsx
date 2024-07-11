@@ -1,12 +1,11 @@
-import { useContext } from "react";
-import { DropdownOpenContext } from "../../context/DropdownOpenContext";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { useScreenSize } from "../../hooks/useScreenSize";
+import { useDropdown } from "../../hooks/useDropdown";
 import NoteDropdown from "./NoteDropdown";
 import Modal from "../Modal";
 import MoreIcon from "../icons/MoreIcon";
 import type { ReactNode } from "react";
-import { EditingTagsContext } from "../../context/EditingTagsContext";
+import TagSearchContextProvider from "../../context/TagSearchContext";
 
 type NoteOptionsProps = {
   editTagsForm: ReactNode;
@@ -19,12 +18,10 @@ function NoteOptions({
   deleteButton,
   hideOptions,
 }: NoteOptionsProps) {
-  const { editingTags, setEditingTags } = useContext(EditingTagsContext);
-  const { dropdownOpen, setDropdownOpen } = useContext(DropdownOpenContext);
+  const { dropdownOpen, setDropdownOpen, editingTags, setEditingTags } =
+    useDropdown();
   const { isSmallScreen } = useScreenSize();
   const { wrapperRef } = useClickOutside(handleClick);
-
-  console.log("EDITING: " + editingTags);
 
   function handleClick() {
     setDropdownOpen(false);
@@ -47,7 +44,11 @@ function NoteOptions({
     </div>
   );
 
-  const options = editingTags ? editTagsForm : optionButtons;
+  const options = editingTags ? (
+    <TagSearchContextProvider>{editTagsForm}</TagSearchContextProvider>
+  ) : (
+    optionButtons
+  );
   const dropdown = <NoteDropdown>{options}</NoteDropdown>;
   const modal = (
     <Modal handleDismiss={() => setDropdownOpen(false)}>{options}</Modal>
@@ -61,16 +62,19 @@ function NoteOptions({
     }
   }
 
-  const classNames = hideOptions
+  const wrapperClassNames = hideOptions
     ? "hidden sm:flex justify-end"
     : "flex justify-end";
 
   return (
-    <div className={classNames}>
+    <div className={wrapperClassNames}>
       <div ref={wrapperRef} className="relative">
         <MoreIcon
           className="cursor-pointer hover:text-aqua"
-          onClick={() => setDropdownOpen((prev) => !prev)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setDropdownOpen((prev) => !prev);
+          }}
         />
         {renderOptions()}
       </div>

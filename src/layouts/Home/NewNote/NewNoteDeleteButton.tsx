@@ -1,17 +1,19 @@
-import DeleteButton from "../../../components/Note/DeleteButton";
+import { useResetNoteForm } from "../../../hooks/useResetNoteForm";
 import type { MouseEvent } from "react";
 
-type NewNoteDeleteButtonProps = {
-  resetForm: () => void;
-};
+function NewNoteDeleteButton() {
+  const resetNoteForm = useResetNoteForm();
 
-function NewNoteDeleteButton({ resetForm }: NewNoteDeleteButtonProps) {
   function handleClick(e: MouseEvent) {
     e.stopPropagation();
-    resetForm();
+    resetNoteForm();
   }
 
-  return <DeleteButton onClick={handleClick} className="px-3 sm:px-0" />;
+  return (
+    <button onClick={handleClick} className="hover:text-aqua px-3 sm:px-0">
+      Delete Note
+    </button>
+  );
 }
 
 export default NewNoteDeleteButton;

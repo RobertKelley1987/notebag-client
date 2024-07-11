@@ -1,11 +1,9 @@
-import { Fragment, useContext } from "react";
-import DropdownOpenContextProvider from "../../context/DropdownOpenContextProvider";
-import EditingTagsContextProvider from "../../context/EditingTagsContextProvider";
+import { Fragment } from "react";
+import DropdownContextProvider from "../../context/DropdownContext";
 import { NoteContext } from "../../context/NoteContext";
-import { UserNotesContext } from "../../context/UserNotesContext";
-import { ModalContext } from "../../context/ModalContext";
-import { useScreenSize } from "../../hooks/useScreenSize";
-import NoteOptions from "./NoteOptions";
+import { useUserNotes } from "../../hooks/useUserNotes";
+import { useModal } from "../../hooks/useModal";
+import NoteOptions from "../NoteOptions";
 import NoteTagsTrimmed from "./NoteTagsTrimmed";
 import NoteEditTags from "./NoteEditTags";
 import NoteDeleteButton from "./NoteDeleteButton";
@@ -16,13 +14,12 @@ type NoteProps = {
 };
 
 function Note({ note }: NoteProps) {
-  const { setSelected } = useContext(UserNotesContext);
-  const { setModal } = useContext(ModalContext);
-  const { isSmallScreen } = useScreenSize();
+  const { setSelected } = useUserNotes();
+  const { setModal } = useModal();
 
   const handleClick = () => {
     setSelected(note.id);
-    setModal("note");
+    setModal("editNote");
   };
 
   const noteElement = (
@@ -45,15 +42,13 @@ function Note({ note }: NoteProps) {
           {!note.title && !note.content ? emptyNote : noteElement}
           <NoteTagsTrimmed tags={note.tags} />
         </article>
-        <DropdownOpenContextProvider>
-          <EditingTagsContextProvider>
-            <NoteOptions
-              editTagsForm={<NoteEditTags />}
-              deleteButton={<NoteDeleteButton />}
-              hideOptions={true}
-            />
-          </EditingTagsContextProvider>
-        </DropdownOpenContextProvider>
+        <DropdownContextProvider>
+          <NoteOptions
+            editTagsForm={<NoteEditTags />}
+            deleteButton={<NoteDeleteButton />}
+            hideOptions={true}
+          />
+        </DropdownContextProvider>
       </div>
     </NoteContext.Provider>
   );

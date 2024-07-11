@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { AxiosError } from "axios";
 import type { ChangeEvent, FormEvent } from "react";
 import type { User } from "../../types";
-import { AxiosError } from "axios";
 
 type AuthPageProps = {
   heading: string;
@@ -14,7 +14,7 @@ function AuthPage({ heading, authFn }: AuthPageProps) {
   const [form, setForm] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const { setAuth } = useAuth();
+  const { setAccessToken } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -37,18 +37,17 @@ function AuthPage({ heading, authFn }: AuthPageProps) {
 
     try {
       const { accessToken } = await authFn(form);
-      setAuth((prev) => {
-        return { ...prev, accessToken };
-      });
+      setAccessToken(accessToken);
       navigate(from, { replace: true });
     } catch (error) {
       setIsLoading(false);
+
+      let errorMessage = "Something went wrong.";
       if (error instanceof AxiosError) {
-        const errorMessage = error.response?.data.error.message;
-        if (errorMessage) setError(errorMessage);
-      } else {
-        setError("Something went wrong.");
+        const axiosError = error.response?.data.error.message;
+        if (axiosError) errorMessage = axiosError;
       }
+      setError(errorMessage);
     }
   };
 

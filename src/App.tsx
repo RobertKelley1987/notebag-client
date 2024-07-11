@@ -1,16 +1,16 @@
 import { Navigate, Routes, Route } from "react-router-dom";
-import AuthContextProvider from "./context/AuthContextProvider";
-import UserNotesContextProvider from "./context/UserNotesContextProvider";
-import UserTagsContextProvider from "./context/UserTagsContextProvider";
-import IsSavingContextProvider from "./context/IsSavingContextProvider";
-import ModalContextProvider from "./context/ModalContextProvider";
+import AuthContextProvider from "./context/AuthContext";
+import UserNotesContextProvider from "./context/UserNotesContext";
+import UserTagsContextProvider from "./context/UserTagsContext";
+import IsSavingContextProvider from "./context/IsSavingContext";
+import ModalContextProvider from "./context/ModalContext";
+import FormOpenContextProvider from "./context/FormOpenContext";
 import users from "./services/users";
 import PrivateRoute from "./components/PrivateRoute";
 import Home from "./layouts/Home";
 import Auth from "./layouts/Auth";
 import AuthPage from "./pages/AuthPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import FormOpenContextProvider from "./context/FormOpenContextProvider";
 
 function App() {
   return (

@@ -1,7 +1,6 @@
-import EditTags from "./EditTags";
+import EditTags from "../NoteOptions/EditTags/EditTags";
 import NoteTagCheckbox from "./NoteTagCheckbox";
 import NoteCreateTagButton from "./NoteCreateTagButton";
-import type { Dispatch, SetStateAction } from "react";
 import type { Tag } from "../../types";
 
 function NoteEditTags() {
@@ -9,10 +8,7 @@ function NoteEditTags() {
     <NoteTagCheckbox key={tag.id} tag={tag} />
   );
 
-  const renderNewTagButton = (
-    search: string,
-    setSearch: Dispatch<SetStateAction<string>>
-  ) => <NoteCreateTagButton search={search} setSearch={setSearch} />;
+  const renderNewTagButton = () => <NoteCreateTagButton />;
 
   return (
     <EditTags

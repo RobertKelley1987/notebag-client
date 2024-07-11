@@ -1,12 +1,11 @@
-import { useContext } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { UserTagsContext } from "../../context/UserTagsContext";
-import { ModalContext } from "../../context/ModalContext";
-import Logo from "../../components/Logo";
+import { useUserTags } from "../../../hooks/useUserTags";
+import { useModal } from "../../../hooks/useModal";
+import Logo from "../../../components/Logo";
+import MenuTags from "./MenuTags";
 
 function Menu() {
-  const { userTags } = useContext(UserTagsContext);
-  const { setModal } = useContext(ModalContext);
+  const { setModal } = useModal();
   const [searchParams] = useSearchParams();
   const filterTag = searchParams.get("tag");
 
@@ -21,21 +20,9 @@ function Menu() {
       >
         Notes
       </Link>
-      {userTags.map((tag) => {
-        const selected = filterTag === tag.name && "text-aqua";
-
-        return (
-          <Link
-            key={tag.id}
-            className={`shrink-0 w-full text-left px-6 py-2 truncate hover:text-aqua ${selected}`}
-            to={`/notes?tag=${tag.name}`}
-          >
-            {tag.name}
-          </Link>
-        );
-      })}
+      <MenuTags />
       <button
-        onClick={() => setModal("tags")}
+        onClick={() => setModal("editTags")}
         className="shrink-0 whitespace-nowrap px-6 py-2 text-left hover:text-aqua"
       >
         Edit Tags

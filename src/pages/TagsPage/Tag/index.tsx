@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
-import { EditedTagContext } from "../../../context/EditedTagContext";
-import { IsSavingContext } from "../../../context/IsSavingContext";
+import { useEditedTag } from "../../../hooks/useEditedTag";
+import { useIsSaving } from "../../../hooks/useIsSaving";
 import TagInput from "./TagInput";
 import DeleteTagButton from "./DeleteTagButton";
 import UpdateTagButton from "./UpdateTagButton";
@@ -13,8 +13,8 @@ type TagProps = {
 };
 
 function Tag({ tag }: TagProps) {
-  const { editedTag, setEditedTag } = useContext(EditedTagContext);
-  const { isSaving } = useContext(IsSavingContext);
+  const { editedTag, setEditedTag } = useEditedTag();
+  const { isSaving } = useIsSaving();
   const [isHovering, setIsHovering] = useState(false);
   const isFocused = editedTag?.id === tag.id;
   const allowDelete = (isFocused || isHovering) && !isSaving;

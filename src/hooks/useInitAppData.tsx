@@ -1,14 +1,14 @@
-import { useContext, useEffect, useState } from "react";
-import { UserNotesContext } from "../context/UserNotesContext";
-import { UserTagsContext } from "../context/UserTagsContext";
+import { useEffect, useState } from "react";
+import { useUserNotes } from "./useUserNotes";
+import { useUserTags } from "./useUserTags";
 import { useNoteService } from "./useNoteService";
 import { useTagService } from "./useTagService";
 
 export function useInitAppData() {
-  const { setUserNotes } = useContext(UserNotesContext);
-  const { setUserTags } = useContext(UserTagsContext);
-  const notes = useNoteService();
-  const tags = useTagService();
+  const { setUserNotes } = useUserNotes();
+  const { setUserTags } = useUserTags();
+  const noteService = useNoteService();
+  const tagService = useTagService();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -18,8 +18,8 @@ export function useInitAppData() {
     const getData = async () => {
       try {
         const [notesData, tagsData] = await Promise.all([
-          notes.findAll(),
-          tags.findAll(),
+          noteService.findAll(),
+          tagService.findAll(),
         ]);
         if (isMounted) {
           setUserNotes(notesData.notes);
@@ -35,8 +35,8 @@ export function useInitAppData() {
 
     return () => {
       isMounted = false;
-      notes.abort();
-      tags.abort();
+      noteService.abort();
+      tagService.abort();
     };
   }, [error]);
 

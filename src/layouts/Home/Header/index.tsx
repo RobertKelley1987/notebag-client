@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import { IsSavingContext } from "../../../context/IsSavingContext";
+import { useIsSaving } from "../../../hooks/useIsSaving";
 import MenuIcon from "../../../components/icons/MenuIcon";
 import Logo from "../../../components/Logo";
 import UserSettings from "./UserSettings";
@@ -12,10 +11,10 @@ type HeaderProps = {
 };
 
 function Header({ setMenuOpen }: HeaderProps) {
-  const { isSaving } = useContext(IsSavingContext);
+  const { isSaving } = useIsSaving();
 
   return (
-    <header className="font-ibm relative text-black flex justify-between py-3 px-6 items-center h-[60px]">
+    <header className="font-ibm relative text-black flex justify-between py-3 px-3 sm:px-6 items-center h-[60px]">
       <div className="flex items-center gap-3">
         <button
           onClick={() => setMenuOpen((prev) => !prev)}

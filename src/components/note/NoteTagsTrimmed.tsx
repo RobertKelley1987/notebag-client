@@ -1,4 +1,4 @@
-import NoteTag from "./NoteTag";
+import NoteTag from "../NoteTag";
 import type { Tag } from "../../types";
 
 type NoteTagsTrimmedProps = {

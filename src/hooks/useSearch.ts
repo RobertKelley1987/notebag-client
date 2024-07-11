@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { UserNotesContext } from "../context/UserNotesContext";
+import { useUserNotes } from "./useUserNotes";
 import type { Note } from "../types";
 
 function noteHasStr(note: Note, str: string) {
@@ -11,9 +10,10 @@ function noteHasStr(note: Note, str: string) {
 }
 
 export function useSearch() {
-  const { userNotes } = useContext(UserNotesContext);
+  const { userNotes } = useUserNotes();
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search") || "";
   const results = userNotes.filter((note) => noteHasStr(note, search));
+
   return { results };
 }

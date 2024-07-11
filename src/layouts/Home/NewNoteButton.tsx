@@ -1,10 +1,9 @@
-import { useContext } from "react";
-import { FormOpenContext } from "../../context/FormOpenContext";
+import { useFormOpen } from "../../hooks/useFormOpen";
 import PlusIcon from "../../components/icons/PlusIcon";
 import type { MouseEvent } from "react";
 
 function NewNoteButton() {
-  const { setFormOpen } = useContext(FormOpenContext);
+  const { setFormOpen } = useFormOpen();
 
   function handleClick(e: MouseEvent<HTMLButtonElement>) {
     e.stopPropagation();

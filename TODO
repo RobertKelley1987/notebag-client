@@ -7,3 +7,7 @@
   Will need to use "dangerously set inner html", and "dompurify" package.
   https://www.npmjs.com/package/dompurify OR https://www.npmjs.com/package/interweave.
   - Consider making a demo account.
+  - Move new note submit into a hook to be shared between wrapper's click outside callback
+    and form submit button.
+  - Refactor NewTagForm
+  - Fix contenteditable div in forms: https://blixtdev.com/how-to-use-contenteditable-with-react/

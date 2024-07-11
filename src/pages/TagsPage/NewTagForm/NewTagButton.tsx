@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import { IsSavingContext } from "../../../context/IsSavingContext";
+import { useIsSaving } from "../../../hooks/useIsSaving";
 import CheckmarkIcon from "../../../components/icons/CheckmarkIcon";
 import type { MouseEventHandler } from "react";
 
@@ -8,7 +7,7 @@ type NewTagButtonProps = {
 };
 
 function NewTagButton({ submit }: NewTagButtonProps) {
-  const { isSaving } = useContext(IsSavingContext);
+  const { isSaving } = useIsSaving();
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.stopPropagation();

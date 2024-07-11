@@ -1,21 +1,21 @@
-import { Fragment, useContext, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { v4 as uuid } from "uuid";
-import { UserTagsContext } from "../../../context/UserTagsContext";
-import { IsSavingContext } from "../../../context/IsSavingContext";
+import { useUserTags } from "../../../hooks/useUserTags";
+import { useIsSaving } from "../../../hooks/useIsSaving";
 import { useTagService } from "../../../hooks/useTagService";
 import optimistic from "../../../lib/optimistic";
 import { isEmpty } from "../../../lib/strings";
 import NewTagButton from "./NewTagButton";
 import CloseButton from "./CloseButton";
 import OpenButton from "./OpenButton";
-import type { MouseEvent, FocusEvent, KeyboardEvent } from "react";
+import type { FocusEvent, KeyboardEvent } from "react";
 
 function NewTagForm() {
-  const { userTags, setUserTags } = useContext(UserTagsContext);
-  const { setIsSaving } = useContext(IsSavingContext);
+  const { userTags, setUserTags } = useUserTags();
+  const { setIsSaving } = useIsSaving();
   const [formActive, setFormActive] = useState(true);
   const [error, setError] = useState("");
-  const tags = useTagService();
+  const tagService = useTagService();
   const tagRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -54,8 +54,8 @@ function NewTagForm() {
     input.value = "";
 
     // Create tag in db and fetch upated tags.
-    await tags.create(newTag.id, newTag.name);
-    const data = await tags.findAll();
+    await tagService.create(newTag.id, newTag.name);
+    const data = await tagService.findAll();
     setUserTags(data.tags);
     setIsSaving(false);
   }

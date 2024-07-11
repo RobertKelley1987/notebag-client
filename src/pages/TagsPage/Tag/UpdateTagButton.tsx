@@ -1,6 +1,5 @@
-import { useContext } from "react";
-import { TagNameContext } from "../../../context/TagNameContext";
-import { EditedTagContext } from "../../../context/EditedTagContext";
+import { useEditedTag } from "../../../hooks/useEditedTag";
+import { useUpdateTag } from "../../../hooks/useUpdateTag";
 import CheckmarkIcon from "../../../components/icons/CheckmarkIcon";
 import type { Tag } from "../../../types";
 
@@ -9,11 +8,11 @@ type UpdateTagButtonProps = {
 };
 
 function UpdateTagButton({ tag }: UpdateTagButtonProps) {
-  const { updateTagName } = useContext(TagNameContext);
-  const { editedTag, setEditedTag } = useContext(EditedTagContext);
+  const { editedTag, setEditedTag } = useEditedTag();
+  const updateTag = useUpdateTag();
 
   function handleClick() {
-    if (editedTag) updateTagName(editedTag, () => setEditedTag(null));
+    if (editedTag) updateTag(editedTag, () => setEditedTag(null));
   }
 
   return (

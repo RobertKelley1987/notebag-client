@@ -1,6 +1,5 @@
-import { useContext, useLayoutEffect, useRef, useState } from "react";
-import { EditingTagsContext } from "../../context/EditingTagsContext";
-import { DropdownOpenContext } from "../../context/DropdownOpenContext";
+import { useLayoutEffect, useRef, useState } from "react";
+import { useDropdown } from "../../hooks/useDropdown";
 import type { ReactNode } from "react";
 
 const RIGHT = "left-[50%]";
@@ -16,8 +15,7 @@ type NoteDropdownProps = {
 };
 
 function NoteDropdown({ children }: NoteDropdownProps) {
-  const { dropdownOpen } = useContext(DropdownOpenContext);
-  const { editingTags } = useContext(EditingTagsContext);
+  const { dropdownOpen, editingTags } = useDropdown();
   const [horizontalPos, setHorizontalPos] = useState<HorizontalPos>(RIGHT);
   const [verticalPos, setVerticalPos] = useState<VerticalPos>(DOWN);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -38,7 +36,7 @@ function NoteDropdown({ children }: NoteDropdownProps) {
   return (
     <div
       ref={dropdownRef}
-      className={`max-h-[250px] max-w-[250px] overflow-x-hidden overflow-y-auto z-20 border border-black bg-white p-3 absolute ${verticalPos} ${horizontalPos}`}
+      className={`max-h-[200px] max-w-[250px] overflow-x-hidden overflow-y-auto z-20 border border-black bg-white p-3 absolute ${verticalPos} ${horizontalPos}`}
     >
       {children}
     </div>

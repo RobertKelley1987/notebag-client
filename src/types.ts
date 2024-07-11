@@ -15,4 +15,4 @@ export type Tag = {
   name: string;
 };
 
-export type Modal = "note" | "tags" | "";
+export type Modal = "editNote" | "editTags" | "";

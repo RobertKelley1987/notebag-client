@@ -6,7 +6,7 @@ import Loading from "./Loading";
 
 function PrivateRoute() {
   const [isLoading, setIsLoading] = useState(true);
-  const { auth } = useAuth();
+  const { accessToken } = useAuth();
   const refresh = useRefreshToken();
   const location = useLocation();
 
@@ -22,7 +22,7 @@ function PrivateRoute() {
 
   if (isLoading) {
     return <Loading />;
-  } else if (auth.accessToken) {
+  } else if (accessToken) {
     return <Outlet />;
   } else {
     return <Navigate to="/login" state={{ from: location }} replace />;

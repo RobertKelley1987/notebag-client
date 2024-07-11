@@ -7,8 +7,6 @@ const MOBILE_PX = "640px";
 export function useScreenSize() {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
-  console.log(isSmallScreen);
-
   useEffect(() => {
     const mediaQuery = window.matchMedia(`(max-width: ${MOBILE_PX})`);
     const callback = () => setIsSmallScreen(mediaQuery.matches);

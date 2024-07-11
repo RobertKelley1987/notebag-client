@@ -1,33 +1,24 @@
-import { useContext } from "react";
 import { useSearchParams } from "react-router-dom";
-import { UserTagsContext } from "./UserTagsContext";
-import { UserNotesContext } from "./UserNotesContext";
-import { IsSavingContext } from "./IsSavingContext";
-import { TagNameContext } from "./TagNameContext";
-import { useNoteService } from "../hooks/useNoteService";
-import { useTagService } from "../hooks/useTagService";
+import { useNoteService } from "./useNoteService";
+import { useTagService } from "./useTagService";
+import { useUserTags } from "./useUserTags";
+import { useUserNotes } from "./useUserNotes";
+import { useIsSaving } from "./useIsSaving";
 import optimistic from "../lib/optimistic";
-import type { ReactNode } from "react";
 import type { Tag } from "../types";
 
-type TagNameContextProviderProps = {
-  children: ReactNode;
-};
-
-export default function TagNameContextProvider({
-  children,
-}: TagNameContextProviderProps) {
-  const { userTags, setUserTags } = useContext(UserTagsContext);
-  const { userNotes, setUserNotes } = useContext(UserNotesContext);
-  const { setIsSaving } = useContext(IsSavingContext);
-  const notes = useNoteService();
-  const tags = useTagService();
+export function useUpdateTag() {
+  const { userTags, setUserTags } = useUserTags();
+  const { userNotes, setUserNotes } = useUserNotes();
+  const { setIsSaving } = useIsSaving();
   const [searchParams, setSearchParams] = useSearchParams();
   const tagFilter = searchParams.get("tag");
+  const noteService = useNoteService();
+  const tagService = useTagService();
 
   // Function to change a tag name throughout app.
   // Callback arg required after update completes.
-  async function updateTagName(editedTag: Tag, closeFn: () => void) {
+  async function updateTag(editedTag: Tag, closeFn: () => void) {
     // If name is empty, do nothing and return.
     const newName = editedTag.name.trim();
     if (!newName) return closeFn();
@@ -52,19 +43,15 @@ export default function TagNameContextProvider({
     setIsSaving(true);
 
     // Change tag name in db and fetch updated values
-    await tags.update(editedTag.id, newName);
+    await tagService.update(editedTag.id, newName);
     const [notesData, tagsData] = await Promise.all([
-      notes.findAll(),
-      tags.findAll(),
+      noteService.findAll(),
+      tagService.findAll(),
     ]);
     setUserNotes(notesData.notes);
     setUserTags(tagsData.tags);
     setIsSaving(false);
   }
 
-  return (
-    <TagNameContext.Provider value={{ updateTagName }}>
-      {children}
-    </TagNameContext.Provider>
-  );
+  return updateTag;
 }

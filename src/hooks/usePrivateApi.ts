@@ -5,13 +5,13 @@ import { useAuth } from "./useAuth";
 
 export function usePrivateApi() {
   const refresh = useRefreshToken();
-  const { auth } = useAuth();
+  const { accessToken } = useAuth();
 
   useEffect(() => {
     const reqIntercept = privateApi.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"]) {
-          config.headers["Authorization"] = `Bearer ${auth.accessToken}`;
+          config.headers["Authorization"] = `Bearer ${accessToken}`;
         }
         return config;
       },
@@ -36,7 +36,7 @@ export function usePrivateApi() {
       privateApi.interceptors.request.eject(reqIntercept);
       privateApi.interceptors.response.eject(resIntercept);
     };
-  }, [auth, refresh]);
+  }, [accessToken, refresh]);
 
   return privateApi;
 }

@@ -1,10 +1,9 @@
-import { useContext } from "react";
-import { UserNotesContext } from "../../context/UserNotesContext";
-import { NoteContext } from "../../context/NoteContext";
+import { useUserNotes } from "../../hooks/useUserNotes";
+import { useIsSaving } from "../../hooks/useIsSaving";
+import { useNote } from "../../hooks/useNote";
 import { useNoteService } from "../../hooks/useNoteService";
-import { IsSavingContext } from "../../context/IsSavingContext";
 import optimistic from "../../lib/optimistic";
-import TagCheckbox from "./TagCheckbox";
+import TagCheckbox from "../NoteOptions/EditTags/TagCheckbox";
 import type { Tag } from "../../types";
 
 type NoteTagCheckboxProps = {
@@ -13,11 +12,11 @@ type NoteTagCheckboxProps = {
 
 // Tag checkbox with change function required for an existing note.
 function NoteTagCheckbox({ tag }: NoteTagCheckboxProps) {
-  const { userNotes, setUserNotes } = useContext(UserNotesContext);
-  const { setIsSaving } = useContext(IsSavingContext);
-  const { note } = useContext(NoteContext);
+  const { userNotes, setUserNotes } = useUserNotes();
+  const { setIsSaving } = useIsSaving();
+  const { note } = useNote();
   const tagIndex = note.tags.findIndex((noteTag) => noteTag.id === tag.id);
-  const notes = useNoteService();
+  const noteService = useNoteService();
 
   async function handleChange() {
     // Set optimistic notes
@@ -28,8 +27,8 @@ function NoteTagCheckbox({ tag }: NoteTagCheckboxProps) {
     setIsSaving(true);
 
     // Add or remove tag in db and fetch updated notes
-    await notes.updateTags(note.id, tag.id);
-    const data = await notes.findAll();
+    await noteService.updateTags(note.id, tag.id);
+    const data = await noteService.findAll();
     setUserNotes(data.notes);
     setIsSaving(false);
   }

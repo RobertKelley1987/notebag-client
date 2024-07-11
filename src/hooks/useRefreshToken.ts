@@ -2,7 +2,7 @@ import { api } from "../services/api";
 import { useAuth } from "./useAuth";
 
 export function useRefreshToken() {
-  const { setAuth } = useAuth();
+  const { setAccessToken } = useAuth();
 
   async function refresh() {
     let accessToken = "";
@@ -14,7 +14,7 @@ export function useRefreshToken() {
       accessToken = "";
     }
 
-    setAuth({ accessToken });
+    setAccessToken(accessToken);
     return accessToken;
   }
 

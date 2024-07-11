@@ -1,6 +1,5 @@
-import { useContext } from "react";
-import { IsSavingContext } from "../../context/IsSavingContext";
-import type { Tag } from "../../types";
+import { useIsSaving } from "../../../hooks/useIsSaving";
+import type { Tag } from "../../../types";
 
 type TagCheckboxProps = {
   handleChange: () => Promise<void>;
@@ -9,7 +8,7 @@ type TagCheckboxProps = {
 };
 
 function TagCheckbox({ handleChange, tag, isChecked }: TagCheckboxProps) {
-  const { isSaving } = useContext(IsSavingContext);
+  const { isSaving } = useIsSaving();
 
   return (
     <li>

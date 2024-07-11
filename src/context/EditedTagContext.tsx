@@ -1,5 +1,5 @@
-import { createContext } from "react";
-import type { Dispatch, SetStateAction } from "react";
+import { createContext, useState } from "react";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 import type { Tag } from "../types";
 
 type EditedTagContextType = {
@@ -7,9 +7,22 @@ type EditedTagContextType = {
   setEditedTag: Dispatch<SetStateAction<Tag | null>>;
 };
 
-const DEFAULT = {
-  editedTag: null,
-  setEditedTag: () => null,
+export const EditedTagContext = createContext<EditedTagContextType | null>(
+  null
+);
+
+type EditedTagContextProviderProps = {
+  children: ReactNode;
 };
 
-export const EditedTagContext = createContext<EditedTagContextType>(DEFAULT);
+function EditedTagContextProvider({ children }: EditedTagContextProviderProps) {
+  const [editedTag, setEditedTag] = useState<Tag | null>(null);
+
+  return (
+    <EditedTagContext.Provider value={{ editedTag, setEditedTag }}>
+      {children}
+    </EditedTagContext.Provider>
+  );
+}
+
+export default EditedTagContextProvider;

@@ -1,94 +1,48 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { ModalContext } from "../context/ModalContext";
-import { UserNotesContext } from "../context/UserNotesContext";
-import { IsSavingContext } from "../context/IsSavingContext";
-import { NoteContext, DEFAULT } from "../context/NoteContext";
-import { useNoteService } from "../hooks/useNoteService";
-import optimistic from "../lib/optimistic";
-import { isEmpty } from "../lib/strings";
+import { useLayoutEffect, useRef } from "react";
+import EditingTagsContextProvider from "../context/EditingTagsContext";
+import { NoteContext } from "../context/NoteContext";
+import { useUserNotes } from "../hooks/useUserNotes";
+import { useNoteForm } from "../hooks/useNoteForm";
+import { useDropdown } from "../hooks/useDropdown";
+import { useUpdateNote } from "../hooks/useUpdateNote";
+import { EMPTY_NOTE } from "../lib/constants";
 import Modal from "../components/Modal";
-import NoteTags from "../components/Note/NoteTags";
-import NoteOptions from "../components/Note/NoteOptions";
-import NoteEditTags from "../components/Note/NoteEditTags";
+import NoteTags from "../components/NoteTags";
+import NoteOptions from "../components/NoteOptions";
+import FormEditTags from "../components/NoteForm/NoteFormEditTags";
 import NoteDeleteButton from "../components/Note/NoteDeleteButton";
-import type { FormEvent, RefObject } from "react";
-import type { Note, Tag } from "../types";
-import EditingTagsContextProvider from "../context/EditingTagsContextProvider";
-import DropdownOpenContextProvider from "../context/DropdownOpenContextProvider";
-
-// Helper to set form values
-function setFormValues(
-  titleRef: RefObject<HTMLInputElement>,
-  contentRef: RefObject<HTMLDivElement>,
-  note: Note
-) {
-  let title = titleRef.current;
-  let content = contentRef.current;
-
-  if (title && content) {
-    title.value = note.title;
-    content.innerText = note.content;
-  }
-}
+import type { MouseEvent } from "react";
 
 function EditNotePage() {
-  const { setModal } = useContext(ModalContext);
-  const { setIsSaving } = useContext(IsSavingContext);
-  const { userNotes, setUserNotes, selected } = useContext(UserNotesContext);
+  const { setDropdownOpen, setEditingTags } = useDropdown();
+  const { noteForm, setNoteForm } = useNoteForm();
+  const { userNotes, selected } = useUserNotes();
   const selectedNote = userNotes.find((note) => note.id === selected);
-  const notes = useNoteService();
+  const updateNote = useUpdateNote();
   const titleRef = useRef<HTMLInputElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [tags, setTags] = useState<Tag[]>([]);
 
-  // Set form values to selected note values on render
-  useEffect(() => {
-    if (selectedNote) {
-      setFormValues(titleRef, contentRef, selectedNote);
-      setTags(selectedNote.tags);
-    }
-  }, [selectedNote]);
+  // Set form values to selected note and focus input on first render
+  useLayoutEffect(() => {
+    if (selectedNote) setNoteForm(selectedNote);
+    if (titleRef.current) titleRef.current.focus();
+  }, []);
 
-  async function submit() {
-    if (!selectedNote) return;
-    const titleVal = titleRef.current?.value;
-    const contentVal = contentRef.current?.innerText;
-
-    // Allow user to save empty notes, but replace all whitespace
-    // content with empty strings.
-    const title = isEmpty(titleVal) ? "" : (titleVal as string);
-    const content = isEmpty(contentVal) ? "" : (contentVal as string);
-
-    // Set optimistic notes
-    const updatedNote = { ...selectedNote, title, content, tags };
-    const optimisticNotes = optimistic.notes.updateOne(userNotes, updatedNote);
-    setUserNotes(optimisticNotes);
-
-    // Close modal and set saving state.
-    setModal("");
-    setIsSaving(true);
-
-    // Edit note in db and fetch updated notes.
-    await notes.update(selectedNote.id, title, content);
-    const data = await notes.findAll();
-    setUserNotes(data.notes);
-    setIsSaving(false);
-  }
-
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    await submit();
+  function handleClick(e: MouseEvent<HTMLDivElement>) {
+    e.stopPropagation();
+    setDropdownOpen(false);
+    setEditingTags(false);
   }
 
   return (
-    <Modal handleDismiss={submit}>
+    <Modal handleDismiss={updateNote}>
       <div
-        onClick={(e) => e.stopPropagation()}
-        className="bg-white w-[250px] p-3 border border-black"
+        onClick={handleClick}
+        className="grid grid-rows-[auto_min-content] w-full sm:w-[250px] h-full sm:h-auto bg-white p-3 sm:border border-black"
       >
-        <form onSubmit={handleSubmit} className="flex flex-col w-full">
+        <div>
           <input
             ref={titleRef}
+            value={noteForm.title}
             type="text"
             name="title"
             id="title"
@@ -96,31 +50,28 @@ function EditNotePage() {
             placeholder="title"
           />
           <div
-            ref={contentRef}
             id="content"
             data-placeholder="note..."
-            className="w-full focus:outline-none my-3 empty:before:text-slate-400 empty:before:content-[attr(data-placeholder)]"
+            className="w-full focus:outline-none mt-3 sm:mt-1 mb-5 sm:mb-3 empty:before:text-slate-400 empty:before:content-[attr(data-placeholder)]"
             contentEditable
-          ></div>
-          <NoteTags tags={tags} />
-          <div className="flex w-full justify-between items-center">
-            <NoteContext.Provider
-              value={{ note: selectedNote || DEFAULT.note }}
-            >
-              <DropdownOpenContextProvider>
-                <EditingTagsContextProvider>
-                  <NoteOptions
-                    editTagsForm={<NoteEditTags />}
-                    deleteButton={<NoteDeleteButton />}
-                  />
-                </EditingTagsContextProvider>
-              </DropdownOpenContextProvider>
-            </NoteContext.Provider>
-            <button type="submit" className="p-1 hover:text-aqua">
-              Close
-            </button>
+          >
+            {noteForm.content}
           </div>
-        </form>
+          <NoteTags tags={noteForm.tags} />
+        </div>
+        <div className="flex w-full justify-between items-center">
+          <NoteContext.Provider value={{ note: selectedNote || EMPTY_NOTE }}>
+            <EditingTagsContextProvider>
+              <NoteOptions
+                editTagsForm={<FormEditTags />}
+                deleteButton={<NoteDeleteButton />}
+              />
+            </EditingTagsContextProvider>
+          </NoteContext.Provider>
+          <button onClick={updateNote} className="font-ibm p-1 hover:text-aqua">
+            Close
+          </button>
+        </div>
       </div>
     </Modal>
   );

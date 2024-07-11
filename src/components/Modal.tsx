@@ -9,7 +9,7 @@ type ModalProps = {
 };
 
 function Modal({ children, handleDismiss, className }: ModalProps) {
-  let classNames = `fixed top-0 left-0 h-screen w-screen bg-black bg-opacity-50 flex justify-center items-center z-20`;
+  let classNames = `fixed top-0 left-0 h-screen w-full bg-black bg-opacity-50 flex justify-center items-center z-20`;
   if (className) {
     classNames += " " + className;
   }

@@ -1,9 +1,8 @@
-import { useContext } from "react";
-import { UserTagsContext } from "../../context/UserTagsContext";
+import { useUserTags } from "../../hooks/useUserTags";
 import Tag from "./Tag";
 
 function TagList() {
-  const { userTags } = useContext(UserTagsContext);
+  const { userTags } = useUserTags();
 
   return (
     <ul className="flex flex-col gap-3">

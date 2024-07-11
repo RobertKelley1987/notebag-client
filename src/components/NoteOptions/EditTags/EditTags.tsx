@@ -1,23 +1,20 @@
-import { useContext, useState } from "react";
-import { UserTagsContext } from "../../context/UserTagsContext";
+import { useUserTags } from "../../../hooks/useUserTags";
+import { useTagSearch } from "../../../hooks/useTagSearch";
 import EditTagsBackButton from "./EditTagsBackButton";
-import SearchIcon from "../icons/SearchIcon";
-import type { Dispatch, ReactNode, SetStateAction } from "react";
-import type { Tag } from "../../types";
+import SearchIcon from "../../icons/SearchIcon";
+import type { ReactNode } from "react";
+import type { Tag } from "../../../types";
 
 type EditTagsProps = {
   renderCheckbox: (tag: Tag) => ReactNode;
-  renderNewTagButton: (
-    search: string,
-    setSearch: Dispatch<SetStateAction<string>>
-  ) => ReactNode;
+  renderNewTagButton: () => ReactNode;
 };
 
 function EditTags({ renderCheckbox, renderNewTagButton }: EditTagsProps) {
-  const { userTags } = useContext(UserTagsContext);
-  const [search, setSearch] = useState("");
-  const results = userTags.filter((tag) => tag.name.includes(search));
-  const exactMatchIndex = userTags.findIndex((tag) => tag.name === search);
+  const { userTags } = useUserTags();
+  const { tagSearch, setTagSearch } = useTagSearch();
+  const results = userTags.filter((tag) => tag.name.includes(tagSearch));
+  const exactMatchIndex = userTags.findIndex((tag) => tag.name === tagSearch);
   const exactMatchFound = exactMatchIndex !== -1;
 
   const foundTags = (
@@ -36,8 +33,8 @@ function EditTags({ renderCheckbox, renderNewTagButton }: EditTagsProps) {
         <EditTagsBackButton />
         <input
           type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          value={tagSearch}
+          onChange={(e) => setTagSearch(e.target.value)}
           placeholder="tag name"
           className="w-full focus:outline-none"
         />
@@ -46,7 +43,7 @@ function EditTags({ renderCheckbox, renderNewTagButton }: EditTagsProps) {
       {results.length > 0 && foundTags}
 
       {/* Show new tag button if user input is not found in tag list. */}
-      {search && !exactMatchFound && renderNewTagButton(search, setSearch)}
+      {tagSearch && !exactMatchFound && renderNewTagButton()}
     </div>
   );
 }

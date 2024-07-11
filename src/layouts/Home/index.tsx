@@ -1,8 +1,9 @@
-import { Fragment, useContext, useLayoutEffect, useState } from "react";
+import { Fragment, useLayoutEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { ModalContext } from "../../context/ModalContext";
+import NoteFormContextProvider from "../../context/NoteFormContext";
 import { useInitAppData } from "../../hooks/useInitAppData";
 import { useScreenSize } from "../../hooks/useScreenSize";
+import { useModal } from "../../hooks/useModal";
 import PageContainer from "../../components/PageContainer";
 import Header from "./Header";
 import Menu from "./Menu";
@@ -13,13 +14,12 @@ import SearchResults from "./SearchResults";
 import FetchError from "./FetchError";
 import MobileMenu from "./MobileMenu";
 import NewNoteButton from "./NewNoteButton";
-import FormOpenContextProvider from "../../context/FormOpenContextProvider";
 
 function Home() {
   const { isLoading, error, setError } = useInitAppData();
   const { isSmallScreen } = useScreenSize();
   const [menuOpen, setMenuOpen] = useState(true);
-  const { modal } = useContext(ModalContext);
+  const { modal } = useModal();
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search");
 
@@ -41,8 +41,12 @@ function Home() {
     return (
       <Fragment>
         {menuOpen && renderMenu()}
-        <main className="relative text-black items-center flex flex-col flex flex-col basis-full grow px-6">
-          {search === null && <NewNote isLoading={isLoading} />}
+        <main className="relative text-black items-center flex flex-col flex flex-col basis-full grow px-3 sm:px-6">
+          {search === null && (
+            <NoteFormContextProvider>
+              <NewNote isLoading={isLoading} />
+            </NoteFormContextProvider>
+          )}
           {renderNoteList()}
         </main>
         {search === null && <NewNoteButton />}

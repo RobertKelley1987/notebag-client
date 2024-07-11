@@ -1,5 +1,5 @@
-import { createContext } from "react";
-import type { Dispatch, SetStateAction } from "react";
+import { createContext, useState } from "react";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 import type { Tag } from "../types";
 
 type UserTagsContextType = {
@@ -7,9 +7,20 @@ type UserTagsContextType = {
   setUserTags: Dispatch<SetStateAction<Tag[]>>;
 };
 
-const DEFAULT = {
-  userTags: [],
-  setUserTags: () => null,
+export const UserTagsContext = createContext<UserTagsContextType | null>(null);
+
+type UserTagsContextProviderProps = {
+  children: ReactNode;
 };
 
-export const UserTagsContext = createContext<UserTagsContextType>(DEFAULT);
+function UserTagsContextProvider({ children }: UserTagsContextProviderProps) {
+  const [userTags, setUserTags] = useState<Tag[]>([]);
+
+  return (
+    <UserTagsContext.Provider value={{ userTags, setUserTags }}>
+      {children}
+    </UserTagsContext.Provider>
+  );
+}
+
+export default UserTagsContextProvider;
