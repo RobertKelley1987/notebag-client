@@ -3,13 +3,12 @@ import { useNoteForm } from "./useNoteForm";
 import { useTagSearch } from "./useTagSearch";
 import { useUserTags } from "./useUserTags";
 import { useIsSaving } from "./useIsSaving";
-import { useNoteService } from "./useNoteService";
 import { useTagService } from "./useTagService";
 import optimistic from "../lib/optimistic";
 import { compareTags } from "../lib/optimistic";
 
 export function useCreateTagFromForm() {
-  const { noteForm, setNoteForm } = useNoteForm();
+  const { tags, setTags } = useNoteForm();
   const { tagSearch, setTagSearch } = useTagSearch();
   const { userTags, setUserTags } = useUserTags();
   const { setIsSaving } = useIsSaving();
@@ -25,11 +24,9 @@ export function useCreateTagFromForm() {
     setUserTags(optimisticTags);
 
     // Add tag to new note
-    const tags = [...noteForm.tags, newTag];
-    tags.sort(compareTags);
-    setNoteForm((prev) => {
-      return { ...prev, tags };
-    });
+    const updatedTags = [...tags, newTag];
+    updatedTags.sort(compareTags);
+    setTags(tags);
 
     // Set saving state.
     setIsSaving(true);

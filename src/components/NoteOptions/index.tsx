@@ -4,8 +4,9 @@ import { useDropdown } from "../../hooks/useDropdown";
 import NoteDropdown from "./NoteDropdown";
 import Modal from "../Modal";
 import MoreIcon from "../icons/MoreIcon";
+import NoteOptionButtons from "./NoteOptionButtons";
 import type { ReactNode } from "react";
-import TagSearchContextProvider from "../../context/TagSearchContext";
+import { useModal } from "../../hooks/useModal";
 
 type NoteOptionsProps = {
   editTagsForm: ReactNode;
@@ -22,45 +23,20 @@ function NoteOptions({
     useDropdown();
   const { isSmallScreen } = useScreenSize();
   const { wrapperRef } = useClickOutside(handleClick);
+  const modalOpen = !!useModal().modal;
 
   function handleClick() {
     setDropdownOpen(false);
     setEditingTags(false);
   }
 
-  const optionButtons = (
-    <div className="flex flex-col gap-2 p-3 sm:p-0 items-start bg-white w-screen sm:w-max font-ibm fixed sm:static bottom-0">
-      {deleteButton}
-      <button
-        id="edit-tags-button"
-        onClick={(e) => {
-          e.stopPropagation();
-          setEditingTags(true);
-        }}
-        className="hover:text-aqua px-3 sm:px-0"
-      >
-        Edit Tags
-      </button>
-    </div>
-  );
-
-  const options = editingTags ? (
-    <TagSearchContextProvider>{editTagsForm}</TagSearchContextProvider>
-  ) : (
-    optionButtons
-  );
+  const buttons = <NoteOptionButtons deleteButton={deleteButton} />;
+  const options = editingTags ? editTagsForm : buttons;
   const dropdown = <NoteDropdown>{options}</NoteDropdown>;
   const modal = (
     <Modal handleDismiss={() => setDropdownOpen(false)}>{options}</Modal>
   );
-
-  function renderOptions() {
-    if (dropdownOpen) {
-      return isSmallScreen ? modal : dropdown;
-    } else {
-      return null;
-    }
-  }
+  const result = isSmallScreen ? modal : dropdown;
 
   const wrapperClassNames = hideOptions
     ? "hidden sm:flex justify-end"
@@ -72,11 +48,11 @@ function NoteOptions({
         <MoreIcon
           className="cursor-pointer hover:text-aqua"
           onClick={(e) => {
-            e.stopPropagation();
+            modalOpen && e.stopPropagation();
             setDropdownOpen((prev) => !prev);
           }}
         />
-        {renderOptions()}
+        {dropdownOpen && result}
       </div>
     </div>
   );

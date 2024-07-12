@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import NoteFormContextProvider from "./NoteFormContext";
 import EditedTagContextProvider from "./EditedTagContext";
 import DropdownContextProvider from "./DropdownContext";
+import TagFormContextProvider from "./TagFormContext";
 import EditNotePage from "../pages/EditNotePage";
 import TagsPage from "../pages/TagsPage";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
@@ -28,9 +29,11 @@ const MODAL_PGS = {
     </DropdownContextProvider>
   ),
   editTags: (
-    <EditedTagContextProvider>
-      <TagsPage />
-    </EditedTagContextProvider>
+    <TagFormContextProvider>
+      <EditedTagContextProvider>
+        <TagsPage />
+      </EditedTagContextProvider>
+    </TagFormContextProvider>
   ),
 };
 

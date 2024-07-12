@@ -1,7 +1,9 @@
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useUserNotes } from "./useUserNotes";
 import type { Note } from "../types";
 
+// Helper to determine if a note includes a search term.
 function noteHasStr(note: Note, str: string) {
   str = str.toLowerCase();
   const title = note.title.toLowerCase();
@@ -9,6 +11,7 @@ function noteHasStr(note: Note, str: string) {
   return title.includes(str) || content.includes(str);
 }
 
+// Hook to filter user notes by search term in query params.
 export function useSearch() {
   const { userNotes } = useUserNotes();
   const [searchParams] = useSearchParams();

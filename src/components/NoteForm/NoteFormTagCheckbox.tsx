@@ -3,25 +3,24 @@ import { useNoteForm } from "../../hooks/useNoteForm";
 import { compareTags } from "../../lib/optimistic";
 import type { Tag } from "../../types";
 
-type NoteFormTagCheckboxProps = {
+type FormTagCheckboxProps = {
   tag: Tag;
 };
 
 // Tag checkbox with change function required for a new note.
-function NoteFormTagCheckbox({ tag }: NoteFormTagCheckboxProps) {
-  const { noteForm, setNoteForm } = useNoteForm();
-  const tagIndex = noteForm.tags.findIndex((noteTag) => noteTag.id === tag.id);
+function FormTagCheckbox({ tag }: FormTagCheckboxProps) {
+  const { tags, setTags } = useNoteForm();
+  const tagIndex = tags.findIndex((noteTag) => noteTag.id === tag.id);
 
   async function handleChange() {
-    let tags = [...noteForm.tags];
+    let updatedTags = [...tags];
     if (tagIndex !== -1) {
-      tags = tags.filter((noteTag) => noteTag.id !== tag.id);
+      updatedTags = tags.filter((noteTag) => noteTag.id !== tag.id);
     } else {
-      tags.sort(compareTags);
+      updatedTags.push(tag);
+      updatedTags.sort(compareTags);
     }
-    setNoteForm((prev) => {
-      return { ...prev, tags };
-    });
+    setTags(updatedTags);
   }
 
   return (
@@ -33,4 +32,4 @@ function NoteFormTagCheckbox({ tag }: NoteFormTagCheckboxProps) {
   );
 }
 
-export default NoteFormTagCheckbox;
+export default FormTagCheckbox;

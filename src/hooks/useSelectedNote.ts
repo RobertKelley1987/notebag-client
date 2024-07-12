@@ -1,19 +1,11 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import type { Note } from "../types";
+import { useUserNotes } from "./useUserNotes";
 
-// Hook to find note in array of notes using note id from url.
-// Requires array of notes as arg.
-export function useSelectedNote(notes: Note[]) {
-  const { noteId } = useParams();
-  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+export function useSelectedNote() {
+  const { userNotes, selected } = useUserNotes();
+  const selectedNote = userNotes.find((note) => note.id === selected);
 
-  // Adding useLayoutEffect here made the transition to the edit note modal
-  // less jittery / janky.
-  useEffect(() => {
-    const selectedNote = notes.find((note) => note.id === noteId) || null;
-    setSelectedNote(selectedNote);
-  }, [noteId, notes]);
+  if (!selectedNote)
+    throw new Error("The note selected for editing does not exist.");
 
   return { selectedNote };
 }

@@ -1,20 +1,19 @@
 import EditTags from "../NoteOptions/EditTags/EditTags";
-import NewNoteTagCheckbox from "./NoteFormTagCheckbox";
-import FormCreateTagButton from "./NoteFormCreateTagButton";
+import NoteFormTagCheckbox from "./NoteFormTagCheckbox";
+import NoteFormCreateTagButton from "./NoteFormCreateTagButton";
+import TagResults from "../NoteOptions/EditTags/TagResults";
 import type { Tag } from "../../types";
 
 function NoteFormEditTags() {
   const renderCheckbox = (tag: Tag) => (
-    <NewNoteTagCheckbox key={tag.id} tag={tag} />
+    <NoteFormTagCheckbox key={tag.id} tag={tag} />
   );
 
-  const renderNewTagButton = () => <FormCreateTagButton />;
-
   return (
-    <EditTags
-      renderCheckbox={renderCheckbox}
-      renderNewTagButton={renderNewTagButton}
-    />
+    <EditTags>
+      <TagResults renderCheckbox={renderCheckbox} />
+      <NoteFormCreateTagButton />
+    </EditTags>
   );
 }
 

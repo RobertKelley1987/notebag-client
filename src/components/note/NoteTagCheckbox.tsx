@@ -1,10 +1,10 @@
 import { useUserNotes } from "../../hooks/useUserNotes";
 import { useIsSaving } from "../../hooks/useIsSaving";
-import { useNote } from "../../hooks/useNote";
 import { useNoteService } from "../../hooks/useNoteService";
 import optimistic from "../../lib/optimistic";
 import TagCheckbox from "../NoteOptions/EditTags/TagCheckbox";
 import type { Tag } from "../../types";
+import { useNote } from "../../hooks/useNote";
 
 type NoteTagCheckboxProps = {
   tag: Tag;
@@ -12,13 +12,15 @@ type NoteTagCheckboxProps = {
 
 // Tag checkbox with change function required for an existing note.
 function NoteTagCheckbox({ tag }: NoteTagCheckboxProps) {
-  const { userNotes, setUserNotes } = useUserNotes();
   const { setIsSaving } = useIsSaving();
+  const { userNotes, setUserNotes } = useUserNotes();
   const { note } = useNote();
-  const tagIndex = note.tags.findIndex((noteTag) => noteTag.id === tag.id);
+  const tagIndex = note?.tags.findIndex((noteTag) => noteTag.id === tag.id);
   const noteService = useNoteService();
 
   async function handleChange() {
+    if (!note) return;
+
     // Set optimistic notes
     const optimisiticNotes = optimistic.notes.toggleTag(userNotes, note, tag);
     setUserNotes(optimisiticNotes);

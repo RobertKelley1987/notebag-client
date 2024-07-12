@@ -1,12 +1,16 @@
-import { useResetNoteForm } from "../../../hooks/useResetNoteForm";
+import { useNoteForm } from "../../../hooks/useNoteForm";
+import { useFormOpen } from "../../../hooks/useFormOpen";
+import { EMPTY_NOTE } from "../../../lib/constants";
 import type { MouseEvent } from "react";
 
 function NewNoteDeleteButton() {
-  const resetNoteForm = useResetNoteForm();
+  const { setForm } = useNoteForm();
+  const { setFormOpen } = useFormOpen();
 
   function handleClick(e: MouseEvent) {
     e.stopPropagation();
-    resetNoteForm();
+    setFormOpen(false);
+    setForm(EMPTY_NOTE);
   }
 
   return (

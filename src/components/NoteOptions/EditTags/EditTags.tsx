@@ -1,27 +1,14 @@
-import { useUserTags } from "../../../hooks/useUserTags";
 import { useTagSearch } from "../../../hooks/useTagSearch";
 import EditTagsBackButton from "./EditTagsBackButton";
 import SearchIcon from "../../icons/SearchIcon";
 import type { ReactNode } from "react";
-import type { Tag } from "../../../types";
 
 type EditTagsProps = {
-  renderCheckbox: (tag: Tag) => ReactNode;
-  renderNewTagButton: () => ReactNode;
+  children: ReactNode;
 };
 
-function EditTags({ renderCheckbox, renderNewTagButton }: EditTagsProps) {
-  const { userTags } = useUserTags();
+function EditTags({ children }: EditTagsProps) {
   const { tagSearch, setTagSearch } = useTagSearch();
-  const results = userTags.filter((tag) => tag.name.includes(tagSearch));
-  const exactMatchIndex = userTags.findIndex((tag) => tag.name === tagSearch);
-  const exactMatchFound = exactMatchIndex !== -1;
-
-  const foundTags = (
-    <ul className="flex flex-col gap-4 sm:gap-1">
-      {results.map((tag) => renderCheckbox(tag))}
-    </ul>
-  );
 
   return (
     <div
@@ -40,10 +27,7 @@ function EditTags({ renderCheckbox, renderNewTagButton }: EditTagsProps) {
         />
         <SearchIcon className="basis-[24px] shrink-0 hidden sm:block" />
       </div>
-      {results.length > 0 && foundTags}
-
-      {/* Show new tag button if user input is not found in tag list. */}
-      {tagSearch && !exactMatchFound && renderNewTagButton()}
+      {children}
     </div>
   );
 }
