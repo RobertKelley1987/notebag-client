@@ -1,8 +1,8 @@
-import EditTags from "../NoteOptions/EditTags/EditTags";
+import EditTags from "../../../components/NoteOptions/EditTags/EditTags";
 import NoteTagCheckbox from "./NoteTagCheckbox";
 import NoteCreateTagButton from "./NoteCreateTagButton";
-import TagResults from "../NoteOptions/EditTags/TagResults";
-import type { Tag } from "../../types";
+import TagResults from "../../../components/NoteOptions/EditTags/TagResults";
+import type { Tag } from "../../../types";
 
 function NoteEditTags() {
   const renderCheckbox = (tag: Tag) => (

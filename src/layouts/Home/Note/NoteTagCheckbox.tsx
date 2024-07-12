@@ -1,10 +1,10 @@
-import { useUserNotes } from "../../hooks/useUserNotes";
-import { useIsSaving } from "../../hooks/useIsSaving";
-import { useNoteService } from "../../hooks/useNoteService";
-import optimistic from "../../lib/optimistic";
-import TagCheckbox from "../NoteOptions/EditTags/TagCheckbox";
-import type { Tag } from "../../types";
-import { useNote } from "../../hooks/useNote";
+import { useUserNotes } from "../../../hooks/useUserNotes";
+import { useIsSaving } from "../../../hooks/useIsSaving";
+import { useNoteService } from "../../../hooks/useNoteService";
+import optimistic from "../../../lib/optimistic";
+import TagCheckbox from "../../../components/NoteOptions/EditTags/TagCheckbox";
+import type { Tag } from "../../../types";
+import { useNote } from "../../../hooks/useNote";
 
 type NoteTagCheckboxProps = {
   tag: Tag;

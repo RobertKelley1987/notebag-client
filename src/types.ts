@@ -7,6 +7,7 @@ export type Note = {
   id: string;
   title: string;
   content: string;
+  pinned: boolean;
   tags: Tag[];
 };
 
@@ -16,3 +17,5 @@ export type Tag = {
 };
 
 export type Modal = "editNote" | "editTags" | "";
+
+export type NoteForm = Omit<Note, "id">;

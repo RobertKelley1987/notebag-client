@@ -1,5 +1,5 @@
-import { useCreateTagFromNote } from "../../hooks/useCreateTagFromNote";
-import CreateTagButton from "../NoteOptions/EditTags/CreateTagButton";
+import { useCreateTagFromNote } from "../../../hooks/useCreateTagFromNote";
+import CreateTagButton from "../../../components/NoteOptions/EditTags/CreateTagButton";
 
 function NoteCreateTagButton() {
   const createTagFromNote = useCreateTagFromNote();

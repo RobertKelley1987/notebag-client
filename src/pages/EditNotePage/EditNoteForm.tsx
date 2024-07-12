@@ -10,8 +10,9 @@ import NoteFormTitle from "../../components/NoteForm/NoteFormTitle";
 import NoteTags from "../../components/NoteTags";
 import NoteOptions from "../../components/NoteOptions";
 import NoteFormEditTags from "../../components/NoteForm/NoteFormEditTags";
-import NoteDeleteButton from "../../components/Note/NoteDeleteButton";
+import NoteDeleteButton from "../../layouts/Home/Note/NoteDeleteButton";
 import NoteFormSubmit from "../../components/NoteForm/NoteFormSubmit";
+import NoteFormPinButton from "../../components/NoteForm/NoteFormPinButton";
 
 function EditNoteForm() {
   const { tags, setForm } = useNoteForm();
@@ -29,7 +30,10 @@ function EditNoteForm() {
   return (
     <Fragment>
       <div>
-        <NoteFormTitle />
+        <div className="flex">
+          <NoteFormTitle />
+          <NoteFormPinButton />
+        </div>
         <NoteFormContent />
         <NoteTags tags={tags} />
       </div>

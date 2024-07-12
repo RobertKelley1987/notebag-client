@@ -9,7 +9,7 @@ function NoteFormContent() {
       id="content"
       contentEditable
       data-placeholder="new note..."
-      className="w-full focus:outline-none mt-3 mb-4 empty:before:text-slate-400 empty:before:content-[attr(data-placeholder)] hover:cursor-text"
+      className="w-full min-w-0 focus:outline-none mt-3 mb-4 break-words empty:before:text-slate-400 empty:before:content-[attr(data-placeholder)] hover:cursor-text"
     ></div>
   );
 }

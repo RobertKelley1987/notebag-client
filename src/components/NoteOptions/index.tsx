@@ -1,5 +1,5 @@
 import { useClickOutside } from "../../hooks/useClickOutside";
-import { useScreenSize } from "../../hooks/useScreenSize";
+import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 import { useDropdown } from "../../hooks/useDropdown";
 import NoteDropdown from "./NoteDropdown";
 import Modal from "../Modal";
@@ -21,7 +21,7 @@ function NoteOptions({
 }: NoteOptionsProps) {
   const { dropdownOpen, setDropdownOpen, editingTags, setEditingTags } =
     useDropdown();
-  const { isSmallScreen } = useScreenSize();
+  const { isSmallScreen } = useIsSmallScreen();
   const { wrapperRef } = useClickOutside(handleClick);
   const modalOpen = !!useModal().modal;
 

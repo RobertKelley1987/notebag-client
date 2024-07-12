@@ -32,6 +32,11 @@ class NoteService {
     return data;
   }
 
+  async updatePinned(noteId: string, pinned: boolean) {
+    const { data } = await this.api.put(`/notes/${noteId}/pinned`, { pinned });
+    return data;
+  }
+
   async updateTags(noteId: string, tagId: string) {
     const { data } = await this.api.put(`/notes/${noteId}/tags`, { tagId });
     return data;

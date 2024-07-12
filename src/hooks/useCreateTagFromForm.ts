@@ -26,7 +26,7 @@ export function useCreateTagFromForm() {
     // Add tag to new note
     const updatedTags = [...tags, newTag];
     updatedTags.sort(compareTags);
-    setTags(tags);
+    setTags(updatedTags);
 
     // Set saving state.
     setIsSaving(true);

@@ -1,5 +1,5 @@
 import { useSearch } from "../../hooks/useSearch";
-import NoteGrid from "../../components/NoteGrid";
+import NoteGrid from "./NoteGrid";
 import ZeroResults from "./ZeroResults";
 
 function SearchResults() {

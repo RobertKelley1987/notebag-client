@@ -1,4 +1,4 @@
-import { useDeleteNote } from "../../hooks/useDeleteNote";
+import { useDeleteNote } from "../../../hooks/useDeleteNote";
 import type { MouseEvent } from "react";
 
 function NoteDeleteButton() {

@@ -2,7 +2,7 @@ import { Fragment, useLayoutEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import NoteFormContextProvider from "../../context/NoteFormContext";
 import { useInitAppData } from "../../hooks/useInitAppData";
-import { useScreenSize } from "../../hooks/useScreenSize";
+import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 import { useModal } from "../../hooks/useModal";
 import PageContainer from "../../components/PageContainer";
 import Header from "./Header";
@@ -17,7 +17,7 @@ import NewNoteButton from "./NewNoteButton";
 
 function Home() {
   const { isLoading, error, setError } = useInitAppData();
-  const { isSmallScreen } = useScreenSize();
+  const { isSmallScreen } = useIsSmallScreen();
   const [menuOpen, setMenuOpen] = useState(true);
   const { modal } = useModal();
   const [searchParams] = useSearchParams();
@@ -41,7 +41,7 @@ function Home() {
     return (
       <Fragment>
         {menuOpen && renderMenu()}
-        <main className="relative text-black items-center flex flex-col flex flex-col basis-full grow px-3 sm:px-6">
+        <main className="relative text-black items-center flex flex-col flex flex-col basis-full grow px-3 sm:px-6 sm:mt-6">
           {search === null && (
             <NoteFormContextProvider>
               <NewNote isLoading={isLoading} />

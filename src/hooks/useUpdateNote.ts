@@ -15,7 +15,7 @@ export function useUpdateNote() {
   const { setIsSaving } = useIsSaving();
   const noteService = useNoteService();
 
-  async function updatedNote() {
+  async function updateNote() {
     if (!selectedNote) return;
 
     const form = getForm();
@@ -41,5 +41,5 @@ export function useUpdateNote() {
     setIsSaving(false);
   }
 
-  return updatedNote;
+  return updateNote;
 }

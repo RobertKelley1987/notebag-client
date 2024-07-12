@@ -19,7 +19,10 @@ export function useCreateNote() {
     // If user typed only whitespaces in form, clear form values and close.
     const form = getForm();
     const { title, content } = form;
-    if (isEmpty(title) && isEmpty(content)) return setForm(EMPTY_NOTE);
+    if (isEmpty(title) && isEmpty(content)) {
+      setFormOpen(false);
+      return setForm(EMPTY_NOTE);
+    }
 
     // Set optimistic notes.
     const newNote = { id: uuid(), ...form };

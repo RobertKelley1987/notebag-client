@@ -1,7 +1,8 @@
 import { Fragment } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Markup } from "interweave";
-import type { Note } from "../../types";
+import { useNote } from "../../../hooks/useNote";
+import NotePinButton from "./NotePinButton";
 
 // Helper to replace search term with highlighted html
 function highlightSearch(str: string, search: string) {
@@ -11,11 +12,8 @@ function highlightSearch(str: string, search: string) {
   });
 }
 
-type NoteContentProps = {
-  note: Note;
-};
-
-function NoteContent({ note }: NoteContentProps) {
+function NoteContent() {
+  const { note } = useNote();
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search");
   let { title, content } = note;
@@ -26,7 +24,7 @@ function NoteContent({ note }: NoteContentProps) {
   }
 
   return (
-    <Fragment>
+    <div className="flex flex-col gap-2">
       {title && (
         <Markup
           tagName="h2"
@@ -41,7 +39,7 @@ function NoteContent({ note }: NoteContentProps) {
           className="break-words whitespace-pre-wrap"
         />
       )}
-    </Fragment>
+    </div>
   );
 }
 

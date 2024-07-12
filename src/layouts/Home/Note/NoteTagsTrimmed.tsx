@@ -1,5 +1,5 @@
-import NoteTag from "../NoteTag";
-import type { Tag } from "../../types";
+import NoteTag from "../../../components/NoteTag";
+import type { Tag } from "../../../types";
 
 type NoteTagsTrimmedProps = {
   tags: Tag[];

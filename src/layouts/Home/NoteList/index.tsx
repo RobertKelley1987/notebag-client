@@ -1,25 +1,21 @@
-import { useSearchParams } from "react-router-dom";
-import { useUserNotes } from "../../../hooks/useUserNotes";
-import NoteGrid from "../../../components/NoteGrid";
+import { useFilteredNotes } from "../../../hooks/useFilteredNotes";
+import PinnedNotes from "./PinnedNotes";
+import UnpinnedNotes from "./UnpinnedNoted";
 import ZeroNotes from "./ZeroNotes";
-import type { Note as NoteType } from "../../../types";
-
-// Helper to determine if a note has the specified tag.
-function noteHasTag(note: NoteType, tagName: string) {
-  return note.tags.findIndex((tag) => tag.name === tagName) !== -1;
-}
 
 function NoteList() {
-  let { userNotes } = useUserNotes();
-  const [searchParams] = useSearchParams();
-  const tagFilter = searchParams.get("tag");
+  const { filteredNotes } = useFilteredNotes();
 
-  // If tag filter does exist, filter away my friend.
-  if (tagFilter) {
-    userNotes = userNotes.filter((note) => noteHasTag(note, tagFilter));
+  function renderList() {
+    return (
+      <div className="flex flex-col gap-6 w-full mb-6 mt-0 sm:mt-6">
+        <PinnedNotes />
+        <UnpinnedNotes />
+      </div>
+    );
   }
 
-  return userNotes.length > 0 ? <NoteGrid notes={userNotes} /> : <ZeroNotes />;
+  return filteredNotes.length > 0 ? renderList() : <ZeroNotes />;
 }
 
 export default NoteList;

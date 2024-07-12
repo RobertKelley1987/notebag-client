@@ -10,7 +10,7 @@ function Menu() {
   const filterTag = searchParams.get("tag");
 
   return (
-    <div className="w-[300px] bg-white absolute left-0 top-0 sm:static h-screen sm:h-[calc(100vh-60px)] pb-4 overflow-y-auto flex flex-col shrink-0">
+    <div className="font-ibm w-[300px] bg-white absolute left-0 top-0 sm:static h-screen sm:h-[calc(100vh-60px)] pb-4 overflow-y-auto flex flex-col shrink-0">
       <Logo className="sm:hidden py-2 px-6" />
       <Link
         className={`shrink-0 whitespace-nowrap px-6 py-2 hover:text-aqua ${

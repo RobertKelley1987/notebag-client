@@ -11,6 +11,9 @@ import Home from "./layouts/Home";
 import Auth from "./layouts/Auth";
 import AuthPage from "./pages/AuthPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import ScreenSizeContextProvider, {
+  ScreenSizeContext,
+} from "./context/ScreenSizeContext";
 
 function App() {
   return (
@@ -23,13 +26,15 @@ function App() {
             element={
               <UserNotesContextProvider>
                 <UserTagsContextProvider>
-                  <ModalContextProvider>
-                    <IsSavingContextProvider>
-                      <FormOpenContextProvider>
-                        <Home />
-                      </FormOpenContextProvider>
-                    </IsSavingContextProvider>
-                  </ModalContextProvider>
+                  <ScreenSizeContextProvider>
+                    <ModalContextProvider>
+                      <IsSavingContextProvider>
+                        <FormOpenContextProvider>
+                          <Home />
+                        </FormOpenContextProvider>
+                      </IsSavingContextProvider>
+                    </ModalContextProvider>
+                  </ScreenSizeContextProvider>
                 </UserTagsContextProvider>
               </UserNotesContextProvider>
             }

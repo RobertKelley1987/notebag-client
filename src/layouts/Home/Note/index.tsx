@@ -1,20 +1,17 @@
-import DropdownContextProvider from "../../context/DropdownContext";
-import TagSearchContextProvider from "../../context/TagSearchContext";
-import { NoteContext } from "../../context/NoteContext";
-import { useUserNotes } from "../../hooks/useUserNotes";
-import { useModal } from "../../hooks/useModal";
-import NoteOptions from "../NoteOptions";
+import DropdownContextProvider from "../../../context/DropdownContext";
+import TagSearchContextProvider from "../../../context/TagSearchContext";
+import { useNote } from "../../../hooks/useNote";
+import { useUserNotes } from "../../../hooks/useUserNotes";
+import { useModal } from "../../../hooks/useModal";
+import NoteOptions from "../../../components/NoteOptions";
 import NoteTagsTrimmed from "./NoteTagsTrimmed";
 import NoteEditTags from "./NoteEditTags";
 import NoteDeleteButton from "./NoteDeleteButton";
 import NoteContent from "./NoteContent";
-import type { Note as NoteType } from "../../types";
+import NotePinButton from "./NotePinButton";
 
-type NoteProps = {
-  note: NoteType;
-};
-
-function Note({ note }: NoteProps) {
+function Note() {
+  const { note } = useNote();
   const { setSelected } = useUserNotes();
   const { setModal } = useModal();
 
@@ -23,6 +20,7 @@ function Note({ note }: NoteProps) {
     setModal("editNote");
   };
 
+  const noteIsEmpty = !note.title && !note.content;
   const emptyNote = <p className="italic text-slate-400">EMPTY NOTE</p>;
 
   return (
@@ -31,18 +29,17 @@ function Note({ note }: NoteProps) {
         onClick={handleClick}
         className="group cursor-pointer [mark]:text-white"
       >
-        {!note.title && !note.content ? emptyNote : <NoteContent note={note} />}
+        <NotePinButton />
+        {noteIsEmpty ? emptyNote : <NoteContent />}
         <NoteTagsTrimmed tags={note.tags} />
       </article>
       <DropdownContextProvider>
         <TagSearchContextProvider>
-          <NoteContext.Provider value={{ note }}>
-            <NoteOptions
-              editTagsForm={<NoteEditTags />}
-              deleteButton={<NoteDeleteButton />}
-              hideOptions={true}
-            />
-          </NoteContext.Provider>
+          <NoteOptions
+            editTagsForm={<NoteEditTags />}
+            deleteButton={<NoteDeleteButton />}
+            hideOptions={true}
+          />
         </TagSearchContextProvider>
       </DropdownContextProvider>
     </div>
