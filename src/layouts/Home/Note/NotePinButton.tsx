@@ -24,9 +24,13 @@ function NotePinButton() {
     <button
       onClick={handleClick}
       disabled={isSaving}
-      className={"hidden group-hover:block float-end my-1 ml-1"}
+      className={"float-end ml-[.15rem] h-[24px] w-[24px]"}
     >
-      <PinIcon className={note.pinned ? pinned : unpinned} />
+      <PinIcon
+        className={`hidden group-hover:block ${
+          note.pinned ? pinned : unpinned
+        }`}
+      />
     </button>
   );
 }

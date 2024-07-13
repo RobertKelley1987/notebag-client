@@ -2,6 +2,8 @@ import { Navigate, Routes, Route } from "react-router-dom";
 import AuthContextProvider from "./context/AuthContext";
 import UserNotesContextProvider from "./context/UserNotesContext";
 import UserTagsContextProvider from "./context/UserTagsContext";
+import InitAppDataContextProvider from "./context/InitAppDataContext";
+import ScreenSizeContextProvider from "./context/ScreenSizeContext";
 import IsSavingContextProvider from "./context/IsSavingContext";
 import ModalContextProvider from "./context/ModalContext";
 import FormOpenContextProvider from "./context/FormOpenContext";
@@ -11,9 +13,6 @@ import Home from "./layouts/Home";
 import Auth from "./layouts/Auth";
 import AuthPage from "./pages/AuthPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import ScreenSizeContextProvider, {
-  ScreenSizeContext,
-} from "./context/ScreenSizeContext";
 
 function App() {
   return (
@@ -26,15 +25,17 @@ function App() {
             element={
               <UserNotesContextProvider>
                 <UserTagsContextProvider>
-                  <ScreenSizeContextProvider>
-                    <ModalContextProvider>
-                      <IsSavingContextProvider>
-                        <FormOpenContextProvider>
-                          <Home />
-                        </FormOpenContextProvider>
-                      </IsSavingContextProvider>
-                    </ModalContextProvider>
-                  </ScreenSizeContextProvider>
+                  <InitAppDataContextProvider>
+                    <ScreenSizeContextProvider>
+                      <ModalContextProvider>
+                        <IsSavingContextProvider>
+                          <FormOpenContextProvider>
+                            <Home />
+                          </FormOpenContextProvider>
+                        </IsSavingContextProvider>
+                      </ModalContextProvider>
+                    </ScreenSizeContextProvider>
+                  </InitAppDataContextProvider>
                 </UserTagsContextProvider>
               </UserNotesContextProvider>
             }

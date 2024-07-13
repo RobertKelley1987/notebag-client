@@ -24,7 +24,7 @@ function NewNote({ isLoading }: NewNoteProps) {
   const openButton = <button onClick={handleClick}>new note...</button>;
 
   let wrapperClassNames =
-    "group fixed sm:static left-0 top-0 w-full sm:w-[300px] h-screen sm:h-auto p-3 bg-white sm:border border-black z-20";
+    "group fixed sm:static z-20 sm:z-0 left-0 top-0 w-full sm:w-[300px] h-screen sm:h-auto p-3 bg-white sm:border border-black";
   if (!formOpen)
     wrapperClassNames += " hidden sm:block cursor-pointer hover:bg-aqua";
 

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNoteForm } from "../../hooks/useNoteForm";
+import NoteFormPinButton from "./NoteFormPinButton";
 
 function NoteFormTitle() {
   const { titleRef } = useNoteForm();
@@ -9,14 +10,13 @@ function NoteFormTitle() {
   }, []);
 
   return (
-    <input
+    <div
       ref={titleRef}
-      type="text"
-      name="title"
       id="title"
-      className="w-full focus:outline-none font-semibold placeholder:text-slate-400"
-      placeholder="title"
-    />
+      contentEditable
+      data-placeholder="title"
+      className="font-semibold w-full focus:outline-none break-words empty:before:text-slate-400 empty:before:content-[attr(data-placeholder)] hover:cursor-text"
+    ></div>
   );
 }
 

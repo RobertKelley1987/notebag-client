@@ -18,7 +18,7 @@ function NoteFormPinButton() {
     setPinned((prev) => !prev);
   }
 
-  let buttonClass = "float-end my-1 ml-1 hover:[&_svg]:stroke-aqua";
+  let buttonClass = "float-end pl-2 hover:[&_svg]:stroke-aqua";
   buttonClass += ` ${pinned ? button.pinned : button.unpinned}`;
 
   return (

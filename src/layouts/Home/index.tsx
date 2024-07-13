@@ -1,22 +1,18 @@
 import { Fragment, useLayoutEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import NoteFormContextProvider from "../../context/NoteFormContext";
 import { useInitAppData } from "../../hooks/useInitAppData";
 import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 import { useModal } from "../../hooks/useModal";
 import PageContainer from "../../components/PageContainer";
 import Header from "./Header";
 import Menu from "./Menu";
-import NewNote from "./NewNote";
-import NoteList from "./NoteList";
 import Loading from "./Loading";
-import SearchResults from "./SearchResults";
-import FetchError from "./FetchError";
 import MobileMenu from "./MobileMenu";
 import NewNoteButton from "./NewNoteButton";
+import Main from "./Main";
 
 function Home() {
-  const { isLoading, error, setError } = useInitAppData();
+  const { isLoading } = useInitAppData();
   const { isSmallScreen } = useIsSmallScreen();
   const [menuOpen, setMenuOpen] = useState(true);
   const { modal } = useModal();
@@ -41,30 +37,16 @@ function Home() {
     return (
       <Fragment>
         {menuOpen && renderMenu()}
-        <main className="relative text-black items-center flex flex-col flex flex-col basis-full grow px-3 sm:px-6 sm:mt-6">
-          {search === null && (
-            <NoteFormContextProvider>
-              <NewNote isLoading={isLoading} />
-            </NoteFormContextProvider>
-          )}
-          {renderNoteList()}
-        </main>
+        <Main menuOpen={menuOpen} />
         {search === null && <NewNoteButton />}
       </Fragment>
     );
   }
 
-  function renderNoteList() {
-    if (error) {
-      return <FetchError setError={setError} />;
-    }
-    return search !== null ? <SearchResults /> : <NoteList />;
-  }
-
   return (
     <PageContainer>
       <Header setMenuOpen={setMenuOpen} />
-      <div className="font-ibm flex basis-full grow">
+      <div className="font-ibm flex basis-full grow sm:justify-end">
         {isLoading ? <Loading /> : renderApp()}
       </div>
       {modal}

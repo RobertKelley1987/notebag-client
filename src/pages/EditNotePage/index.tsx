@@ -20,7 +20,7 @@ function EditNotePage() {
     <Modal handleDismiss={updateNote}>
       <div
         onClick={handleClick}
-        className="font-ibm grid grid-rows-[auto_min-content] w-full sm:w-[250px] h-full sm:h-auto bg-white p-3 sm:border border-black"
+        className="font-ibm flex flex-col justify-between w-full sm:w-[250px] h-full sm:h-auto sm:max-h-[350px] bg-white p-3 sm:border border-black"
       >
         <ErrorBoundary fallback={<EditNoteError />}>
           <EditNoteForm />

@@ -1,27 +1,16 @@
 import { useClickOutside } from "../../hooks/useClickOutside";
-import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 import { useDropdown } from "../../hooks/useDropdown";
-import NoteDropdown from "./NoteDropdown";
-import Modal from "../Modal";
-import MoreIcon from "../icons/MoreIcon";
-import NoteOptionButtons from "./NoteOptionButtons";
-import type { ReactNode } from "react";
 import { useModal } from "../../hooks/useModal";
+import MoreIcon from "../icons/MoreIcon";
+import type { ReactNode } from "react";
 
 type NoteOptionsProps = {
-  editTagsForm: ReactNode;
-  deleteButton: ReactNode;
+  children: ReactNode;
   hideOptions?: boolean;
 };
 
-function NoteOptions({
-  editTagsForm,
-  deleteButton,
-  hideOptions,
-}: NoteOptionsProps) {
-  const { dropdownOpen, setDropdownOpen, editingTags, setEditingTags } =
-    useDropdown();
-  const { isSmallScreen } = useIsSmallScreen();
+function NoteOptions({ hideOptions, children }: NoteOptionsProps) {
+  const { dropdownOpen, setDropdownOpen, setEditingTags } = useDropdown();
   const { wrapperRef } = useClickOutside(handleClick);
   const modalOpen = !!useModal().modal;
 
@@ -29,14 +18,6 @@ function NoteOptions({
     setDropdownOpen(false);
     setEditingTags(false);
   }
-
-  const buttons = <NoteOptionButtons deleteButton={deleteButton} />;
-  const options = editingTags ? editTagsForm : buttons;
-  const dropdown = <NoteDropdown>{options}</NoteDropdown>;
-  const modal = (
-    <Modal handleDismiss={() => setDropdownOpen(false)}>{options}</Modal>
-  );
-  const result = isSmallScreen ? modal : dropdown;
 
   const wrapperClassNames = hideOptions
     ? "hidden sm:flex justify-end"
@@ -52,7 +33,7 @@ function NoteOptions({
             setDropdownOpen((prev) => !prev);
           }}
         />
-        {dropdownOpen && result}
+        {dropdownOpen && children}
       </div>
     </div>
   );

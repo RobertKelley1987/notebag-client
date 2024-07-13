@@ -26,19 +26,25 @@ function NoteContent() {
   return (
     <div className="flex flex-col gap-2">
       {title && (
-        <Markup
-          tagName="h2"
-          content={title}
-          className="font-semibold break-words"
-        />
+        <div>
+          <NotePinButton />
+          <Markup
+            tagName="h2"
+            content={title}
+            className="font-semibold break-words"
+          />
+        </div>
       )}
-      {content && (
-        <Markup
-          tagName="p"
-          content={content}
-          className="break-words whitespace-pre-wrap"
-        />
-      )}
+      <div>
+        {!title && <NotePinButton />}
+        {content && (
+          <Markup
+            tagName="p"
+            content={content}
+            className="break-words whitespace-pre-wrap"
+          />
+        )}
+      </div>
     </div>
   );
 }

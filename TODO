@@ -2,4 +2,6 @@
 - Search might want "search in this label" feature
 - Search should include results where search term is in a label.
   - Consider making a demo account.
-  - Refactor NewTagForm
+- Look at google keep's menu bar. Scroll only appears on hover and it's nice.
+- Menu bar needs to be fixed, and I need to figure out how to maintain correct
+  width of notes.

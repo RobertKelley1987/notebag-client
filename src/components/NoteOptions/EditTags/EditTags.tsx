@@ -4,10 +4,11 @@ import SearchIcon from "../../icons/SearchIcon";
 import type { ReactNode } from "react";
 
 type EditTagsProps = {
+  input: ReactNode;
   children: ReactNode;
 };
 
-function EditTags({ children }: EditTagsProps) {
+function EditTags({ input, children }: EditTagsProps) {
   const { tagSearch, setTagSearch } = useTagSearch();
 
   return (
@@ -18,13 +19,7 @@ function EditTags({ children }: EditTagsProps) {
       <h2 className="hidden sm:block font-semibold">Note Tags</h2>
       <div className="flex gap-2 sm:gap-1 w-full">
         <EditTagsBackButton />
-        <input
-          type="text"
-          value={tagSearch}
-          onChange={(e) => setTagSearch(e.target.value)}
-          placeholder="tag name"
-          className="w-full focus:outline-none"
-        />
+        {input}
         <SearchIcon className="basis-[24px] shrink-0 hidden sm:block" />
       </div>
       {children}

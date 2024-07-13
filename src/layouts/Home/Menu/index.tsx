@@ -1,5 +1,4 @@
 import { Link, useSearchParams } from "react-router-dom";
-import { useUserTags } from "../../../hooks/useUserTags";
 import { useModal } from "../../../hooks/useModal";
 import Logo from "../../../components/Logo";
 import MenuTags from "./MenuTags";
@@ -10,7 +9,7 @@ function Menu() {
   const filterTag = searchParams.get("tag");
 
   return (
-    <div className="font-ibm w-[300px] bg-white absolute left-0 top-0 sm:static h-screen sm:h-[calc(100vh-60px)] pb-4 overflow-y-auto flex flex-col shrink-0">
+    <div className="font-ibm z-20 w-[300px] bg-white absolute left-0 top-0 sm:fixed sm:top-[60px] h-screen sm:h-[calc(100vh-60px)] py-4 overflow-y-hidden hover:overflow-y-auto flex flex-col shrink-0 border-r border-black">
       <Logo className="sm:hidden py-2 px-6" />
       <Link
         className={`shrink-0 whitespace-nowrap px-6 py-2 hover:text-aqua ${

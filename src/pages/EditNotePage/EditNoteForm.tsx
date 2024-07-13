@@ -9,6 +9,7 @@ import NoteFormContent from "../../components/NoteForm/NoteFormContent";
 import NoteFormTitle from "../../components/NoteForm/NoteFormTitle";
 import NoteTags from "../../components/NoteTags";
 import NoteOptions from "../../components/NoteOptions";
+import NoteDropdown from "../../components/NoteOptions/NoteDropdown";
 import NoteFormEditTags from "../../components/NoteForm/NoteFormEditTags";
 import NoteDeleteButton from "../../layouts/Home/Note/NoteDeleteButton";
 import NoteFormSubmit from "../../components/NoteForm/NoteFormSubmit";
@@ -30,7 +31,7 @@ function EditNoteForm() {
   return (
     <Fragment>
       <div>
-        <div className="flex">
+        <div className="flex justify-between">
           <NoteFormTitle />
           <NoteFormPinButton />
         </div>
@@ -41,10 +42,12 @@ function EditNoteForm() {
         <TagSearchContextProvider>
           {/* Note value passed via NoteContext for NoteDeleteButton. */}
           <NoteContext.Provider value={{ note: selectedNote }}>
-            <NoteOptions
-              editTagsForm={<NoteFormEditTags />}
-              deleteButton={<NoteDeleteButton />}
-            />
+            <NoteOptions>
+              <NoteDropdown
+                editTagsForm={<NoteFormEditTags />}
+                deleteButton={<NoteDeleteButton />}
+              />
+            </NoteOptions>
           </NoteContext.Provider>
         </TagSearchContextProvider>
         <NoteFormSubmit submit={updateNote} />

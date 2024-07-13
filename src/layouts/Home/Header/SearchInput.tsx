@@ -5,7 +5,6 @@ function SearchInput() {
   const searchRef = useRef<HTMLInputElement>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("search");
-  let timeout = useRef<NodeJS.Timeout>();
 
   // If user clicked link to open search mode in mobile mode, focus the
   // search input.
@@ -14,16 +13,13 @@ function SearchInput() {
   }, [search]);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    clearTimeout(timeout.current);
-    timeout.current = setTimeout(
-      () => setSearchParams({ search: e.target.value }),
-      400
-    );
+    setSearchParams({ search: e.target.value });
   }
 
   return (
     <input
       ref={searchRef}
+      value={search ? search : ""}
       onChange={handleChange}
       onFocus={() => search === null && setSearchParams({ search: "" })}
       type="text"

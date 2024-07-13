@@ -4,6 +4,7 @@ import { useNote } from "../../../hooks/useNote";
 import { useUserNotes } from "../../../hooks/useUserNotes";
 import { useModal } from "../../../hooks/useModal";
 import NoteOptions from "../../../components/NoteOptions";
+import NoteDropdown from "../../../components/NoteOptions/NoteDropdown";
 import NoteTagsTrimmed from "./NoteTagsTrimmed";
 import NoteEditTags from "./NoteEditTags";
 import NoteDeleteButton from "./NoteDeleteButton";
@@ -29,17 +30,17 @@ function Note() {
         onClick={handleClick}
         className="group cursor-pointer [mark]:text-white"
       >
-        <NotePinButton />
         {noteIsEmpty ? emptyNote : <NoteContent />}
         <NoteTagsTrimmed tags={note.tags} />
       </article>
       <DropdownContextProvider>
         <TagSearchContextProvider>
-          <NoteOptions
-            editTagsForm={<NoteEditTags />}
-            deleteButton={<NoteDeleteButton />}
-            hideOptions={true}
-          />
+          <NoteOptions hideOptions={true}>
+            <NoteDropdown
+              editTagsForm={<NoteEditTags />}
+              deleteButton={<NoteDeleteButton />}
+            />
+          </NoteOptions>
         </TagSearchContextProvider>
       </DropdownContextProvider>
     </div>

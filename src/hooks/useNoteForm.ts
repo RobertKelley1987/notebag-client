@@ -15,7 +15,7 @@ export function useNoteForm() {
     noteFormContext;
 
   function getForm() {
-    const title = titleRef.current?.value || "";
+    const title = titleRef.current?.innerText || "";
     const content = contentRef.current?.innerText || "";
     const form = {
       title: isEmpty(title) ? "" : title,
@@ -28,7 +28,7 @@ export function useNoteForm() {
   }
 
   function setForm(form: NoteForm) {
-    if (titleRef.current) titleRef.current.value = form.title;
+    if (titleRef.current) titleRef.current.innerText = form.title;
     if (contentRef.current) contentRef.current.innerText = form.content;
     setTags(form.tags);
     setPinned(form.pinned);

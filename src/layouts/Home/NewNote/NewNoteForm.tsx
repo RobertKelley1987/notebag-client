@@ -8,6 +8,7 @@ import NoteFormTitle from "../../../components/NoteForm/NoteFormTitle";
 import NoteFormContent from "../../../components/NoteForm/NoteFormContent";
 import NoteTags from "../../../components/NoteTags";
 import NoteOptions from "../../../components/NoteOptions";
+import NoteDropdown from "../../../components/NoteOptions/NoteDropdown";
 import NoteFormEditTags from "../../../components/NoteForm/NoteFormEditTags";
 import NewNoteDeleteButton from "./NewNoteDeleteButton";
 import NoteFormSubmit from "../../../components/NoteForm/NoteFormSubmit";
@@ -28,9 +29,9 @@ function NewNoteForm() {
   return (
     <div className="flex flex-col w-full h-full justify-between">
       <div className="w-full relative block">
-        <div className="flex">
-          <NoteFormTitle />
+        <div>
           <NoteFormPinButton />
+          <NoteFormTitle />
         </div>
         <NoteFormContent />
         <NoteTags tags={tags} />
@@ -38,10 +39,12 @@ function NewNoteForm() {
       <div className="flex w-full justify-between items-center">
         <DropdownContextProvider>
           <TagSearchContextProvider>
-            <NoteOptions
-              editTagsForm={<NoteFormEditTags />}
-              deleteButton={<NewNoteDeleteButton />}
-            />
+            <NoteOptions>
+              <NoteDropdown
+                editTagsForm={<NoteFormEditTags />}
+                deleteButton={<NewNoteDeleteButton />}
+              />
+            </NoteOptions>
           </TagSearchContextProvider>
         </DropdownContextProvider>
         <NoteFormSubmit submit={createNote} />
