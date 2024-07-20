@@ -1,20 +1,13 @@
-import NoteFormContextProvider from "../../../context/NoteFormContext";
 import { useClickOutside } from "../../../hooks/useClickOutside";
-import { useUserNotes } from "../../../hooks/useUserNotes";
 import { useFormOpen } from "../../../hooks/useFormOpen";
 import { useCreateNote } from "../../../hooks/useCreateNote";
 import NewNoteForm from "./NewNoteForm";
 import { MouseEvent } from "react";
 
-type NewNoteProps = {
-  isLoading: boolean;
-};
-
-function NewNote({ isLoading }: NewNoteProps) {
-  const { userNotes } = useUserNotes();
+function NewNote() {
   const { formOpen, setFormOpen } = useFormOpen();
   const createNote = useCreateNote();
-  const { wrapperRef } = useClickOutside(createNote, [userNotes, isLoading]);
+  const { wrapperRef } = useClickOutside(createNote);
 
   function handleClick(e: MouseEvent<HTMLButtonElement>) {
     e.stopPropagation();

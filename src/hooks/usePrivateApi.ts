@@ -3,6 +3,8 @@ import { privateApi } from "../services/api";
 import { useRefreshToken } from "./useRefreshToken";
 import { useAuth } from "./useAuth";
 
+// Hook to provide an api instance with interceptors that handle expired access
+// tokens.
 export function usePrivateApi() {
   const refresh = useRefreshToken();
   const { accessToken } = useAuth();

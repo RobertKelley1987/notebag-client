@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useUserNotes } from "./useUserNotes";
 import type { Note } from "../types";

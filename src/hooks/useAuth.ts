@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
+// Hook to confirm auth context is accessed within auth provider.
 export function useAuth() {
   const authContext = useContext(AuthContext);
   if (!authContext) {

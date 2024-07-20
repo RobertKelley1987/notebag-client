@@ -1,7 +1,12 @@
 - When I accidentally drag the mouse into the modal, it closes. Why?
 - Search might want "search in this label" feature
 - Search should include results where search term is in a label.
-  - Consider making a demo account.
-- Look at google keep's menu bar. Scroll only appears on hover and it's nice.
-- Menu bar needs to be fixed, and I need to figure out how to maintain correct
-  width of notes.
+- Consider making a demo account.
+- Order of pinned notes is odd. Should they render in the order they were pinned?
+- Fix whitespace in search, ex: "test " should still give "test" results back.
+- If search is blank, show zero search results, not all notes.
+- Add comments to hooks describing what they do, return vals and args.
+- Show "edited at" time and date
+
+DEPLOY APP:
+https://stackoverflow.com/questions/41250087/how-to-deploy-a-react-nodejs-express-application-to-aws

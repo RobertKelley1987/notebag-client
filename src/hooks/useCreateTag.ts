@@ -6,12 +6,15 @@ import { useTagService } from "./useTagService";
 import optimistic from "../lib/optimistic";
 import { isEmpty } from "../lib/strings";
 
+// Hook that returns a function to create a new tag.
 export function useCreateTag() {
   const { setFormActive, setError, inputRef } = useTagForm();
   const { userTags, setUserTags } = useUserTags();
   const { setIsSaving } = useIsSaving();
   const tagService = useTagService();
 
+  // Function that creates a new tag in db and updates state
+  // to show optimistic values.
   async function createTag() {
     const input = inputRef.current;
     if (!input) return;

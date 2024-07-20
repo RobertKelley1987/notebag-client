@@ -7,7 +7,7 @@ type FetchErrorProps = {
 function FetchError({ setError }: FetchErrorProps) {
   return (
     <div className="basis-full grow flex justify-center items-center">
-      <p className="-translate-y-[50px]">
+      <p>
         Failed to fetch notes from server.{" "}
         <button
           onClick={() => setError(false)}

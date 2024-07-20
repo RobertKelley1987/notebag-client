@@ -5,6 +5,7 @@ import { useModal } from "./useModal";
 import { useNoteService } from "./useNoteService";
 import optimistic from "../lib/optimistic";
 
+// Hook that returns function to delete a note.
 export function useDeleteNote() {
   const { userNotes, setUserNotes } = useUserNotes();
   const { note } = useNote();
@@ -12,6 +13,8 @@ export function useDeleteNote() {
   const { setModal } = useModal();
   const notes = useNoteService();
 
+  // Function that deletes note from db and updates state
+  // with optimistic values.
   async function deleteNote() {
     const { error } = await notes.delete(note.id);
     if (!error) {

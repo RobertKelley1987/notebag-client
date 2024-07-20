@@ -1,5 +1,4 @@
 import { useSearchParams } from "react-router-dom";
-import { useInitAppData } from "../../hooks/useInitAppData";
 import NoteFormContextProvider from "../../context/NoteFormContext";
 import NewNote from "./NewNote";
 import Notes from "./Notes";
@@ -9,7 +8,6 @@ type MainProps = {
 };
 
 function Main({ menuOpen }: MainProps) {
-  const { isLoading } = useInitAppData();
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search");
   const searching = search !== null;
@@ -18,11 +16,11 @@ function Main({ menuOpen }: MainProps) {
 
   return (
     <main
-      className={`${width} relative text-black items-center flex flex-col px-3 sm:px-6 mt-6 translate-y-[60px]`}
+      className={`${width} h-[calc(100%-60px)] translate-y-[60px] relative text-black items-center flex flex-col px-3 sm:px-6 mt-6`}
     >
       {!searching && (
         <NoteFormContextProvider>
-          <NewNote isLoading={isLoading} />
+          <NewNote />
         </NoteFormContextProvider>
       )}
       <Notes />

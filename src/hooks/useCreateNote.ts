@@ -8,6 +8,7 @@ import { isEmpty } from "../lib/strings";
 import optimistic from "../lib/optimistic";
 import { EMPTY_NOTE } from "../lib/constants";
 
+// Hook that returns function to create a note.
 export function useCreateNote() {
   const { getForm, setForm } = useNoteForm();
   const { userNotes, setUserNotes } = useUserNotes();
@@ -15,6 +16,8 @@ export function useCreateNote() {
   const { setIsSaving } = useIsSaving();
   const noteService = useNoteService();
 
+  // Function that creates a note in db and updates state
+  // with optimistic values.
   async function createNote() {
     // If user typed only whitespaces in form, clear form values and close.
     const form = getForm();

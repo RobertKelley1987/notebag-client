@@ -8,6 +8,8 @@ import { useNoteService } from "./useNoteService";
 import { useTagService } from "./useTagService";
 import optimistic from "../lib/optimistic";
 
+// Hook that returns a function to create a new tag from the
+// tag search form a note's dropdown menu.
 export function useCreateTagFromNote() {
   const { setIsSaving } = useIsSaving();
   const { tagSearch, setTagSearch } = useTagSearch();
@@ -17,6 +19,8 @@ export function useCreateTagFromNote() {
   const noteService = useNoteService();
   const tagService = useTagService();
 
+  // Function to create a tag in db from a note's dropdown
+  // menu and update state with optimistic values.
   async function createTagFromNote() {
     if (!note) return;
     // Save tag name and clear search form

@@ -3,8 +3,8 @@ import { NoteFormContext } from "../context/NoteFormContext";
 import { isEmpty } from "../lib/strings";
 import type { NoteForm } from "../types";
 
-// Hook to access note form context. Helpers also provided to more easily access
-// title and content values stored in ref objects.
+// Hook to access note form context. Getter and setter also provided to
+// better access title and content values stored in ref objects.
 export function useNoteForm() {
   const noteFormContext = useContext(NoteFormContext);
   if (!noteFormContext) {

@@ -7,6 +7,7 @@ import { useNoteService } from "../hooks/useNoteService";
 import optimistic from "../lib/optimistic";
 import { isEmpty } from "../lib/strings";
 
+// Hook that returns a function for updating a note.
 export function useUpdateNote() {
   const { getForm } = useNoteForm();
   const { userNotes, setUserNotes } = useUserNotes();
@@ -15,6 +16,8 @@ export function useUpdateNote() {
   const { setIsSaving } = useIsSaving();
   const noteService = useNoteService();
 
+  // Function that updates a note with values from the
+  // edit note modal.
   async function updateNote() {
     if (!selectedNote) return;
 

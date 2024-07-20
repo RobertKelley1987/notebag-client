@@ -7,6 +7,7 @@ import { useIsSaving } from "./useIsSaving";
 import optimistic from "../lib/optimistic";
 import type { Tag } from "../types";
 
+// Hook that returns a function to update a tag.
 export function useUpdateTag() {
   const { userTags, setUserTags } = useUserTags();
   const { userNotes, setUserNotes } = useUserNotes();
@@ -16,8 +17,9 @@ export function useUpdateTag() {
   const noteService = useNoteService();
   const tagService = useTagService();
 
-  // Function to change a tag name throughout app.
-  // Callback arg required after update completes.
+  // Function to change a tag name throughout app and update
+  // state with optimistic values. Required callback executes after
+  // update is completed, e.g. to close modal or to close dropdown.
   async function updateTag(editedTag: Tag, closeFn: () => void) {
     // If name is empty, do nothing and return.
     const newName = editedTag.name.trim();
@@ -36,6 +38,7 @@ export function useUpdateTag() {
     setUserNotes(optimisticNotes);
 
     // If user is filtering notes by the edited tag, update search params
+    // with new value.
     if (tagFilter === oldName) setSearchParams({ tag: newName });
 
     // Close modal and set saving state

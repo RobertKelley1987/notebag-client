@@ -1,12 +1,12 @@
-import { useContext } from "react";
+import { useUserNotes } from "./useUserNotes";
 import { useUserTags } from "./useUserTags";
 import { useIsSaving } from "./useIsSaving";
 import { useNoteService } from "./useNoteService";
 import { useTagService } from "./useTagService";
 import optimistic from "../lib/optimistic";
 import type { Tag } from "../types";
-import { useUserNotes } from "./useUserNotes";
 
+// Hook that returns a function to delete a tag.
 export function useDeleteTag(tag: Tag) {
   const { userTags, setUserTags } = useUserTags();
   const { setUserNotes } = useUserNotes();
@@ -14,6 +14,8 @@ export function useDeleteTag(tag: Tag) {
   const notes = useNoteService();
   const tags = useTagService();
 
+  // Function that deletes a tag from db and updates state
+  // to show optimistic values.
   async function deleteTag() {
     // Set optimistic tags.
     const optimisticTags = optimistic.tags.removeOne(userTags, tag);

@@ -10,9 +10,10 @@ import Loading from "./Loading";
 import MobileMenu from "./MobileMenu";
 import NewNoteButton from "./NewNoteButton";
 import Main from "./Main";
+import FetchError from "./FetchError";
 
 function Home() {
-  const { isLoading } = useInitAppData();
+  const { isLoading, error, setError } = useInitAppData();
   const { isSmallScreen } = useIsSmallScreen();
   const [menuOpen, setMenuOpen] = useState(true);
   const { modal } = useModal();
@@ -33,6 +34,14 @@ function Home() {
     );
   }
 
+  function renderMain() {
+    if (error) {
+      return <FetchError setError={setError} />;
+    } else {
+      return;
+    }
+  }
+
   function renderApp() {
     return (
       <Fragment>
@@ -43,11 +52,21 @@ function Home() {
     );
   }
 
+  function renderHome() {
+    if (isLoading) {
+      return <Loading />;
+    } else if (error) {
+      return <FetchError setError={setError} />;
+    } else {
+      return renderApp();
+    }
+  }
+
   return (
     <PageContainer>
       <Header setMenuOpen={setMenuOpen} />
       <div className="font-ibm flex basis-full grow sm:justify-end">
-        {isLoading ? <Loading /> : renderApp()}
+        {renderHome()}
       </div>
       {modal}
     </PageContainer>
