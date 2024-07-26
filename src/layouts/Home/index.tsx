@@ -1,4 +1,5 @@
-import { Fragment, useLayoutEffect, useState } from "react";
+import { Fragment, useEffect, useLayoutEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { useInitAppData } from "../../hooks/useInitAppData";
 import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 import { useModal } from "../../hooks/useModal";
@@ -16,12 +17,13 @@ function Home() {
   const { isSmallScreen } = useIsSmallScreen();
   const [menuOpen, setMenuOpen] = useState(true);
   const { modal } = useModal();
+  const location = useLocation();
 
   useLayoutEffect(() => {
     if (isSmallScreen) {
       setMenuOpen(false);
     }
-  }, [isSmallScreen]);
+  }, [isSmallScreen, modal, location]);
 
   function renderMenu() {
     if (isSmallScreen) {

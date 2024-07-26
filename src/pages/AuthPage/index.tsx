@@ -4,6 +4,14 @@ import { useAuth } from "../../hooks/useAuth";
 import { AxiosError } from "axios";
 import type { ChangeEvent, FormEvent } from "react";
 import type { User } from "../../types";
+import ArrowIcon from "../../components/icons/ArrowIcon";
+
+const DEMO_CREDENTIALS: AuthForm = {
+  email: "demo@mail.com",
+  password: "demoaccount",
+};
+
+type AuthForm = { email: string; password: string };
 
 type AuthPageProps = {
   heading: string;
@@ -11,7 +19,7 @@ type AuthPageProps = {
 };
 
 function AuthPage({ heading, authFn }: AuthPageProps) {
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState<AuthForm>({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const { setAccessToken } = useAuth();
@@ -25,14 +33,18 @@ function AuthPage({ heading, authFn }: AuthPageProps) {
     setForm({ email: "", password: "" });
   }, [location.pathname]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
     setForm((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
-  };
+  }
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    await submit(form);
+  }
+
+  async function submit(form: AuthForm) {
     setIsLoading(true);
 
     try {
@@ -49,12 +61,12 @@ function AuthPage({ heading, authFn }: AuthPageProps) {
       }
       setError(errorMessage);
     }
-  };
+  }
 
   return (
-    <main className="basis-[275px] max-w-[400px] justify-center -translate-y-[30px]">
+    <main className="basis-[275px] max-w-[400px] justify-center -translate-y-[30px] flex flex-col gap-6">
       {error && <p className="mb-4 text-red">{error}</p>}
-      <h1 className="font-bold font-sans text-5xl mb-6">{heading}</h1>
+      <h1 className="font-bold font-sans text-5xl">{heading}</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <label htmlFor="email" className="leading-4">
@@ -90,6 +102,13 @@ function AuthPage({ heading, authFn }: AuthPageProps) {
           {isLoading ? "Authorizing..." : "Submit"}
         </button>
       </form>
+      <button
+        onClick={() => submit(DEMO_CREDENTIALS)}
+        className="flex gap-2 hover:text-aqua hover:italic"
+      >
+        Use Demo Account
+        <ArrowIcon className="rotate-180" />
+      </button>
     </main>
   );
 }

@@ -12,7 +12,7 @@ function MenuTag({ tag }: MenuTagProps) {
   return (
     <Link
       key={tag.id}
-      className={`flex gap-2 shrink-0 w-full text-left px-6 py-2 truncate hover:text-aqua ${selected}`}
+      className={`flex gap-2 shrink-0 w-full text-left px-6 py-3 truncate hover:text-aqua ${selected}`}
       to={`/notes?tag=${tag.name}`}
     >
       <TagIcon />

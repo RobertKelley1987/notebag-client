@@ -4,7 +4,6 @@ import TagSearchContextProvider from "../../../context/TagSearchContext";
 import { useCreateNote } from "../../../hooks/useCreateNote";
 import { useNoteForm } from "../../../hooks/useNoteForm";
 import { useFoundTag } from "../../../hooks/useFoundTag";
-import { useFormOpen } from "../../../hooks/useFormOpen";
 import NoteFormContent from "../../../components/NoteForm/NoteFormContent";
 import NoteFormEditTags from "../../../components/NoteForm/NoteFormEditTags";
 import NoteFormPinButton from "../../../components/NoteForm/NoteFormPinButton";
@@ -16,7 +15,6 @@ import NoteTags from "../../../components/NoteTags";
 import NewNoteDeleteButton from "./NewNoteDeleteButton";
 
 function NewNoteForm() {
-  const { formOpen } = useFormOpen();
   const { tags, setTags } = useNoteForm();
   const { foundTag } = useFoundTag();
   const createNote = useCreateNote();
@@ -24,7 +22,7 @@ function NewNoteForm() {
   useEffect(() => {
     const tags = foundTag ? [foundTag] : [];
     setTags(tags);
-  }, [foundTag, formOpen]);
+  }, []);
 
   return (
     <div className="flex flex-col w-full h-full justify-between">

@@ -1,5 +1,5 @@
 import { useDropdown } from "../../../hooks/useDropdown";
-import BackArrowIcon from "../../icons/BackArrowIcon";
+import ArrowIcon from "../../icons/ArrowIcon";
 
 function EditTagsBackButton() {
   const { setDropdownOpen, setEditingTags } = useDropdown();
@@ -11,7 +11,7 @@ function EditTagsBackButton() {
 
   return (
     <button onClick={handleClick} className="block sm:hidden hover:text-aqua">
-      <BackArrowIcon />
+      <ArrowIcon />
     </button>
   );
 }

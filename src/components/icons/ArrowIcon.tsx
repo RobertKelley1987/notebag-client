@@ -1,6 +1,6 @@
 import { SVGAttributes } from "react";
 
-function BackArrowIcon({ className, onClick }: SVGAttributes<SVGElement>) {
+function ArrowIcon({ className, onClick }: SVGAttributes<SVGElement>) {
   return (
     <svg
       className={className}
@@ -21,4 +21,4 @@ function BackArrowIcon({ className, onClick }: SVGAttributes<SVGElement>) {
   );
 }
 
-export default BackArrowIcon;
+export default ArrowIcon;

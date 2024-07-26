@@ -12,8 +12,6 @@ import type { Modal } from "../types";
 type ModalContextType = {
   modal: ReactNode | null;
   setModal: Dispatch<SetStateAction<Modal>>;
-  clickedInside: boolean;
-  setClickedInside: Dispatch<SetStateAction<boolean>>;
 };
 
 export const ModalContext = createContext<ModalContextType | null>(null);
@@ -43,7 +41,6 @@ export default function ModalContextProvider({
   children,
 }: ModalContextProviderProps) {
   const [modal, setModal] = useState<Modal>("");
-  const [clickedInside, setClickedInside] = useState(false);
   const current = modal ? MODAL_PGS[modal] : null;
   const location = useLocation();
 
@@ -53,9 +50,7 @@ export default function ModalContextProvider({
   }, [location]);
 
   return (
-    <ModalContext.Provider
-      value={{ modal: current, setModal, clickedInside, setClickedInside }}
-    >
+    <ModalContext.Provider value={{ modal: current, setModal }}>
       {children}
     </ModalContext.Provider>
   );

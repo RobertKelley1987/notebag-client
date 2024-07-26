@@ -1,12 +1,12 @@
 import { useSearchParams } from "react-router-dom";
-import BackArrowIcon from "../../../components/icons/BackArrowIcon";
+import ArrowIcon from "../../../components/icons/ArrowIcon";
 
 function CancelSearchButton() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   return (
     <button onClick={() => setSearchParams("")} className="hover:text-aqua">
-      <BackArrowIcon className="sm:hidden" />
+      <ArrowIcon className="sm:hidden" />
     </button>
   );
 }

@@ -13,7 +13,6 @@ function Main({ menuOpen }: MainProps) {
   const { isSmallScreen } = useIsSmallScreen();
 
   const width = menuOpen ? "w-[calc(100%-300px)]" : "w-full";
-
   const button = !isSmallScreen && <NewNoteButton />;
 
   return (

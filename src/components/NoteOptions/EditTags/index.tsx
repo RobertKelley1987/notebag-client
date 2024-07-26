@@ -10,7 +10,7 @@ function EditTags({ input, children }: EditTagsProps) {
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="font-ibm w-full sm:w-auto h-full sm:h-auto min-w-[200px] bg-white flex flex-col gap-6 sm:gap-4 sm:gap-2 p-3 sm:p-0"
+      className="font-ibm w-full sm:w-auto h-full sm:h-auto min-w-[200px] overflow-y-auto bg-white flex flex-col gap-6 sm:gap-4 sm:gap-2 p-3 sm:p-0"
     >
       <h2 className="hidden sm:block font-semibold">Note Tags</h2>
       <div className="flex gap-2 sm:gap-1 w-full">
