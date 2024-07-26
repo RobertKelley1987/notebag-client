@@ -5,7 +5,7 @@ type PageContainerProps = {
 };
 
 function PageContainer({ children }: PageContainerProps) {
-  return <div className="min-h-screen flex flex-col">{children}</div>;
+  return <div className="min-h-[100dvh] flex flex-col">{children}</div>;
 }
 
 export default PageContainer;

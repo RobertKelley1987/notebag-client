@@ -5,7 +5,7 @@ type LogoProps = {
 };
 
 function Logo({ className }: LogoProps) {
-  let classNames = "font-bold text-2xl text-black hover:text-aqua";
+  let classNames = "font-bold font-sans text-2xl text-black hover:text-aqua";
   if (className) classNames += ` ${className}`;
 
   return (

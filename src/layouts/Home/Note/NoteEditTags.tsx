@@ -1,5 +1,5 @@
 import { useCreateTagFromNote } from "../../../hooks/useCreateTagFromNote";
-import EditTags from "../../../components/NoteOptions/EditTags/EditTags";
+import EditTags from "../../../components/NoteOptions/EditTags";
 import EditTagsInput from "../../../components/NoteOptions/EditTags/EditTagsInput";
 import NoteTagCheckbox from "./NoteTagCheckbox";
 import NoteCreateTagButton from "./NoteCreateTagButton";

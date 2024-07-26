@@ -1,5 +1,6 @@
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { useDropdown } from "../../hooks/useDropdown";
+import { useFormOpen } from "../../hooks/useFormOpen";
 import { useModal } from "../../hooks/useModal";
 import MoreIcon from "../icons/MoreIcon";
 import type { ReactNode } from "react";
@@ -12,7 +13,8 @@ type NoteOptionsProps = {
 function NoteOptions({ hideOptions, children }: NoteOptionsProps) {
   const { dropdownOpen, setDropdownOpen, setEditingTags } = useDropdown();
   const { wrapperRef } = useClickOutside(handleClick);
-  const modalOpen = !!useModal().modal;
+  const { formOpen } = useFormOpen();
+  const modalOpen = !!useModal().modal || !!formOpen;
 
   function handleClick() {
     setDropdownOpen(false);

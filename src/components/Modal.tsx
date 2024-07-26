@@ -4,12 +4,12 @@ import type { MouseEvent, ReactNode } from "react";
 
 type ModalProps = {
   children: ReactNode;
-  handleDismiss: (e: React.MouseEvent<HTMLDivElement>) => void;
+  handleDismiss?: (e: React.MouseEvent<HTMLDivElement>) => void;
   className?: string;
 };
 
 function Modal({ children, handleDismiss, className }: ModalProps) {
-  let classNames = `fixed z-40 top-0 left-0 h-screen w-full bg-black bg-opacity-50 flex justify-center items-center`;
+  let classNames = `fixed z-40 top-0 left-0 h-[100dvh] w-full bg-black bg-opacity-50 flex justify-center items-center`;
   if (className) {
     classNames += " " + className;
   }

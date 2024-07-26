@@ -1,12 +1,13 @@
 import axios from "axios";
 
-export const api = axios.create({
-  baseURL: process.env.API_URL,
-  withCredentials: true,
-});
+const DEV_URL = "/";
+const PROD_URL = "http://server.notebag.site";
+const baseURL = PROD_URL;
+
+export const api = axios.create({ baseURL, withCredentials: true });
 
 export const privateApi = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL,
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });

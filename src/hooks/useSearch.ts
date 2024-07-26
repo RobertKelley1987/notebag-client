@@ -4,7 +4,7 @@ import type { Note } from "../types";
 
 // Helper to determine if a note includes a search term.
 function noteHasStr(note: Note, str: string) {
-  str = str.toLowerCase();
+  str = str.toLowerCase().trim();
   const title = note.title.toLowerCase();
   const content = note.content.toLowerCase();
   return title.includes(str) || content.includes(str);
@@ -17,5 +17,5 @@ export function useSearch() {
   const search = searchParams.get("search") || "";
   const results = userNotes.filter((note) => noteHasStr(note, search));
 
-  return { results };
+  return { results, isBlank: search === "" };
 }

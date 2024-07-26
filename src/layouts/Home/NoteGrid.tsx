@@ -13,8 +13,8 @@ function NoteGrid({ notes }: NoteGridProps) {
       <ResponsiveMasonry columnsCountBreakPoints={{ 750: 2, 900: 3, 1100: 4 }}>
         <Masonry gutter="1rem">
           {notes.map((note) => (
-            <NoteContext.Provider value={{ note }}>
-              <Note key={note.id} />
+            <NoteContext.Provider key={note.id} value={{ note }}>
+              <Note />
             </NoteContext.Provider>
           ))}
         </Masonry>

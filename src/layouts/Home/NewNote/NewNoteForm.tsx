@@ -1,23 +1,23 @@
 import { useEffect } from "react";
 import DropdownContextProvider from "../../../context/DropdownContext";
-import { useNoteForm } from "../../../hooks/useNoteForm";
-import { useFormOpen } from "../../../hooks/useFormOpen";
-import { useFoundTag } from "../../../hooks/useFoundTag";
+import TagSearchContextProvider from "../../../context/TagSearchContext";
 import { useCreateNote } from "../../../hooks/useCreateNote";
-import NoteFormTitle from "../../../components/NoteForm/NoteFormTitle";
+import { useNoteForm } from "../../../hooks/useNoteForm";
+import { useFoundTag } from "../../../hooks/useFoundTag";
+import { useFormOpen } from "../../../hooks/useFormOpen";
 import NoteFormContent from "../../../components/NoteForm/NoteFormContent";
-import NoteTags from "../../../components/NoteTags";
+import NoteFormEditTags from "../../../components/NoteForm/NoteFormEditTags";
+import NoteFormPinButton from "../../../components/NoteForm/NoteFormPinButton";
+import NoteFormSubmit from "../../../components/NoteForm/NoteFormSubmit";
+import NoteFormTitle from "../../../components/NoteForm/NoteFormTitle";
 import NoteOptions from "../../../components/NoteOptions";
 import NoteDropdown from "../../../components/NoteOptions/NoteDropdown";
-import NoteFormEditTags from "../../../components/NoteForm/NoteFormEditTags";
+import NoteTags from "../../../components/NoteTags";
 import NewNoteDeleteButton from "./NewNoteDeleteButton";
-import NoteFormSubmit from "../../../components/NoteForm/NoteFormSubmit";
-import TagSearchContextProvider from "../../../context/TagSearchContext";
-import NoteFormPinButton from "../../../components/NoteForm/NoteFormPinButton";
 
 function NewNoteForm() {
-  const { tags, setTags } = useNoteForm();
   const { formOpen } = useFormOpen();
+  const { tags, setTags } = useNoteForm();
   const { foundTag } = useFoundTag();
   const createNote = useCreateNote();
 

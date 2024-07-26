@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Markup } from "interweave";
 import { useNote } from "../../../hooks/useNote";
@@ -15,7 +14,8 @@ function highlightSearch(str: string, search: string) {
 function NoteContent() {
   const { note } = useNote();
   const [searchParams] = useSearchParams();
-  const search = searchParams.get("search");
+  const searchQuery = searchParams.get("search");
+  const search = searchQuery?.toLowerCase().trim();
   let { title, content } = note;
 
   if (search) {
