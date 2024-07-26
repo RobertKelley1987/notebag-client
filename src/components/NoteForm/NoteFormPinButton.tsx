@@ -18,11 +18,21 @@ function NoteFormPinButton() {
     setPinned((prev) => !prev);
   }
 
+  // When user clicks on heart symbol, this prevents the form inputs
+  // from losing focus. Otherwise the mobile experience is really janky.
+  function handleMouseDown(e: MouseEvent) {
+    e.preventDefault();
+  }
+
   let buttonClass = "float-end pl-2 hover:[&_svg]:stroke-aqua";
   buttonClass += ` ${pinned ? button.pinned : button.unpinned}`;
 
   return (
-    <button onClick={handleClick} className={buttonClass}>
+    <button
+      onClick={handleClick}
+      onMouseDown={handleMouseDown}
+      className={buttonClass}
+    >
       <PinIcon className={pinned ? "fill-black" : undefined} />
     </button>
   );

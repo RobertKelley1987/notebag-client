@@ -6,7 +6,8 @@ import { useNote } from "./useNote";
 import { useIsSaving } from "./useIsSaving";
 import { useNoteService } from "./useNoteService";
 import { useTagService } from "./useTagService";
-import optimistic from "../lib/optimistic";
+import { addTag } from "../lib/tags";
+import { addNoteTag } from "../lib/notes";
 
 // Hook that returns a function to create a new tag from the
 // tag search form a note's dropdown menu.
@@ -28,11 +29,11 @@ export function useCreateTagFromNote() {
     setTagSearch("");
 
     // Set optimistic tags
-    const optimisticTags = optimistic.tags.addOne(userTags, newTag);
+    const optimisticTags = addTag(userTags, newTag);
     setUserTags(optimisticTags);
 
     // Set optimistic notes with tag added to this note
-    const optimisticNotes = optimistic.notes.addTag(userNotes, note, newTag);
+    const optimisticNotes = addNoteTag(userNotes, note, newTag);
     setUserNotes(optimisticNotes);
 
     // Set saving state.

@@ -4,7 +4,7 @@ import { useSelectedNote } from "./useSelectedNote";
 import { useIsSaving } from "../hooks/useIsSaving";
 import { useModal } from "../hooks/useModal";
 import { useNoteService } from "../hooks/useNoteService";
-import optimistic from "../lib/optimistic";
+import { replaceNote } from "../lib/notes";
 import { isEmpty } from "../lib/strings";
 
 // Hook that returns a function for updating a note.
@@ -22,7 +22,8 @@ export function useUpdateNote() {
     if (!selectedNote) return;
 
     const form = getForm();
-    const updatedNote = { ...form, id: selectedNote.id };
+    const pinnedAt = selectedNote.pinnedAt ? selectedNote.pinnedAt : "";
+    const updatedNote = { ...form, id: selectedNote.id, pinnedAt };
 
     // Allow user to save empty notes, but replace all whitespace
     // title or content with empty strings.
@@ -30,7 +31,7 @@ export function useUpdateNote() {
     if (isEmpty(updatedNote.content)) updatedNote.content = "";
 
     // Set optimistic notes
-    const optimisticNotes = optimistic.notes.updateOne(userNotes, updatedNote);
+    const optimisticNotes = replaceNote(userNotes, updatedNote);
     setUserNotes(optimisticNotes);
 
     // Close modal and set saving state.

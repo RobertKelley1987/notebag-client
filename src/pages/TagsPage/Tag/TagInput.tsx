@@ -30,7 +30,10 @@ function TagInput({ tag }: TagInputProps) {
   function handleBlur(e: FocusEvent<HTMLInputElement, Element>) {
     const clickedDeleteButton = e.relatedTarget?.id === `delete-${tag.id}`;
     const clickedUpdateButton = e.relatedTarget?.id === `update-${tag.id}`;
-    if (!e.relatedTarget || clickedDeleteButton || clickedUpdateButton) return;
+    const clickedBackButton = e.relatedTarget?.id === "edit-tags-back-button";
+    const doNotBlur =
+      clickedDeleteButton || clickedUpdateButton || clickedBackButton;
+    if (!e.relatedTarget || doNotBlur) return;
     setEditedTag(null);
   }
 

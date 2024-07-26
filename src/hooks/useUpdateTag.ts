@@ -4,7 +4,8 @@ import { useTagService } from "./useTagService";
 import { useUserTags } from "./useUserTags";
 import { useUserNotes } from "./useUserNotes";
 import { useIsSaving } from "./useIsSaving";
-import optimistic from "../lib/optimistic";
+import { replaceTag } from "../lib/tags";
+import { updateNoteTag } from "../lib/notes";
 import type { Tag } from "../types";
 
 // Hook that returns a function to update a tag.
@@ -32,8 +33,8 @@ export function useUpdateTag() {
 
     // Set optimistic tags and notes
     const updatedTag = { ...editedTag, name: newName };
-    const optimisticTags = optimistic.tags.updateOne(userTags, updatedTag);
-    const optimisticNotes = optimistic.notes.updateTag(userNotes, updatedTag);
+    const optimisticTags = replaceTag(userTags, updatedTag);
+    const optimisticNotes = updateNoteTag(userNotes, updatedTag);
     setUserTags(optimisticTags);
     setUserNotes(optimisticNotes);
 

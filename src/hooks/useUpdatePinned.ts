@@ -2,7 +2,7 @@ import { useNote } from "./useNote";
 import { useUserNotes } from "../hooks/useUserNotes";
 import { useIsSaving } from "../hooks/useIsSaving";
 import { useNoteService } from "../hooks/useNoteService";
-import optimistic from "../lib/optimistic";
+import { replaceNote } from "../lib/notes";
 
 // Hook that returns a function to update the pinned status
 // of a note.
@@ -17,10 +17,11 @@ export function useUpdatePinned() {
   async function updatePinned() {
     // Create note with updated pinned status
     const pinned = !note.pinned;
-    const updatedNote = { ...note, pinned };
+    const pinnedAt = pinned ? new Date(Date.now()).toISOString() : "";
+    const updatedNote = { ...note, pinned, pinnedAt };
 
     // Set optimistic values with updated note
-    const optimisticNotes = optimistic.notes.updateOne(userNotes, updatedNote);
+    const optimisticNotes = replaceNote(userNotes, updatedNote);
     setUserNotes(optimisticNotes);
 
     // Edit note in db and fetch updated notes.

@@ -5,7 +5,7 @@ function TagList() {
   const { userTags } = useUserTags();
 
   return (
-    <ul className="flex flex-col gap-3">
+    <ul className="flex flex-col gap-6 sm:gap-3">
       {userTags.map((tag) => {
         return <Tag key={tag.id} tag={tag} />;
       })}{" "}

@@ -3,7 +3,7 @@ import { useUserTags } from "./useUserTags";
 import { useIsSaving } from "./useIsSaving";
 import { useNoteService } from "./useNoteService";
 import { useTagService } from "./useTagService";
-import optimistic from "../lib/optimistic";
+import { removeTag } from "../lib/tags";
 import type { Tag } from "../types";
 
 // Hook that returns a function to delete a tag.
@@ -18,7 +18,7 @@ export function useDeleteTag(tag: Tag) {
   // to show optimistic values.
   async function deleteTag() {
     // Set optimistic tags.
-    const optimisticTags = optimistic.tags.removeOne(userTags, tag);
+    const optimisticTags = removeTag(userTags, tag);
     setUserTags(optimisticTags);
 
     // Set saving state.

@@ -3,4 +3,5 @@ export const EMPTY_NOTE = {
   content: "",
   tags: [],
   pinned: false,
+  pinnedAt: "",
 };

@@ -24,7 +24,7 @@ function SearchInput() {
       onFocus={() => search === null && setSearchParams({ search: "" })}
       type="text"
       placeholder="search"
-      className="p-2 focus:outline-none placeholder:text-black bg-white w-full"
+      className="p-2 focus:outline-none placeholder:text-slate-400 bg-white w-full"
     />
   );
 }

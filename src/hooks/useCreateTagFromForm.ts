@@ -4,8 +4,7 @@ import { useTagSearch } from "./useTagSearch";
 import { useUserTags } from "./useUserTags";
 import { useIsSaving } from "./useIsSaving";
 import { useTagService } from "./useTagService";
-import optimistic from "../lib/optimistic";
-import { compareTags } from "../lib/optimistic";
+import { addTag, compareTags } from "../lib/tags";
 
 // Hook that returns a function to create a new tag from the
 // tag search form inside a note form dropdown.
@@ -24,7 +23,7 @@ export function useCreateTagFromForm() {
     setTagSearch("");
 
     // Set optimistic tags
-    const optimisticTags = optimistic.tags.addOne(userTags, newTag);
+    const optimisticTags = addTag(userTags, newTag);
     setUserTags(optimisticTags);
 
     // Add tag to new note

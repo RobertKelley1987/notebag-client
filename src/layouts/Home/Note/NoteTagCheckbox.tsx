@@ -1,10 +1,10 @@
 import { useUserNotes } from "../../../hooks/useUserNotes";
 import { useIsSaving } from "../../../hooks/useIsSaving";
 import { useNoteService } from "../../../hooks/useNoteService";
-import optimistic from "../../../lib/optimistic";
+import { useNote } from "../../../hooks/useNote";
+import { toggleNoteTag } from "../../../lib/notes";
 import TagCheckbox from "../../../components/NoteOptions/EditTags/TagCheckbox";
 import type { Tag } from "../../../types";
-import { useNote } from "../../../hooks/useNote";
 
 type NoteTagCheckboxProps = {
   tag: Tag;
@@ -22,7 +22,7 @@ function NoteTagCheckbox({ tag }: NoteTagCheckboxProps) {
     if (!note) return;
 
     // Set optimistic notes
-    const optimisiticNotes = optimistic.notes.toggleTag(userNotes, note, tag);
+    const optimisiticNotes = toggleNoteTag(userNotes, note, tag);
     setUserNotes(optimisiticNotes);
 
     // Set saving state.

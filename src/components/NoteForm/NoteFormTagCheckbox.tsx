@@ -1,6 +1,6 @@
 import TagCheckbox from "../NoteOptions/EditTags/TagCheckbox";
 import { useNoteForm } from "../../hooks/useNoteForm";
-import { compareTags } from "../../lib/optimistic";
+import { compareTags } from "../../lib/tags";
 import type { Tag } from "../../types";
 
 type FormTagCheckboxProps = {

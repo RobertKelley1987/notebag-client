@@ -20,8 +20,8 @@ function EditTagsInput({ createTag }: EditTagsInputProps) {
       value={tagSearch}
       onChange={(e) => setTagSearch(e.target.value)}
       onKeyUp={handleKeyUp}
-      placeholder="tag name"
-      className="w-full focus:outline-none"
+      placeholder="enter tag name"
+      className="w-full focus:outline-none placeholder:text-slate-400"
     />
   );
 }

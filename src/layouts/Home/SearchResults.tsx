@@ -7,7 +7,9 @@ function SearchResults() {
 
   const emptyInputMessage = (
     <div className="basis-full grow flex justify-center items-center">
-      <p>Use the search bar to search your notes.</p>
+      <p className="-translate-y-[1.5rem]">
+        Use the search bar to search your notes.
+      </p>
     </div>
   );
 

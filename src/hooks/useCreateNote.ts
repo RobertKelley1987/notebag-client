@@ -5,7 +5,7 @@ import { useFormOpen } from "./useFormOpen";
 import { useNoteService } from "./useNoteService";
 import { useIsSaving } from "./useIsSaving";
 import { isEmpty } from "../lib/strings";
-import optimistic from "../lib/optimistic";
+import { addNote } from "../lib/notes";
 import { EMPTY_NOTE } from "../lib/constants";
 
 // Hook that returns function to create a note.
@@ -29,7 +29,7 @@ export function useCreateNote() {
 
     // Set optimistic notes.
     const newNote = { id: uuid(), ...form };
-    const optimisticNotes = optimistic.notes.addOne(userNotes, newNote);
+    const optimisticNotes = addNote(userNotes, newNote);
     setUserNotes(optimisticNotes);
 
     // Reset form and set saving state.

@@ -3,7 +3,7 @@ import { useTagForm } from "./useTagForm";
 import { useUserTags } from "./useUserTags";
 import { useIsSaving } from "./useIsSaving";
 import { useTagService } from "./useTagService";
-import optimistic from "../lib/optimistic";
+import { addTag } from "../lib/tags";
 import { isEmpty } from "../lib/strings";
 
 // Hook that returns a function to create a new tag.
@@ -38,7 +38,7 @@ export function useCreateTag() {
     setIsSaving(true);
 
     // Set optimisitic tags.
-    const optimisticTags = optimistic.tags.addOne(userTags, newTag);
+    const optimisticTags = addTag(userTags, newTag);
     setUserTags(optimisticTags);
 
     // Reset form.

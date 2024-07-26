@@ -7,6 +7,8 @@ import { useFoundTag } from "../../hooks/useFoundTag";
 import Modal from "../../components/Modal";
 import NewTagForm from "./NewTagForm";
 import TagList from "./TagList";
+import BackArrowIcon from "../../components/icons/BackArrowIcon";
+import type { MouseEvent } from "react";
 
 function TagsPage() {
   const { editedTag } = useEditedTag();
@@ -29,14 +31,28 @@ function TagsPage() {
     }
   }
 
+  function handleClick(e: MouseEvent) {
+    e.stopPropagation();
+    handleDismiss();
+  }
+
   return (
     <Modal handleDismiss={handleDismiss}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex flex-col gap-3 font-ibm text-black w-[275px] max-h-[350px] overflow-y-auto my-6 p-4 bg-white border border-black"
+        className="flex flex-col gap-6 sm:gap-3 font-ibm text-black w-full sm:w-[275px] h-full sm:h-auto sm:max-h-[350px] overflow-y-auto my-6 p-4 bg-white sm:border border-black"
       >
         <div className="flex justify-between">
-          <h1 className="font-semibold">Edit Tags</h1>
+          <div className="flex gap-3">
+            <button
+              id="edit-tags-back-button"
+              className="sm:hidden hover:text-aqua"
+              onClick={handleClick}
+            >
+              <BackArrowIcon />
+            </button>
+            <h1 className="font-semibold">Edit Tags</h1>
+          </div>
           {isSaving && <span>Saving...</span>}
         </div>
         <NewTagForm />

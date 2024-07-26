@@ -3,7 +3,7 @@ import { useNote } from "./useNote";
 import { useIsSaving } from "./useIsSaving";
 import { useModal } from "./useModal";
 import { useNoteService } from "./useNoteService";
-import optimistic from "../lib/optimistic";
+import { removeNote } from "../lib/notes";
 
 // Hook that returns function to delete a note.
 export function useDeleteNote() {
@@ -22,7 +22,7 @@ export function useDeleteNote() {
       setModal("");
 
       // Set optimistic notes
-      const optimisticNotes = optimistic.notes.removeOne(userNotes, note);
+      const optimisticNotes = removeNote(userNotes, note);
       setUserNotes(optimisticNotes);
 
       // Set saving state.

@@ -9,6 +9,7 @@ function Searchbar() {
 
   let classNames =
     "absolute left-[50%] -translate-x-[50%] bg-white px-3 sm:px-0 w-full sm:w-auto z-10 items-center";
+
   if (search === null) {
     classNames += " hidden sm:flex";
   } else {
