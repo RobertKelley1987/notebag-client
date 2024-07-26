@@ -41,7 +41,7 @@ function NoteContent() {
           <Markup
             tagName="p"
             content={content}
-            className="break-words whitespace-pre-wrap"
+            className="break-words whitespace-pre-wrap line-clamp-8"
           />
         )}
       </div>

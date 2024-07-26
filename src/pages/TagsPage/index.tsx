@@ -15,6 +15,7 @@ function TagsPage() {
   const { foundTag } = useFoundTag();
   const { setModal } = useModal();
   const { isSaving } = useIsSaving();
+  const { setClickedInside } = useModal();
   const updateTag = useUpdateTag();
   const navigate = useNavigate();
 
@@ -36,10 +37,23 @@ function TagsPage() {
     handleDismiss();
   }
 
+  // Tracking state of mouse down inside modal content prevents modal
+  // from closing when user highlights text inside modal and mouses up outside
+  // modal.
+  function handleMouseDown(e: MouseEvent) {
+    if (e.currentTarget.id === "edit-tags") {
+      setClickedInside(true);
+    } else {
+      setClickedInside(false);
+    }
+  }
+
   return (
     <Modal handleDismiss={handleDismiss}>
       <div
+        id="edit-tags"
         onClick={(e) => e.stopPropagation()}
+        onMouseDown={handleMouseDown}
         className="flex flex-col gap-6 sm:gap-3 font-ibm text-black w-full sm:w-[275px] h-full sm:h-auto sm:max-h-[350px] overflow-y-auto my-6 p-4 bg-white sm:border border-black"
       >
         <div className="flex justify-between">

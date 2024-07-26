@@ -12,6 +12,10 @@ module.exports = {
         red: "#FF0000",
         aqua: "#13ad60",
       },
+      lineClamp: {
+        7: "7",
+        8: "8",
+      },
     },
   },
   plugins: [],
