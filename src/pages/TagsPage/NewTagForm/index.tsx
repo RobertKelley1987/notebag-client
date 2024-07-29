@@ -42,8 +42,8 @@ function NewTagForm() {
         <input
           ref={inputRef}
           type="text"
-          className="w-full focus:outline-none"
-          placeholder="new tag..."
+          className="w-full focus:outline-none placeholder:text-slate-400"
+          placeholder="enter tag name"
           onFocus={() => setFormActive(true)}
           onBlur={handleBlur}
           onKeyUp={handleKeyUp}

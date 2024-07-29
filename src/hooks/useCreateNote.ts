@@ -5,6 +5,7 @@ import { useFormOpen } from "./useFormOpen";
 import { useNoteService } from "./useNoteService";
 import { useIsSaving } from "./useIsSaving";
 import { isEmpty } from "../lib/strings";
+import { now } from "../lib/time";
 import { addNote } from "../lib/notes";
 import { EMPTY_NOTE } from "../lib/constants";
 
@@ -27,8 +28,11 @@ export function useCreateNote() {
       return setForm(EMPTY_NOTE);
     }
 
+    // Config pinned time (for sorting) and add to new note.
+    const pinnedAt = form.pinned ? now() : undefined;
+    const newNote = { id: uuid(), pinnedAt, ...form };
+
     // Set optimistic notes.
-    const newNote = { id: uuid(), ...form };
     const optimisticNotes = addNote(userNotes, newNote);
     setUserNotes(optimisticNotes);
 

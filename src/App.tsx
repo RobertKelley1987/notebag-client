@@ -17,44 +17,44 @@ import NotFoundPage from "./pages/NotFoundPage";
 function App() {
   return (
     <AuthContextProvider>
-      <Routes>
-        <Route element={<PrivateRoute />}>
-          <Route path="/" element={<Navigate to="/notes" />} />
-          <Route
-            path="/notes"
-            element={
-              <UserNotesContextProvider>
-                <UserTagsContextProvider>
-                  <InitAppDataContextProvider>
-                    <ScreenSizeContextProvider>
-                      <ModalContextProvider>
-                        <IsSavingContextProvider>
-                          <FormOpenContextProvider>
+      <ModalContextProvider>
+        <FormOpenContextProvider>
+          <Routes>
+            <Route element={<PrivateRoute />}>
+              <Route path="/" element={<Navigate to="/notes" />} />
+              <Route
+                path="/notes"
+                element={
+                  <UserNotesContextProvider>
+                    <UserTagsContextProvider>
+                      <InitAppDataContextProvider>
+                        <ScreenSizeContextProvider>
+                          <IsSavingContextProvider>
                             <Home />
-                          </FormOpenContextProvider>
-                        </IsSavingContextProvider>
-                      </ModalContextProvider>
-                    </ScreenSizeContextProvider>
-                  </InitAppDataContextProvider>
-                </UserTagsContextProvider>
-              </UserNotesContextProvider>
-            }
-          />
-        </Route>
+                          </IsSavingContextProvider>
+                        </ScreenSizeContextProvider>
+                      </InitAppDataContextProvider>
+                    </UserTagsContextProvider>
+                  </UserNotesContextProvider>
+                }
+              />
+            </Route>
 
-        <Route element={<Auth />}>
-          <Route
-            path="/register"
-            element={<AuthPage heading="Sign Up" authFn={users.register} />}
-          />
-          <Route
-            path="/login"
-            element={<AuthPage heading="Log In" authFn={users.login} />}
-          />
-        </Route>
+            <Route element={<Auth />}>
+              <Route
+                path="/register"
+                element={<AuthPage heading="Sign Up" authFn={users.register} />}
+              />
+              <Route
+                path="/login"
+                element={<AuthPage heading="Log In" authFn={users.login} />}
+              />
+            </Route>
 
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </FormOpenContextProvider>
+      </ModalContextProvider>
     </AuthContextProvider>
   );
 }

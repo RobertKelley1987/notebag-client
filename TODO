@@ -1,6 +1,7 @@
+For Version 2.0:
+
+- Drag and drop baby.
 - Search might want "search in this label" feature
 - Search should include results where search term is in a label.
-- Make a demo account.
-- Order of pinned notes is odd. Should they render in the order they were pinned?
-- Add comments to hooks describing what they do, return vals and args.
 - Show "edited at" time and date
+- pinnedAt prop should be replaced with pinnedOrder for sorting

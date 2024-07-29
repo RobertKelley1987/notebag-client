@@ -6,6 +6,7 @@ import { useModal } from "../hooks/useModal";
 import { useNoteService } from "../hooks/useNoteService";
 import { replaceNote } from "../lib/notes";
 import { isEmpty } from "../lib/strings";
+import { now } from "../lib/time";
 
 // Hook that returns a function for updating a note.
 export function useUpdateNote() {
@@ -21,8 +22,10 @@ export function useUpdateNote() {
   async function updateNote() {
     if (!selectedNote) return;
 
+    // Config time note was pinned (for sorting) then add to updated note.
     const form = getForm();
-    const pinnedAt = selectedNote.pinnedAt ? selectedNote.pinnedAt : "";
+    const pinnedStatusChanged = !selectedNote.pinned && form.pinned;
+    const pinnedAt = pinnedStatusChanged ? now() : selectedNote.pinnedAt;
     const updatedNote = { ...form, id: selectedNote.id, pinnedAt };
 
     // Allow user to save empty notes, but replace all whitespace

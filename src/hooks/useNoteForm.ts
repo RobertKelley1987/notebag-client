@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { NoteFormContext } from "../context/NoteFormContext";
 import { isEmpty } from "../lib/strings";
+import { now } from "../lib/time";
 import type { NoteForm } from "../types";
 
 // Hook to access note form context. Getter and setter also provided to

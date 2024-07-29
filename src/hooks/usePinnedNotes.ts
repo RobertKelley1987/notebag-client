@@ -9,8 +9,5 @@ export function usePinnedNotes() {
   pinned.sort(comparePinnedTimes);
   const unpinned = filteredNotes.filter((note) => !note.pinned);
 
-  pinned.forEach((note) => {
-    console.log(note.pinnedAt);
-  });
   return { pinned, unpinned };
 }

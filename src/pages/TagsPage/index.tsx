@@ -8,7 +8,6 @@ import Modal from "../../components/Modal";
 import NewTagForm from "./NewTagForm";
 import TagList from "./TagList";
 import ArrowIcon from "../../components/icons/ArrowIcon";
-import type { MouseEvent } from "react";
 
 function TagsPage() {
   const { editedTag } = useEditedTag();
@@ -31,10 +30,6 @@ function TagsPage() {
     }
   }
 
-  function handleClick(e: MouseEvent) {
-    handleDismiss();
-  }
-
   return (
     <Modal handleDismiss={handleDismiss}>
       <div
@@ -47,7 +42,7 @@ function TagsPage() {
             <button
               id="edit-tags-back-button"
               className="sm:hidden hover:text-aqua"
-              onClick={handleClick}
+              onClick={handleDismiss}
             >
               <ArrowIcon />
             </button>

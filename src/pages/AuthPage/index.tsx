@@ -65,7 +65,7 @@ function AuthPage({ heading, authFn }: AuthPageProps) {
 
   return (
     <main className="basis-[275px] max-w-[400px] justify-center -translate-y-[30px] flex flex-col gap-6">
-      {error && <p className="mb-4 text-red">{error}</p>}
+      {error && <p className="text-red">{error}</p>}
       <h1 className="font-bold font-sans text-5xl">{heading}</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
@@ -104,7 +104,7 @@ function AuthPage({ heading, authFn }: AuthPageProps) {
       </form>
       <button
         onClick={() => submit(DEMO_CREDENTIALS)}
-        className="flex gap-2 hover:text-aqua hover:italic"
+        className="flex gap-2 hover:text-aqua hover:italic w-[max-content]"
       >
         Use Demo Account
         <ArrowIcon className="rotate-180" />
