@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import NoteFormContextProvider from "./NoteFormContext";
 import EditedTagContextProvider from "./EditedTagContext";
 import DropdownContextProvider from "./DropdownContext";
@@ -42,12 +41,6 @@ export default function ModalContextProvider({
 }: ModalContextProviderProps) {
   const [modal, setModal] = useState<Modal>("");
   const current = modal ? MODAL_PGS[modal] : null;
-  const location = useLocation();
-
-  // If user clicks on a tag link, close current modal.
-  useEffect(() => {
-    setModal("");
-  }, [location]);
 
   return (
     <ModalContext.Provider value={{ modal: current, setModal }}>
