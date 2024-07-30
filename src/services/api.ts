@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// const baseURL = "https://server.notebag.site";
-const baseURL = "/";
+const baseURL = "https://server.notebag.site";
 
 export const api = axios.create({ baseURL, withCredentials: true });
 
