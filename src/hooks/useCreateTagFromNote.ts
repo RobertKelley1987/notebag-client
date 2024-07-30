@@ -1,4 +1,5 @@
 import { v4 as uuid } from "uuid";
+import { useDemo } from "./useDemo";
 import { useTagSearch } from "./useTagSearch";
 import { useUserTags } from "./useUserTags";
 import { useUserNotes } from "./useUserNotes";
@@ -12,6 +13,7 @@ import { addNoteTag } from "../lib/notes";
 // Hook that returns a function to create a new tag from the
 // tag search form a note's dropdown menu.
 export function useCreateTagFromNote() {
+  const { isDemo } = useDemo();
   const { setIsSaving } = useIsSaving();
   const { tagSearch, setTagSearch } = useTagSearch();
   const { userTags, setUserTags } = useUserTags();
@@ -36,10 +38,11 @@ export function useCreateTagFromNote() {
     const optimisticNotes = addNoteTag(userNotes, note, newTag);
     setUserNotes(optimisticNotes);
 
-    // Set saving state.
-    setIsSaving(true);
+    //If demo mode is on, do not save to db.
+    if (isDemo) return;
 
     // Create tag in db and add to current note
+    setIsSaving(true);
     const { tag } = await tagService.create(newTag.id, newTag.name);
     await noteService.updateTags(note.id, tag.id);
 

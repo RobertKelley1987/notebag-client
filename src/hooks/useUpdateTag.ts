@@ -1,4 +1,5 @@
 import { useSearchParams } from "react-router-dom";
+import { useDemo } from "./useDemo";
 import { useNoteService } from "./useNoteService";
 import { useTagService } from "./useTagService";
 import { useUserTags } from "./useUserTags";
@@ -10,6 +11,7 @@ import type { Tag } from "../types";
 
 // Hook that returns a function to update a tag.
 export function useUpdateTag() {
+  const { isDemo } = useDemo();
   const { userTags, setUserTags } = useUserTags();
   const { userNotes, setUserNotes } = useUserNotes();
   const { setIsSaving } = useIsSaving();
@@ -42,11 +44,14 @@ export function useUpdateTag() {
     // with new value.
     if (tagFilter === oldName) setSearchParams({ tag: newName });
 
-    // Close modal and set saving state
+    // Close modal
     closeFn();
-    setIsSaving(true);
+
+    // If demo mode is on, do not save to db.
+    if (isDemo) return;
 
     // Change tag name in db and fetch updated values
+    setIsSaving(true);
     await tagService.update(editedTag.id, newName);
     const [notesData, tagsData] = await Promise.all([
       noteService.findAll(),

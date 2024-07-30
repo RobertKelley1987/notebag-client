@@ -30,7 +30,7 @@ function EditNoteForm() {
 
   return (
     <Fragment>
-      <div>
+      <div className="overflow-y-auto p-3 sm:mb-9">
         <div className="flex justify-between">
           <NoteFormTitle />
           <NoteFormPinButton />
@@ -38,9 +38,8 @@ function EditNoteForm() {
         <NoteFormContent />
         <NoteTags tags={tags} />
       </div>
-      <div className="flex w-full justify-between items-center">
+      <div className="flex w-full justify-between items-center sm:absolute sm:left-0 sm:bottom-0 p-2">
         <TagSearchContextProvider>
-          {/* Note value passed via NoteContext for NoteDeleteButton. */}
           <NoteContext.Provider value={{ note: selectedNote }}>
             <NoteOptions>
               <NoteDropdown

@@ -6,11 +6,13 @@ function NotFoundPage() {
     <PageContainer>
       <div className="flex flex-col basis-full grow items-center justify-center">
         <main className="flex flex-col gap-3 items-center">
-          <h1 className="font-display text-5xl">404</h1>
-          <p>We could not find the page you were looking for.</p>
+          <h1 className="font-sans font-bold text-5xl">404</h1>
+          <p className="font-ibm">
+            We could not find the page you were looking for.
+          </p>
           <Link
             to="/"
-            className="font-semibold p-3 mt-2 border border-black cursor-pointer hover:bg-black hover:text-white"
+            className="font-ibm p-3 mt-2 border border-black cursor-pointer hover:bg-aqua"
           >
             Return Home
           </Link>

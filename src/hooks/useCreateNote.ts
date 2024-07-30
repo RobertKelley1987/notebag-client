@@ -1,4 +1,5 @@
 import { v4 as uuid } from "uuid";
+import { useDemo } from "./useDemo";
 import { useNoteForm } from "./useNoteForm";
 import { useUserNotes } from "./useUserNotes";
 import { useFormOpen } from "./useFormOpen";
@@ -11,6 +12,7 @@ import { EMPTY_NOTE } from "../lib/constants";
 
 // Hook that returns function to create a note.
 export function useCreateNote() {
+  const { isDemo } = useDemo();
   const { getForm, setForm } = useNoteForm();
   const { userNotes, setUserNotes } = useUserNotes();
   const { setFormOpen } = useFormOpen();
@@ -36,12 +38,15 @@ export function useCreateNote() {
     const optimisticNotes = addNote(userNotes, newNote);
     setUserNotes(optimisticNotes);
 
-    // Reset form and set saving state.
+    // Reset form.
     setForm(EMPTY_NOTE);
     setFormOpen(false);
-    setIsSaving(true);
+
+    // If demo mode is on, do not save to db.
+    if (isDemo) return;
 
     // Create new note and fetch updated note.
+    setIsSaving(true);
     await noteService.create(newNote);
     const data = await noteService.findAll();
     setUserNotes(data.notes);

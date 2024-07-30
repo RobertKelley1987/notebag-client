@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
+import { useAuth } from "../../hooks/useAuth";
+import ArrowIcon from "../../components/icons/ArrowIcon";
 import type { ChangeEvent, FormEvent } from "react";
 import type { User } from "../../types";
-import ArrowIcon from "../../components/icons/ArrowIcon";
-
-const DEMO_CREDENTIALS: AuthForm = {
-  email: "demo@mail.com",
-  password: "demoaccount",
-};
 
 type AuthForm = { email: string; password: string };
 
@@ -102,13 +97,13 @@ function AuthPage({ heading, authFn }: AuthPageProps) {
           {isLoading ? "Authorizing..." : "Submit"}
         </button>
       </form>
-      <button
-        onClick={() => submit(DEMO_CREDENTIALS)}
+      <Link
+        to="/demo"
         className="flex gap-2 hover:text-aqua hover:italic w-[max-content]"
       >
         Use Demo Account
         <ArrowIcon className="rotate-180" />
-      </button>
+      </Link>
     </main>
   );
 }

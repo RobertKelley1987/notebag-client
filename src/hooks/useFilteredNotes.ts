@@ -13,9 +13,8 @@ export function useFilteredNotes() {
   const { userNotes } = useUserNotes();
   const [searchParams] = useSearchParams();
   const tagFilter = searchParams.get("tag");
-
-  // If tag filter is applied in url, filter notes.
   let filteredNotes = [...userNotes];
+
   if (tagFilter) {
     filteredNotes = userNotes.filter((note) => noteHasTag(note, tagFilter));
   }

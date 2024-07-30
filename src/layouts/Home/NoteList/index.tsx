@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useFilteredNotes } from "../../../hooks/useFilteredNotes";
 import PinnedNotes from "./PinnedNotes";
 import UnpinnedNotes from "./UnpinnedNoted";

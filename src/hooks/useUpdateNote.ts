@@ -1,3 +1,4 @@
+import { useDemo } from "../hooks/useDemo";
 import { useNoteForm } from "./useNoteForm";
 import { useUserNotes } from "../hooks/useUserNotes";
 import { useSelectedNote } from "./useSelectedNote";
@@ -10,6 +11,7 @@ import { now } from "../lib/time";
 
 // Hook that returns a function for updating a note.
 export function useUpdateNote() {
+  const { isDemo } = useDemo();
   const { getForm } = useNoteForm();
   const { userNotes, setUserNotes } = useUserNotes();
   const { selectedNote } = useSelectedNote();
@@ -26,6 +28,7 @@ export function useUpdateNote() {
     const form = getForm();
     const pinnedStatusChanged = !selectedNote.pinned && form.pinned;
     const pinnedAt = pinnedStatusChanged ? now() : selectedNote.pinnedAt;
+    console.log(selectedNote.pinnedAt);
     const updatedNote = { ...form, id: selectedNote.id, pinnedAt };
 
     // Allow user to save empty notes, but replace all whitespace
@@ -37,11 +40,14 @@ export function useUpdateNote() {
     const optimisticNotes = replaceNote(userNotes, updatedNote);
     setUserNotes(optimisticNotes);
 
-    // Close modal and set saving state.
+    // Close modal.
     setModal("");
-    setIsSaving(true);
+
+    // If demo mode is on, do not save to db.
+    if (isDemo) return;
 
     // Edit note in db and fetch updated notes.
+    setIsSaving(true);
     await noteService.update(updatedNote);
     const data = await noteService.findAll();
     setUserNotes(data.notes);

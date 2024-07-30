@@ -1,3 +1,4 @@
+import { useDemo } from "./useDemo";
 import { useUserNotes } from "./useUserNotes";
 import { useUserTags } from "./useUserTags";
 import { useIsSaving } from "./useIsSaving";
@@ -9,6 +10,7 @@ import type { Tag } from "../types";
 
 // Hook that returns a function to delete a tag.
 export function useDeleteTag(tag: Tag) {
+  const { isDemo } = useDemo();
   const { userTags, setUserTags } = useUserTags();
   const { setUserNotes } = useUserNotes();
   const { setIsSaving } = useIsSaving();
@@ -26,6 +28,9 @@ export function useDeleteTag(tag: Tag) {
     // Clear edited tag state.
     setEditedTag(null);
 
+    // If demo mode is on, do not save to db.
+    if (isDemo) return;
+
     // Delete tag in db and update state.
     setIsSaving(true);
     await tags.delete(tag.id);
@@ -35,8 +40,6 @@ export function useDeleteTag(tag: Tag) {
     // Fetch updated notes and update state.
     const noteData = await notes.findAll();
     setUserNotes(noteData.notes);
-
-    // Update saving state.
     setIsSaving(false);
   }
 

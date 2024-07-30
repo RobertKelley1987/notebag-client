@@ -1,5 +1,4 @@
 import { useDropdown } from "../../hooks/useDropdown";
-import { useModal } from "../../hooks/useModal";
 import { useUpdateNote } from "../../hooks/useUpdateNote";
 import Modal from "../../components/Modal";
 import ErrorBoundary from "../../components/ErrorBoundary";
@@ -22,7 +21,7 @@ function EditNotePage() {
       <div
         id="edit-note"
         onClick={handleClick}
-        className="font-ibm flex flex-col justify-between w-full sm:w-[350px] h-full sm:h-auto sm:max-h-[350px] overflow-y-auto bg-white p-3 sm:border border-black"
+        className="sm:relative font-ibm flex flex-col justify-between w-full sm:w-[350px] h-full sm:h-auto sm:max-h-[350px] bg-white sm:border border-black"
       >
         <ErrorBoundary fallback={<EditNoteError />}>
           <EditNoteForm />

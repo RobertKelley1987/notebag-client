@@ -28,7 +28,7 @@ pattern is not what I needed for an SPA. I enjoyed trying out these features,
 but because I utlimately didn't use them, I feel like I could have saved a lot of
 time by researching this first... oh well. You live and you learn.
 
-![Site screenshot](screenshot.png)
+![Site screenshot](notebag-screenshot.png)
 
 ### Built With
 

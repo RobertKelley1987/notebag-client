@@ -1,3 +1,4 @@
+import { useDemo } from "./useDemo";
 import { useUserNotes } from "./useUserNotes";
 import { useNote } from "./useNote";
 import { useIsSaving } from "./useIsSaving";
@@ -7,32 +8,32 @@ import { removeNote } from "../lib/notes";
 
 // Hook that returns function to delete a note.
 export function useDeleteNote() {
+  const { isDemo } = useDemo();
   const { userNotes, setUserNotes } = useUserNotes();
   const { note } = useNote();
   const { setIsSaving } = useIsSaving();
   const { setModal } = useModal();
-  const notes = useNoteService();
+  const noteService = useNoteService();
 
   // Function that deletes note from db and updates state
   // with optimistic values.
   async function deleteNote() {
-    const { error } = await notes.delete(note.id);
-    if (!error) {
-      // If using edit note modal, set remove from screen
-      setModal("");
+    // If using edit note modal, remove modal from screen
+    setModal("");
 
-      // Set optimistic notes
-      const optimisticNotes = removeNote(userNotes, note);
-      setUserNotes(optimisticNotes);
+    // Set optimistic notes
+    const optimisticNotes = removeNote(userNotes, note);
+    setUserNotes(optimisticNotes);
 
-      // Set saving state.
-      setIsSaving(true);
+    // If demo mode is on, do not save to db.
+    if (isDemo) return;
 
-      // Delete note from db and set updated notes
-      const data = await notes.findAll();
-      setUserNotes(data.notes);
-      setIsSaving(false);
-    }
+    // Delete note from db and set updated notes
+    setIsSaving(true);
+    await noteService.delete(note.id);
+    const data = await noteService.findAll();
+    setUserNotes(data.notes);
+    setIsSaving(false);
   }
 
   return deleteNote;

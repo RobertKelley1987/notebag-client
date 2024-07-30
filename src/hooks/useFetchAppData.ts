@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
+import { useDemo } from "./useDemo";
 import { useNoteService } from "./useNoteService";
 import { useTagService } from "./useTagService";
 import { useUserNotes } from "./useUserNotes";
 import { useUserTags } from "./useUserTags";
-import { AxiosError } from "axios";
+import { demoTags, demoNotes } from "../demo-data";
 
 // Hook to fetch user's notes and tags when app first renders and return
 // loading and error state of intial fetch. Also redirects user to login
 // if refresh token is expired.
 export function useFetchAppData() {
+  const { isDemo } = useDemo();
   const { setUserNotes } = useUserNotes();
   const { setUserTags } = useUserTags();
   const [isLoading, setIsLoading] = useState(true);
@@ -23,6 +26,15 @@ export function useFetchAppData() {
     let isMounted = true;
 
     const getData = async () => {
+      // If in demo mode, get app data from local file.
+      if (isDemo) {
+        setUserTags(demoTags);
+        setUserNotes(demoNotes);
+        setIsLoading(false);
+        return;
+      }
+
+      // Otherwise get user's data from db
       try {
         const [notesData, tagsData] = await Promise.all([
           noteService.findAll(),

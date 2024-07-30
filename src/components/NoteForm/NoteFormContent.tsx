@@ -5,7 +5,6 @@ function NoteFormContent() {
 
   return (
     <div
-      onClick={(e) => e.stopPropagation()}
       ref={contentRef}
       id="content"
       contentEditable
