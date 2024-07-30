@@ -28,6 +28,11 @@ pattern is not what I needed for an SPA. I enjoyed trying out these features,
 but because I utlimately didn't use them, I feel like I could have saved a lot of
 time by researching this first... oh well. You live and you learn.
 
+Lastly, this is one of those projects that I could keep adding features to
+forever. I was hoping to add drag and drop to this but I've decided
+it would be smarter to walk away and learn other things. Hopefully
+I find enough free time to do that at some point in the future.
+
 ![Site screenshot](notebag-screenshot.png)
 
 ### Built With
