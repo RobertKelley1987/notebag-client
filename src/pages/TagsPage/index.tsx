@@ -4,18 +4,22 @@ import { useEditedTag } from "../../hooks/useEditedTag";
 import { useModal } from "../../hooks/useModal";
 import { useUpdateTag } from "../../hooks/useUpdateTag";
 import { useFoundTag } from "../../hooks/useFoundTag";
+import { useDemo } from "../../hooks/useDemo";
 import Modal from "../../components/Modal";
 import NewTagForm from "./NewTagForm";
 import TagList from "./TagList";
 import ArrowIcon from "../../components/icons/ArrowIcon";
 
 function TagsPage() {
+  const { isDemo } = useDemo();
   const { editedTag } = useEditedTag();
   const { foundTag } = useFoundTag();
   const { setModal } = useModal();
   const { isSaving } = useIsSaving();
   const updateTag = useUpdateTag();
   const navigate = useNavigate();
+
+  const homeURL = isDemo ? "/demo" : "/notes";
 
   function handleDismiss() {
     // If user edits a tag and dismisses modal instead of clicking checkmark button,
@@ -26,7 +30,7 @@ function TagsPage() {
       // remove the tag filter by navigating to all notes.
     } else {
       setModal("");
-      if (!foundTag) navigate("/notes");
+      if (!foundTag) navigate(homeURL);
     }
   }
 

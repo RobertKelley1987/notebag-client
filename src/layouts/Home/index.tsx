@@ -1,5 +1,6 @@
-import { Fragment, useEffect, useLayoutEffect, useState } from "react";
+import { Fragment, useLayoutEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useDemo } from "../../hooks/useDemo";
 import { useInitAppData } from "../../hooks/useInitAppData";
 import { useIsSmallScreen } from "../../hooks/useIsSmallScreen";
 import { useModal } from "../../hooks/useModal";
@@ -11,8 +12,10 @@ import MobileMenu from "./MobileMenu";
 import Main from "./Main";
 import FetchError from "./FetchError";
 import NewNoteButton from "./NewNoteButton";
+import DemoAlert from "./DemoAlert";
 
 function Home() {
+  const { isDemo } = useDemo();
   const { isLoading, error, setError } = useInitAppData();
   const { isSmallScreen } = useIsSmallScreen();
   const [menuOpen, setMenuOpen] = useState(true);
@@ -54,6 +57,7 @@ function Home() {
 
   return (
     <PageContainer>
+      {isDemo && <DemoAlert />}
       <Header setMenuOpen={setMenuOpen} />
       <div className="font-ibm flex basis-full grow sm:justify-end">
         {renderHome()}

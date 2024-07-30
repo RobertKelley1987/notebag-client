@@ -1,4 +1,5 @@
 import { Link, useSearchParams } from "react-router-dom";
+import { useDemo } from "../../../hooks/useDemo";
 import { useModal } from "../../../hooks/useModal";
 import Logo from "../../../components/Logo";
 import MenuTags from "./MenuTags";
@@ -6,6 +7,7 @@ import NoteIcon from "../../../components/icons/NoteIcon";
 import PencilIcon from "../../../components/icons/PencilIcon";
 
 function Menu() {
+  const { isDemo } = useDemo();
   const { setModal } = useModal();
   const [searchParams] = useSearchParams();
   const filterTag = searchParams.get("tag");
@@ -21,7 +23,7 @@ function Menu() {
         className={`flex gap-2 mt-1 sm:mt-0 shrink-0 whitespace-nowrap px-6 py-3 hover:text-aqua ${
           !filterTag && "text-aqua"
         }`}
-        to="/notes"
+        to={isDemo ? "/demo" : "/notes"}
       >
         <NoteIcon />
         <span>Notes</span>
