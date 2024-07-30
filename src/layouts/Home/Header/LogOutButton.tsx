@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useDemo } from "../../../hooks/useDemo";
 import users from "../../../services/users";
 
 type LogOutButtonProps = {
@@ -6,12 +7,18 @@ type LogOutButtonProps = {
 };
 
 function LogOutButton({ setIsLoading }: LogOutButtonProps) {
+  const { isDemo } = useDemo();
   const navigate = useNavigate();
 
   const handleClick = async () => {
-    setIsLoading(true);
-    await users.logOut();
-    setIsLoading(false);
+    // If not in demo mode, log out user.
+    if (!isDemo) {
+      setIsLoading(true);
+      await users.logOut();
+      setIsLoading(false);
+    }
+
+    // Return to login page.
     navigate("/login");
   };
 
