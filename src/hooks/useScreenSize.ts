@@ -9,15 +9,15 @@ export function useScreenSize() {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(`(max-width: ${MOBILE_PX})`);
-    const callback = () => setIsSmallScreen(mediaQuery.matches);
+    const updateScreenSize = () => setIsSmallScreen(mediaQuery.matches);
 
     // Set initial state
     setIsSmallScreen(mediaQuery.matches);
 
     // Update state when query status changes
-    mediaQuery.addEventListener("change", callback);
+    mediaQuery.addEventListener("change", updateScreenSize);
 
-    return () => mediaQuery.removeEventListener("change", callback);
+    return () => mediaQuery.removeEventListener("change", updateScreenSize);
   }, []);
 
   return { isSmallScreen };

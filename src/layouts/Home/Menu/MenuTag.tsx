@@ -14,9 +14,9 @@ function MenuTag({ tag }: MenuTagProps) {
     <TagLink
       key={tag.id}
       name={tag.name}
-      className={`flex gap-2 shrink-0 w-full text-left px-6 py-3 truncate hover:text-aqua ${selected}`}
+      className={`inline-block shrink-0 w-full text-left px-6 py-3 truncate hover:text-aqua ${selected}`}
     >
-      <TagIcon />
+      <TagIcon className="shrink-0 inline-block mr-2" />
       {tag.name}
     </TagLink>
   );

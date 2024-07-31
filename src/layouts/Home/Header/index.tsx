@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useIsSaving } from "../../../hooks/useIsSaving";
 import MenuIcon from "../../../components/icons/MenuIcon";
-import Logo from "../../../components/Logo";
+import HeaderLogo from "./HeaderLogo";
 import UserSettings from "./UserSettings";
 import Searchbar from "./Searchbar";
 import SearchLink from "./SearchLink";
@@ -25,7 +25,7 @@ function Header({ setMenuOpen }: HeaderProps) {
         >
           <MenuIcon />
         </button>
-        <Logo />
+        <HeaderLogo />
       </div>
       {search !== null && <Searchbar />}
       <div className="flex gap-6">
